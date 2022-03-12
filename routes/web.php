@@ -1,0 +1,70 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
+
+Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+//custom admin routes
+Route::get('/', [App\Http\Controllers\DashboardController::class, 'index']);
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth'], function() {
+	Route::get('/', [App\Http\Controllers\DashboardController::class, 'index']);
+	Route::resource('products', '\App\Http\Controllers\ProductController');
+	Route::resource('categories', '\App\Http\Controllers\CategoryController');
+	Route::resource('orders', '\App\Http\Controllers\OrderController');
+	Route::resource('transactions', '\App\Http\Controllers\TransactionController');
+	Route::resource('users', '\App\Http\Controllers\UserController');
+	Route::resource('customers', '\App\Http\Controllers\CustomerController');
+	Route::resource('pricelists', '\App\Http\Controllers\PricelistController');
+});
+
+//Ajax
+Route::post('/orders/additem', [App\Http\Controllers\OrderController::class, 'additem']);
+Route::post('/orders/searchitem', [App\Http\Controllers\OrderController::class, 'searchitem']);
+Route::post('/orders/add_discount', [App\Http\Controllers\OrderController::class, 'add_discount']);
+Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class, 'remove_item']);
+Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
+Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
+
+
+/*
+admin@gmail.com
+admin@123
+
+php artisan make:controller OrdersitemController --model=User
+php artisan make:model Pricelist -mcr
+
+php artisan make:seeder CustomersTableSeeder
+php artisan db:seed --class=CustomersTableSeeder
+php artisan db:seed
+
+php artisan migrate
+
+
+@csrf
+@method('DELETE')
+{{ csrf_field() }}
+
+composer require laravelcollective/html
+
+custom paginatation template
+https://www.codecheef.org/article/laravel-7-custom-pagination-example-tutorial
+{!! $customers->links() !!}
+*/
