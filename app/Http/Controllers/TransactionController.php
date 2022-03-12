@@ -31,11 +31,14 @@ class TransactionController extends Controller
         $args_filter = [];
         if (count($_GET)!=0) {
             foreach ($_GET as $key => $value) {
-                if ($value!='') {
-                    $args_filter[$key] = $value;
+                if ( !in_array($key, ['page']) ) {
+                    if ($value!='') {
+                        $args_filter[$key] = $value;
+                    }
                 }
             }
         }
+
         if (count($args_filter)!=0) {
              $orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
         }else{
@@ -195,5 +198,16 @@ class TransactionController extends Controller
     {
         $transaction->delete();
         return redirect()->route('transactions.index')->with('success','Transaction deleted successfully');
+    }
+
+    public function get_customer_name($customer_id)
+    {
+        $customer = Customer::find($customer_id);
+        if (is_object($customer)) {
+            return $customer->name;
+        }else{
+            return '--';
+        }
+        
     }
 }

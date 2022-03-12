@@ -24,15 +24,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-3">
-              <select name="payment_status" class="form-control" id="payment_status">
-                <option value="">Payment status</option>
-                <option value="pending"  {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='pending') ? 'selected' : ''}}>Pending</option>
-                <option value="on-hold" {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='on-hold') ? 'selected' : ''}}>On Hold</option>
-                <option value="completed" {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='completed') ? 'selected' : ''}}>Completed</option>
-              </select>
-            </div>
-            <div class="col-3">
+            <div class="col-4">
              <select name="customer_id" class="form-control" id="customer_id">
                 <option value="">Customer</option>
                 @foreach($customers as $customer)
@@ -48,7 +40,7 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-2">
+            <div class="col-4">
              <button class="btn btn-default">Filter</button>
             </div>
           </div>
@@ -78,6 +70,7 @@
           <tr>
             <th>Id</th>
             <th>Order Id</th>
+            <th>Customer</th>
             <th>Paid Amount</th>
             <th>Ballance Amount</th>
             <th>Order Total</th>
@@ -90,6 +83,13 @@
           <tr>
             <td>{{$transaction->id}}</td>
             <td>{{$transaction->order_id}}</td>
+            <td>
+              @if(is_object($transaction->order))
+               {{App\Http\Controllers\TransactionController::get_customer_name($transaction->order->customer_id)}}
+              @else
+              N/A
+              @endif
+            </td>
             <td>{{$transaction->paid_amount}}</td>
             <td>{{$transaction->ballance_amount}}</td>
             <td>
@@ -98,7 +98,7 @@
               @else
               N/A
               @endif
-            </td>
+            </td> 
             <td>
               {!! Form::open(['method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
               <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}">Edit</a>  

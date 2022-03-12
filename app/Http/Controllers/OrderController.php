@@ -45,20 +45,18 @@ class OrderController extends Controller
         $args_filter = [];
         if (count($_GET)!=0) {
             foreach ($_GET as $key => $value) {
-                if ($value!='') {
-                    $args_filter[$key] = $value;
+                if ( !in_array($key, ['page', 'from_date', 'to_date']) ) {
+                    if ($value!='') {
+                        $args_filter[$key] = $value;
+                    }
                 }
             }
             if ($user_type != 'administrator') {
                 $args_filter['placed_by'] = $user_id;
             }
-            //echo "<pre>"; print_r($args_filter); echo "</pre>"; //die;
         }
-    
 
         if (count($args_filter)!=0) {
-            unset($args_filter['from_date']);
-            unset($args_filter['to_date']);
             if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') && (isset($_GET['to_date']) && $_GET['to_date'] !='') ) {
                 $from_date = date("Y-m-d", strtotime($_GET['from_date']));
                 $to_date = date("Y-m-d", strtotime($_GET['to_date']));

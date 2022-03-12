@@ -22,12 +22,12 @@ class ProductsTableSeeder extends Seeder
 
                 $price = 100 + $i;
                 $arr[] = [
-                    'name' => 'Demo Item '.$i,
-                    'slug' => 'demo-item-'.$i,
-                    'sku' => 'sku'.$i,
-                    'description' => 'This is the Demo Item '.$i,
+                    'name' => 'Demo Product '.$i,
+                    //'slug' => 'demo-item-'.$i,
+                    //'sku' => 'sku'.$i,
+                    'description' => 'This is the Demo Product '.$i,
                     'price' => $price,
-                    'sale_price' => '0',
+                    //'sale_price' => '0',
                     'category_id' => 1,
                     'created_at' => date('Y-m-d H:i:s'),
                     'updated_at' => date('Y-m-d H:i:s'),

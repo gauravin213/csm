@@ -18,7 +18,7 @@ class CustomersTableSeeder extends Seeder
             $arr = [];
             for ($i=1; $i <= 50; $i++) { 
                 $arr[] = [
-                    'name' => 'Customer Item '.$i,
+                    'name' => 'Customer '.$i,
                     'address' => 'demo address '.$i,
                     'mobile' => '112233445'.$i,
                     'email' => 'demo'.$i.'@gmail.com',
