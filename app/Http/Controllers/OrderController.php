@@ -129,6 +129,8 @@ class OrderController extends Controller
             $order_item->product_id = $line_item['product_id'];
             $order_item->name = Product::find($line_item['product_id'])->name;
             $order_item->price = $line_item['price'];
+            $order_item->item_discount = $line_item['item_discount']; 
+            $order_item->item_discount_price = $line_item['item_discount_price'];
             $order_item->qty = $line_item['qty'];
             $order_item->line_subtotal = $line_item['line_subtotal'];
             $order_item->order_id = $inserted_order_id;
@@ -176,12 +178,12 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {	
-        $request->validate([
+        /*$request->validate([
             'payment_status' => 'required',
             'placed_by' => 'required',
             'customer_id' => 'required',
             'iten_data' => 'required'
-        ]);
+        ]);*/
 
     	$data = $request->all();
     	//$iten_data = $request->iten_data;
@@ -196,6 +198,8 @@ class OrderController extends Controller
                 'product_id'    => $line_item['product_id'],
                 'name'          => Product::find($line_item['product_id'])->name,
                 'price'         => $line_item['price'],
+                'item_discount' => $line_item['item_discount'],
+                'item_discount_price' => $line_item['item_discount_price'], 
                 'qty'           => $line_item['qty'],
                 'line_subtotal' => $line_item['line_subtotal'],
                 'order_id'      => $order->id
@@ -325,7 +329,19 @@ class OrderController extends Controller
                 $price = $org_price;
             }
 
-            //$price = $items['price'];
+            //item discount
+            $item_discount = $items['item_discount'];
+            if ($item_discount!=0) {
+                $item_discount_price = $price * $item_discount / 100;
+                $item_final_price = $price - $item_discount_price;
+                $price = $item_final_price;
+                $cart_data['iten_data'][$key]['item_discount_price'] = $item_final_price;
+            }else{
+                $cart_data['iten_data'][$key]['item_discount'] = 0;
+                $cart_data['iten_data'][$key]['item_discount_price'] = 0;
+            }
+            //end item discount
+
 
             $qty = $items['qty'];
 

@@ -18,8 +18,10 @@ class CreateOrderitemsTable extends Migration
             $table->string('product_id');
             $table->string('name');
             $table->string('price');
+            $table->string('item_discount');
+            $table->string('item_discount_price');
             $table->string('qty');
-            $table->string('line_subtotal');
+            $table->string('line_subtotal')->nullable();
             $table->string('order_id');
             $table->timestamps();
         });

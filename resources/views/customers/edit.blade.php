@@ -35,6 +35,16 @@
             <input type="text" name="email" class="form-control" id="email" placeholder="Enter name" value="{{$customer->email}}">
           </div>
 
+          <div class="form-group">
+            <label for="exampleInputEmail1">Profile Image</label>
+            <input type="file" name="profile_image" class="form-control preview_img" id="profile_image" accept="image/*">
+            @if ($customer->profile_image!='')
+              <img src="{{url($customer->profile_image)}}" id="pan_no_img" style="width: 20%;" />
+            @else
+              <img src="" id="pan_no_img" style="width: 20%;" />
+            @endif
+          </div>
+
          
           <div class="form-group">
             <label for="exampleInputEmail1">Pan No</label>

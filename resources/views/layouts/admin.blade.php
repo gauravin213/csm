@@ -368,6 +368,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- table cell edit  -->
 <script src="{{ asset('js/jquery-editable-table.min.js') }}"></script>
 
+<!--jquery.mask.js-->
+<script src="{{ asset('js/jquery.mask.js') }}"></script>
 
 
 <!--model-->
@@ -459,6 +461,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script type="text/javascript">
   jQuery(document).ready(function(){
+
+
+    jQuery('#pan_no').mask('00-00000000');
+    jQuery('#aadhar_no').mask('0000-0000-0000');
+    jQuery('#gst_no').mask('0000000000');
+
+
 
     var now = new Date();
     var dd = now.getDate();
@@ -552,13 +561,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
       var htm = '';
       if (res.iten_data.length > 0) { //iten_data, items
         jQuery(res.iten_data).each(function(key, val){
+
+          if (val.item_discount != '0') {
+            var iprice = `<span style="text-decoration: line-through;">${val.price}</span>  ${val.item_discount_price} `;
+          }else{
+            var iprice = `<span>${val.price}</span>`;
+          }
+
             htm += `
             <tr id="item_${val.id}" class="items">
                 <td>${val.name}
                 <input type="hidden" name="iten_data[${key}][id]" value="${val.id}">
                 <input type="hidden" name="iten_data[${key}][product_id]" value="${val.product_id}">
                 </td>
-                <td>${val.price} <input type="hidden" name="iten_data[${key}][price]" value="${val.price}"></td>
+
+                <td>${iprice} <input type="hidden" name="iten_data[${key}][price]" value="${val.price}"></td>
+
+                <td>
+                  <input type="text" name="iten_data[${key}][item_discount]" value="${val.item_discount}" style="width:60px;">
+                  <input type="hidden" name="iten_data[${key}][item_discount_price]" value="${val.item_discount_price}" style="width:60px;">
+                </td>
+
                 <td><input type="number" class="itemqty" data-prodid="${val.id}" name="iten_data[${key}][qty]" value="${val.qty}" style="width:60px;"></td>
                 <td>${val.line_subtotal} <input type="hidden" name="iten_data[${key}][line_subtotal]" value="${val.line_subtotal}"></td>
                 <td><a href="#" class='csm_remove_item' data-product_id='${val.id}'>X</a></td>

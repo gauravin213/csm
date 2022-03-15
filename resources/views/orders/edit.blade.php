@@ -44,6 +44,7 @@
              <select name="payment_status" class="form-control" id="payment_status">
               <option value="">select</option>
               <option value="pending" {{$order->payment_status == 'pending'  ? 'selected' : ''}}>Pending</option>
+               <option value="processing" {{$order->payment_status == 'processing'  ? 'selected' : ''}}>Processing</option>
               <option value="on-hold" {{$order->payment_status == 'on-hold'  ? 'selected' : ''}}>On Hold</option>
               <option value="completed" {{$order->payment_status == 'completed'  ? 'selected' : ''}}>Completed</option>
             </select>
@@ -76,6 +77,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Item Discount</th>
                         <th>Qty</th>
                         <th>Subtotal</th>
                         <th></th>
@@ -83,14 +85,27 @@
                 </thead>
 
                 <tbody id="csm_items_body">
-                  @foreach($order_items as $key => $order_item)
+                  @foreach($order_items as $key => $order_item) 
                     <tr>
                         <td>
                           {{$order_item->name}} 
                           <input type="hidden" name="iten_data[{{$order_item->id}}][id]" value="{{$order_item->id}}">
                           <input type="hidden" name="iten_data[{{$order_item->id}}][product_id]" value="{{$order_item->product_id}}">
                         </td>
-                        <td>{{$order_item->price}} <input type="hidden" name="iten_data[{{$order_item->id}}][price]" value="{{$order_item->price}}"></td>
+
+<td>
+  @if($order_item->item_discount)
+    <span style="text-decoration: line-through;">{{$order_item->price}}</span>  {{$order_item->item_discount_price}} 
+  @else
+    {{$order_item->price}} 
+  @endif
+  <input type="hidden" name="iten_data[{{$order_item->id}}][price]" value="{{$order_item->price}}">
+</td>
+<td>
+  <input type="text" name="iten_data[{{$order_item->id}}][item_discount]" value="{{$order_item->item_discount}}" style="width:60px;">
+  <input type="hidden" name="iten_data[{{$order_item->id}}][item_discount_price]" value="{{$order_item->item_discount_price}}" style="width:60px;">
+</td>
+
                         <td><input type="number" class="itemqty" data-prodid="{{$order_item->id}}" name="iten_data[{{$order_item->id}}][qty]" value="{{$order_item->qty}}" style="width:60px;"></td>
                         <td>{{$order_item->line_subtotal}} <input type="hidden" name="iten_data[{{$order_item->id}}][line_subtotal]" value="{{$order_item->line_subtotal}}"></td>
                         <td><a href="#" class='csm_remove_item' data-product_id='{{$order_item->id}}'>X</a></td>
@@ -100,6 +115,7 @@
 
                 <tbody id="csm_items_subtotal_body">
                   <tr>
+                      <td></td>
                       <td></td>
                       <td></td>
                       <th>Subtotal</th>
@@ -113,6 +129,7 @@
                       <tr>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <th>Discount <span id="discount_label">{{$order->discount}}</span>% <a href="#" id="remove_discount">Remove</a> <input type="hidden" name="discount" id="discount" value="{{$order->discount}}"></th>
                         <td>(-)<span id="discount_price_label">{{$order->discount_price}}</span> <input type="hidden" name="discount_price" id="discount_price" value="{{$order->discount_price}}"></td>
                       </tr>
@@ -120,6 +137,7 @@
                   @else
                   <tbody id="csm_item_discount_body" style="display: none;">
                       <tr>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <th>Discount 0% <a href="#" id="remove_discount">Remove</a> <input type="hidden" name="discount" value="0"></th>
@@ -133,6 +151,7 @@
                       <tr>
                         <td></td>
                         <td></td>
+                        <td></td>
                         <th>Shipping <a href="#" id="remove_shipping">Remove</a></th>
                         <td><span id="shipping_label">{{$order->shipping}}</span> <input type="hidden" name="shipping" id="shipping" value="{{$order->shipping}}"></td>
                       </tr>
@@ -140,6 +159,7 @@
                   @else
                   <tbody id="csm_item_shipping_body" style="display: none;">
                     <tr>
+                      <td></td>
                       <td></td>
                       <td></td>
                       <th>Shipping <a href="#" id="remove_shipping">Remove</a></th>
@@ -150,6 +170,7 @@
 
                 <tbody id="csm_items_total_body">
                   <tr>
+                      <td></td>
                       <td></td>
                       <td></td>
                       <th>Total</th>

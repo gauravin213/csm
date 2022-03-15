@@ -32,6 +32,7 @@
             <select name="payment_status" class="form-control" id="payment_status">
               <option value="">select</option>
               <option value="pending">Pending</option>
+              <option value="processing">Processing</option>
               <option value="on-hold">On Hold</option>
               <option value="completed">Completed</option>
             </select>
@@ -64,6 +65,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Item Discount</th>
                         <th>Qty</th>
                         <th>Subtotal</th>
                         <th></th>

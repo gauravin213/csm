@@ -71,6 +71,12 @@ class CustomerController extends Controller
         $customer->aadhar_no = $request->aadhar_no;
         $customer->gst_no = $request->gst_no;
 
+        if ($request->profile_image) {
+            $profile_image = $request->file('profile_image')->getClientOriginalName();
+            $profile_image_path = $request->file('profile_image')->store('uploads');
+            $customer->profile_image = $profile_image_path;
+        }
+
         if ($request->pan_no_front_img && $request->pan_no_back_img) {
             $pan_no_front_img = $request->file('pan_no_front_img')->getClientOriginalName();
             $pan_no_front_img_path = $request->file('pan_no_front_img')->store('uploads');
@@ -155,6 +161,12 @@ class CustomerController extends Controller
         $customer->pan_no = $request->pan_no;
         $customer->aadhar_no = $request->aadhar_no;
         $customer->gst_no = $request->gst_no;
+
+        if ($request->profile_image) {
+            $profile_image = $request->file('profile_image')->getClientOriginalName();
+            $profile_image_path = $request->file('profile_image')->store('uploads');
+            $customer->profile_image = $profile_image_path;
+        }
 
         if ($request->pan_no_front_img && $request->pan_no_back_img) {
             $pan_no_front_img = $request->file('pan_no_front_img')->getClientOriginalName();

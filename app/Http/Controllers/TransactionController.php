@@ -37,6 +37,9 @@ class TransactionController extends Controller
                     }
                 }
             }
+            if ($user_type != 'administrator') {
+                $args_filter['placed_by'] = $user_id;
+            }
         }
 
         if (count($args_filter)!=0) {
@@ -104,11 +107,11 @@ class TransactionController extends Controller
         //update balance amount
         Order::where('id',$res['order_id'])->update([
             'balance_amount' => $res['ballance_amount'],
-            'payment_status' => ($res['ballance_amount'] > 0 )? 'pending' : 'completed'
+            'payment_status' => ($res['ballance_amount'] > 0 )? 'pending' : 'processing'
         ]);
 
-        //return redirect()->route('transactions.index')->with('success','Transaction added successfully');
-        return redirect('admin/orders/'.$res['order_id'].'/edit')->with('success','Payment added successfully');
+        return redirect()->route('transactions.index')->with('success','Transaction added successfully');
+        //return redirect('admin/orders/'.$res['order_id'].'/edit')->with('success','Payment added successfully');
     }
 
     public function calculate_balance($data)

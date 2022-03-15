@@ -19,6 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('address');
             $table->string('mobile');
             $table->string('email');
+            $table->string('profile_image')->nullable();
             $table->string('pan_no');
             $table->string('pan_no_front_img')->nullable();
             $table->string('pan_no_back_img')->nullable();

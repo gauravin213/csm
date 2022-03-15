@@ -23,6 +23,7 @@
               <select name="payment_status" class="form-control" id="payment_status">
                 <option value="">Payment status</option>
                 <option value="pending"  {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='pending') ? 'selected' : ''}}>Pending</option>
+                <option value="processing"  {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='processing') ? 'selected' : ''}}>Processing</option>
                 <option value="on-hold" {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='on-hold') ? 'selected' : ''}}>On Hold</option>
                 <option value="completed" {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='completed') ? 'selected' : ''}}>Completed</option>
               </select>
@@ -119,7 +120,7 @@
               {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
 
               @if($order->payment_status !='completed')
-                <a class="btn btn-default" href="{{ route('transactions.create','order_id=') }}{{$order->id}}" target="_blank">Balance</a>
+                <a class="btn btn-default" href="{{ route('transactions.create','order_id=') }}{{$order->id}}">Balance</a>
               @endif
                 
               {!! Form::close() !!}

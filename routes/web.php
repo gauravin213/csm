@@ -45,17 +45,24 @@ Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::cl
 
 
 /*
-admin@gmail.com
-admin@123
-
+Make:
 php artisan make:controller OrdersitemController --model=User
 php artisan make:model Pricelist -mcr
-
 php artisan make:seeder CustomersTableSeeder
-php artisan db:seed --class=CustomersTableSeeder
-php artisan db:seed
 
+Step 1:
+php artisan key:generate
+php artisan cache:clear //clear the view cache
+php artisan config:clear //clear confige cache
+
+Step 2:
 php artisan migrate
+
+Step 3:
+php artisan db:seed --class=CustomersTableSeeder
+php artisan db:seed --class=ProductsTableSeeder
+php artisan db:seed --class=UsersTableSeeder
+
 
 
 @csrf

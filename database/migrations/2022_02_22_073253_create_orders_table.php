@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('customer_id');
             $table->string('subtotal');
             $table->string('discount');
+            $table->string('discount_price');
             $table->string('shipping');
             $table->string('total');
             $table->bigInteger('balance_amount')->nullable();
