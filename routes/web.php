@@ -42,6 +42,7 @@ Route::post('/orders/add_discount', [App\Http\Controllers\OrderController::class
 Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class, 'remove_item']);
 Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
 Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
+//Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
 
 
 /*

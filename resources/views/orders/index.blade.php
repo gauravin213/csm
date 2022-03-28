@@ -102,6 +102,8 @@
             <td>
               @if($order->payment_status =='pending')
                 <span style="background-color:#588ca3;color: #ffff; padding: 3px; border-radius: 2px;">Pending</span>
+                 @elseif($order->payment_status =='processing')
+                <span style="background-color:#63a363;color: #ffff; padding: 3px; border-radius: 2px;">Processing</span>
               @elseif($order->payment_status =='on-hold')
                 <span style="background-color:orange;color: #ffff; padding: 3px; border-radius: 2px;">On Hold</span>
               @elseif($order->payment_status =='completed')
@@ -119,8 +121,9 @@
               <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}">Edit</a>  
               {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
 
-              @if($order->payment_status !='completed')
-                <a class="btn btn-default" href="{{ route('transactions.create','order_id=') }}{{$order->id}}">Balance</a>
+              @if($order->payment_status !='processing')
+               <!--  <a class="btn btn-default" href="{{ route('transactions.create','order_id=') }}{{$order->id}}">Balance</a> -->
+               <a class="btn btn-default" href="{{ url('admin/transactions/create?order_id='.$order->id.'&customer_id='.$order->customer_id.'&placed_by='.$order->placed_by)}}">Balance</a>
               @endif
                 
               {!! Form::close() !!}

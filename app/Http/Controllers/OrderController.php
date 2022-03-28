@@ -186,11 +186,11 @@ class OrderController extends Controller
         ]);*/
 
     	$data = $request->all();
-    	//$iten_data = $request->iten_data;
+    	$iten_data = $request->iten_data;
         $res = $this->calculate_totals($data);
-    	/*echo "<pre>"; print_r($data); echo "</pre>";
-        echo "<pre>"; print_r($res); echo "</pre>";
-        die;*/
+    	//echo "<pre>all: "; print_r($data); echo "</pre>";
+        //echo "<pre>Res: "; print_r($res); echo "</pre>";
+        //die;
 
         //update order items
         foreach ($res['iten_data'] as $line_item) {
@@ -248,7 +248,7 @@ class OrderController extends Controller
     * Add item ajax
     */
     public function additem(Request $request)
-    {
+    {   
         $response = [];
         $iten_data = $request->iten_data;
         $product_ids = [];
@@ -272,6 +272,8 @@ class OrderController extends Controller
                 'product_id'  => $product->id,
                 'name'  => $product->name,
                 'price'  => $price,
+                'item_discount'  => 0,
+                'item_discount_price'  => 0,
                 'qty'   => $qty,
                 'line_subtotal' => $line_subtotal
             ];
@@ -306,8 +308,11 @@ class OrderController extends Controller
         $total = 0;
         foreach ($cart_data['iten_data'] as $key => $items) {
 
+            //Product obj
+            $product = Product::find($items['product_id']);
+
             //set name
-            $cart_data['iten_data'][$key]['name'] = Product::find($items['product_id'])->name;
+            $cart_data['iten_data'][$key]['name'] = $product->name;
 
             //Pricelist
             if (!empty($cart_data['price_date'])) {
@@ -330,6 +335,23 @@ class OrderController extends Controller
             }
 
             //item discount
+            /*if (isset($cart_data['category_discount']) && !empty($cart_data['category_discount'])) {
+                $item_discount = $cart_data['category_discount'][$product->category_id];
+                //$item_discount = $items['item_discount'];
+                if ($item_discount!=0) {
+                    $item_discount_price = $price * $item_discount / 100;
+                    $item_final_price = $price - $item_discount_price;
+                    $price = $item_final_price;
+                    $cart_data['iten_data'][$key]['item_discount'] = $item_discount;
+                    $cart_data['iten_data'][$key]['item_discount_price'] = $item_final_price;
+                }else{
+                    $cart_data['iten_data'][$key]['item_discount'] = 0;
+                    $cart_data['iten_data'][$key]['item_discount_price'] = 0;
+                }
+            }else{
+                $cart_data['iten_data'][$key]['item_discount'] = 0;
+                $cart_data['iten_data'][$key]['item_discount_price'] = 0;
+            }  */
             $item_discount = $items['item_discount'];
             if ($item_discount!=0) {
                 $item_discount_price = $price * $item_discount / 100;
@@ -362,13 +384,13 @@ class OrderController extends Controller
             $discount_price = $subtotal * $discount / 100;
             $cart_data['discount_price'] = $discount_price;
             $final_price = $subtotal - $discount_price;
-            $cart_data['total'] = $final_price + $cart_data['shipping'];
+            $cart_data['total'] = $final_price - $cart_data['shipping'];
         }else{
             $cart_data['discount'] = 0;
             $cart_data['discount_price'] = 0;
-            $cart_data['total'] = $subtotal + $cart_data['shipping'];
+            $cart_data['total'] = $subtotal - $cart_data['shipping'];
         }
-       
+
         $temp = [];
         foreach ($cart_data['iten_data'] as $key => $items) {
            $temp[] = $cart_data['iten_data'][$key];
@@ -380,6 +402,31 @@ class OrderController extends Controller
         
         return $cart_data;
     }
+
+    /*public function get_product_category(Request $request)
+    {      
+
+        $iten_data = $request->iten_data;
+        $category_ids = [];
+        if (!empty($iten_data)) {
+            foreach ($iten_data as $key => $items) {
+                $product = Product::find($items['product_id']);
+                $category_ids[] = $product->category_id;
+            }
+        }
+        
+        $categories = [];
+        if (!empty($category_ids)) {
+            $category_ids = array_unique($category_ids);
+            $category_ids = implode(",", $category_ids);
+            $q = "SELECT * FROM categories WHERE id IN({$category_ids})";
+            $cat_result = DB::select($q); 
+            $categories = $cat_result;
+        }
+
+        return response()->json($categories);
+    }*/
+
 
     public function get_product_name($product_id)
     {

@@ -55,6 +55,8 @@
             <input type="file" name="pan_no_front_img" class="form-control preview_img" id="pan_no_front_img" accept="image/*">
             @if ($customer->pan_no_front_img!='')
               <img src="{{url($customer->pan_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+             @else
+              <img src="" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
           <div class="form-group">
@@ -62,6 +64,8 @@
             <input type="file" name="pan_no_back_img" class="form-control preview_img" id="pan_no_back_img" accept="image/*">
             @if ($customer->pan_no_back_img!='')
               <img src="{{url($customer->pan_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
+             @else
+              <img src="" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
 
@@ -74,6 +78,8 @@
             <input type="file" name="aadhar_no_front_img" class="form-control preview_img" id="aadhar_no_front_img" accept="image/*">
             @if ($customer->aadhar_no_front_img!='')
               <img src="{{url($customer->aadhar_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+             @else
+              <img src="" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
           <div class="form-group">
@@ -81,6 +87,8 @@
             <input type="file" name="aadhar_no_back_img" class="form-control preview_img" id="aadhar_no_back_img" accept="image/*">
             @if ($customer->aadhar_no_back_img!='')
               <img src="{{url($customer->aadhar_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
+             @else
+              <img src="" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
 

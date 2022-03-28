@@ -44,6 +44,17 @@
              <button class="btn btn-default">Filter</button>
             </div>
           </div>
+
+          <div class="row" style="margin-top: 5px;">
+            <div class="col-4">
+              <input type="text" name="from_date" id="from_date" class="form-control" placeholder="from" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+            </div>
+            <div class="col-4">
+               <input type="text" name="to_date" id="to_date" class="form-control" placeholder="to" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+            </div>
+          </div>
+
+
         </div>
         <!-- /.card-body -->
       </div>
@@ -74,6 +85,7 @@
             <th>Paid Amount</th>
             <th>Ballance Amount</th>
             <th>Order Total</th>
+            <th>Date</th>
             <th colspan="2">Action</th>
           </tr>
         </thead>
@@ -99,6 +111,7 @@
               N/A
               @endif
             </td> 
+            <td>{{$transaction->created_at}}</td>
             <td>
               {!! Form::open(['method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
               <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}">Edit</a>  

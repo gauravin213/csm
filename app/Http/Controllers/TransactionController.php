@@ -42,26 +42,40 @@ class TransactionController extends Controller
             }
         }
 
+        //echo "<pre>"; print_r($args_filter); echo "</pre>"; die;
+
         if (count($args_filter)!=0) {
-             $orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
+            unset($args_filter['from_date']);
+            unset($args_filter['to_date']);
+             //$orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
+            if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') && (isset($_GET['to_date']) && $_GET['to_date'] !='') ) {
+                $from_date = date("Y-m-d", strtotime($_GET['from_date']));
+                $to_date = date("Y-m-d", strtotime($_GET['to_date']));
+                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+                $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+            }else{
+                //$orders = Order::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+                 $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+            }
+            
         }else{
             if ($user_type == 'administrator') {
-                $orders = Order::orderBy('id', 'DESC')->get();
+                //$orders = Order::orderBy('id', 'DESC')->get();
+                 $transactions = Transaction::with(['order', 'customer', 'user'])->orderBy('id', 'DESC')->paginate(10);
             }else{
-                $orders = Order::where('placed_by', $user_id)->orderBy('id', 'DESC')->get();
+                //$orders = Order::where('placed_by', $user_id)->orderBy('id', 'DESC')->get();
+                $transactions = Transaction::with(['order', 'customer', 'user'])->where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
             }
         }
 
 
-        $order_ids = [];
+       /* $order_ids = [];
         if (count($orders)!=0) {
             foreach ($orders as $order) {
                $order_ids[] = $order->id;
             }
         }
-
-        
-        $transactions = Transaction::with('order')->whereIn('order_id', $order_ids)->orderBy('id', 'DESC')->paginate(10);
+        $transactions = Transaction::with(['order', 'customer', 'user'])->whereIn('order_id', $order_ids)->orderBy('id', 'DESC')->paginate(10);*/
 
         return view('transactions.index', ['transactions'=>$transactions, 'customers'=>$customers, 'users'=>$users]);
     }
@@ -100,6 +114,8 @@ class TransactionController extends Controller
 
         $transaction = new Transaction();
         $transaction->order_id = $res['order_id'];
+        $transaction->customer_id = $res['customer_id'];
+        $transaction->placed_by = $res['placed_by'];
         $transaction->paid_amount = $res['paid_amount'];
         $transaction->ballance_amount = $res['ballance_amount'];
         $transaction->save();
@@ -185,6 +201,8 @@ class TransactionController extends Controller
         }*/
 
         $transaction->order_id = $request->order_id;
+        $transaction->customer_id = $request->customer_id; 
+        $transaction->placed_by = $request->placed_by;
         $transaction->paid_amount = $request->paid_amount;
         $transaction->ballance_amount = $request->ballance_amount;
         $transaction->update();

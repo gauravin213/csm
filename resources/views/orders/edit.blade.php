@@ -72,7 +72,8 @@
 
           <div class="form-group">
             <div class="card-body">
-              <table class="table table-bordered">
+              <div class="card-body table-responsive p-0">
+                 <table class="table table-hover text-nowrap">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -178,17 +179,33 @@
                   </tr>
                 </tbody>
             </table>
+              </div>
             </div>
           </div>
+
+
+          <!--category discount-->
+           <div class="form-group" id="category_discount_div">
+            <label>Category Discount: </label>
+            <table class="table">
+              <tbody id="category_discount_append">
+              </tbody>
+            </table>
+          </div>
+          <!--category discount-->
 
           <div class="form-group">
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-item">
               Add Items
             </button>
 
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-discount">
+           <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-discount">
               Discount
             </button>
+
+           <!--  <button type="button" class="btn btn-default" id="cat_discount_btn">
+              Discount
+            </button> -->
 
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-shipping">
               Shipping

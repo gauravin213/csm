@@ -144,6 +144,9 @@ class CustomerController extends Controller
         //$fileName = time().'.'.$request->file->extension();  
         //$request->file->move(public_path('uploads'), $fileName);
 
+        //$data = $request->all();
+        //echo "<pre>"; print_r($data); echo "</pre>"; die;
+
         $request->validate([
             'name' => 'required',
             'address' => 'required',

@@ -25,7 +25,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <style type="text/css">
 .content-wrapper {
-  min-height: 1000px !important;
+  min-height: 1200px !important;
 }
 .select2-selection__rendered {
     line-height: 31px !important;
@@ -462,12 +462,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script type="text/javascript">
   jQuery(document).ready(function(){
 
-
-    jQuery('#pan_no').mask('00-00000000');
-    jQuery('#aadhar_no').mask('0000-0000-0000');
-    jQuery('#gst_no').mask('0000000000');
-
-
+    //jQuery('#pan_no').mask('00-00000000');
+    //jQuery('#aadhar_no').mask('0000-0000-0000');
+    //jQuery('#gst_no').mask('0000000000');
 
     var now = new Date();
     var dd = now.getDate();
@@ -608,7 +605,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         complete: function(){
         },
         success: function(data){
-          //console.log(data);
+          console.log('additem: ', data);
           jQuery(this).csm_item_html(data);
           jQuery('#add-item').modal('hide');
         },
@@ -740,7 +737,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         complete: function(){
         },
         success: function(data){
-          console.log(data);
+          console.log('cal: ', data);
           jQuery(this).csm_item_html(data);
 
           jQuery('#subtotal').val(data.subtotal);
@@ -765,6 +762,67 @@ scratch. This page gets rid of all links and provides the needed markup only.
       });
     });
     //End Calculate
+
+
+    /*// Category discount event
+    //Product categories
+    jQuery.fn.csm_product_category_html = function(res){
+      console.log('cat: ', res);
+      var cat_htm = "";
+      if (res.length > 0) {
+        jQuery(res).each(function(key, val){
+          cat_htm += `
+            <tr>
+              <td>${val.name}</td>
+              <td><input type="text" name="category_discount[${val.id}]" id="category_discount" value="0"></td>
+            </tr>
+          `;
+        });
+      }else{
+        cat_htm += `
+            <tr>
+              <td></td>
+              <td>Not Found</td>
+            </tr>
+          `;
+      }
+      jQuery('#category_discount_append').html(cat_htm);
+    }
+    
+    jQuery(document).on('click', '#cat_discount_btn', function(e){
+      e.preventDefault();
+      var target = jQuery(this);
+      var fd = new FormData();
+      var other_data = jQuery('#csm_order_form').serializeArray();
+      jQuery.each(other_data,function(key,input){ //_method
+          if (input.name != '_method') {
+            fd.append(input.name,input.value);
+          }else{
+            console.log('excluded key _method: ', input.name);
+          }
+      });
+      jQuery.ajax({
+        url: "{{ url('orders/get_product_category') }}",
+        type: "POST",
+        data:  fd,
+        contentType: false,
+        processData:false,
+        beforeSend: function(){
+        },
+        complete: function(){
+        },
+        success: function(data){
+          //console.log('cat: ', data);
+           jQuery(this).csm_product_category_html(data);
+           //jQuery('#add-discount').modal('show');
+        },
+        error: function(xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          alert(err.Message);
+        }          
+      });
+    });
+    // end cat_discount_btn*/
 
     //Preview images
     jQuery('.preview_img').change( function(event) {

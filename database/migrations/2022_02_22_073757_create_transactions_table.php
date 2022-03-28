@@ -16,6 +16,8 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('order_id');
+            $table->string('customer_id');
+            $table->string('placed_by');
             $table->string('paid_amount');
             $table->string('ballance_amount');
             $table->timestamps();

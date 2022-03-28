@@ -117,7 +117,11 @@
               Add Items
             </button>
 
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-discount">
+             <!--<button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-discount">
+              Discount
+            </button>-->
+
+             <button type="button" class="btn btn-default" id="cat_discount_btn">
               Discount
             </button>
 

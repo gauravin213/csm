@@ -31,6 +31,8 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Order Id</label>
             <input type="text" name="order_id" class="form-control" id="order_id" placeholder="Enter order_id" value="{{$transaction->order_id}}">
+            <input type="text" name="customer_id" class="form-control" id="customer_id" placeholder="Enter customer_id" value="{{$transaction->customer_id}}">
+            <input type="text" name="placed_by" class="form-control" id="placed_by" placeholder="Enter placed_by" value="{{$transaction->placed_by}}">
           </div>
 
           <div class="form-group">
