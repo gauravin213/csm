@@ -84,6 +84,7 @@
             <th>Customer</th>
             <th>Paid Amount</th>
             <th>Ballance Amount</th>
+            <th>Payment Mode</th>
             <th>Order Total</th>
             <th>Date</th>
             <th colspan="2">Action</th>
@@ -104,6 +105,7 @@
             </td>
             <td>{{$transaction->paid_amount}}</td>
             <td>{{$transaction->ballance_amount}}</td>
+            <td>{{$transaction->mode_of_payment}}</td>
             <td>
               @if(is_object($transaction->order))
               {{$transaction->order->total}}

@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin@2022'),
+            'user_type' => 'administrator',
         ]);
 
         /*if(DB::table('users')->count() == 0){

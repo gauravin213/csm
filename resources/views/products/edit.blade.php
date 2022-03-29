@@ -60,7 +60,12 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Category</label>
-            <input type="text" name="category_id" class="form-control" id="category_id" placeholder="Enter category" value="1">
+             <select name="category_id" class="form-control" id="category_id">
+              <option value="">select</option>
+              @foreach($categories as $category)
+              <option value="{{$category->id}}" {{$category->id == $product->category_id  ? 'selected' : ''}}>{{$category->name}}</option>
+              @endforeach
+            </select>
           </div>
         </div>
         <!-- /.card-body -->

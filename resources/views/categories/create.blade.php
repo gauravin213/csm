@@ -33,11 +33,6 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Slug</label>
-            <input type="text" name="slug" class="form-control" id="slug" placeholder="Enter slug">
-          </div>
-
-          <div class="form-group">
             <label for="exampleInputEmail1">Description</label>
             <input type="text" name="description" class="form-control" id="description" placeholder="Enter description">
           </div>

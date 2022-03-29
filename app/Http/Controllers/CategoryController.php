@@ -39,14 +39,13 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'slug' => 'required'
+            //'slug' => 'required'
         ]);
 
         $category = new Category();
         $category->name = $request->name;
-        $category->slug = $request->slug;
         $category->description = $request->description;
-        $category->parent = $request->parent;
+        $category->parent = 0; //$request->parent;
         $category->save();
         return redirect()->route('categories.index')->with('success','Category added successfully');
     }
@@ -85,13 +84,12 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'slug' => 'required'
+            //'slug' => 'required'
         ]);
 
         $category->name = $request->name;
-        $category->slug = $request->slug;
         $category->description = $request->description;
-        $category->parent = $request->parent;
+        $category->parent = 0; //$request->parent;
         $category->update();
         return redirect()->route('categories.index')->with('success','Category updated successfully');
     }

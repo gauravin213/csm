@@ -118,6 +118,15 @@ class TransactionController extends Controller
         $transaction->placed_by = $res['placed_by'];
         $transaction->paid_amount = $res['paid_amount'];
         $transaction->ballance_amount = $res['ballance_amount'];
+        $transaction->mode_of_payment = $res['mode_of_payment'];
+        $transaction->remark = $res['remark'];
+
+        if ($request->upload_receipt) {
+            $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+            $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+            $transaction->upload_receipt = $upload_receipt_image_path;
+        }
+        
         $transaction->save();
 
         //update balance amount
@@ -205,6 +214,15 @@ class TransactionController extends Controller
         $transaction->placed_by = $request->placed_by;
         $transaction->paid_amount = $request->paid_amount;
         $transaction->ballance_amount = $request->ballance_amount;
+        $transaction->mode_of_payment = $request->mode_of_payment;
+        $transaction->remark = $request->remark;
+
+        if ($request->upload_receipt) {
+            $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+            $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+            $transaction->upload_receipt = $upload_receipt_image_path;
+        }
+
         $transaction->update();
         return redirect()->route('transactions.index')->with('success','Transaction updated successfully');
     }

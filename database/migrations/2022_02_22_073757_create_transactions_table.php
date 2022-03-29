@@ -20,6 +20,9 @@ class CreateTransactionsTable extends Migration
             $table->string('placed_by');
             $table->string('paid_amount');
             $table->string('ballance_amount');
+            $table->string('mode_of_payment');
+            $table->string('remark');
+            $table->string('upload_receipt');
             $table->timestamps();
         });
     }

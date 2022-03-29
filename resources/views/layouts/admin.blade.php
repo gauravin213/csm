@@ -764,7 +764,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     //End Calculate
 
 
-    /*// Category discount event
+    // Category discount event
     //Product categories
     jQuery.fn.csm_product_category_html = function(res){
       console.log('cat: ', res);
@@ -822,7 +822,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         }          
       });
     });
-    // end cat_discount_btn*/
+    // end cat_discount_btn
 
     //Preview images
     jQuery('.preview_img').change( function(event) {
@@ -838,7 +838,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </script>
 
 
-<script>
+<!-- <script>
   var loadFile_pan_no = function(event) {
     var pan_no_img = document.getElementById('pan_no_img');
     pan_no_img.src = URL.createObjectURL(event.target.files[0]);
@@ -851,7 +851,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     var gst_no_img= document.getElementById('gst_no_img');
     gst_no_img.src = URL.createObjectURL(event.target.files[0]);
   };
-</script>
+</script> -->
 
 </body>
 </html>

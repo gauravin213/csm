@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -14,8 +15,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('id', 'DESC')->paginate(10);
-        return view('products.index', compact('products'));
+        $products = Product::with('category')->orderBy('id', 'DESC')->paginate(10);
+        //$categories = Category::all();
+        return view('products.index', ['products' => $products]);
     }
 
     /**
@@ -26,7 +28,8 @@ class ProductController extends Controller
     public function create()
     {
         $user_id = auth()->user()->id;
-        return view('products.create', ['user_id' => $user_id]);
+        $categories = Category::all();
+        return view('products.create', ['user_id' => $user_id, 'categories' => $categories]);
     }
 
     /**
@@ -36,7 +39,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {       
+
+        //$data = $request->all();
+        //echo "<pre>"; print_r($data); echo "</pre>"; die;
+
         $request->validate([
             'name' => 'required',
             //'slug' => 'required'
@@ -51,7 +58,7 @@ class ProductController extends Controller
         //$product->sale_price = $request->sale_price;
         $product->category_id = $request->category_id;
         $product->save();
-        return redirect()->route('products.index')->with('success','Customer added successfully');
+        return redirect()->route('products.index')->with('success','Product added successfully');
     }
 
     /**
@@ -74,7 +81,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $user_id = auth()->user()->id;
-        return view('products.edit', ['user_id' => $user_id, 'product' => $product]);
+        $categories = Category::all();
+        return view('products.edit', ['user_id' => $user_id, 'product' => $product, 'categories' => $categories]);
     }
 
     /**
@@ -99,7 +107,7 @@ class ProductController extends Controller
         //$product->sale_price = $request->sale_price;
         $product->category_id = $request->category_id;
         $product->update();
-        return redirect()->route('products.index')->with('success','Customer added successfully');
+        return redirect()->route('products.index')->with('success','Product added successfully');
     }
 
     /**
@@ -111,6 +119,6 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('products.index')->with('success','Customer deleted successfully');
+        return redirect()->route('products.index')->with('success','Product deleted successfully');
     }
 }

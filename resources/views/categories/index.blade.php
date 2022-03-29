@@ -28,7 +28,6 @@
           <tr>
             <th>#</th>
             <th>Name</th>
-            <th>slug</th>
             <th colspan="2">Action</th>
           </tr>
         </thead>
@@ -38,7 +37,6 @@
           <tr>
             <td>{{$category->id}}</td>
             <td>{{$category->name}}</td>
-            <td>{{$category->slug}}</td>
             <td>
               {!! Form::open(['method' => 'DELETE','route' => ['categories.destroy', $category->id],'style'=>'display:inline']) !!}
               <a class="btn btn-primary" href="{{ route('categories.edit',$category->id) }}">Edit</a>  

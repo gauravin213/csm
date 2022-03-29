@@ -335,10 +335,11 @@ class OrderController extends Controller
             }
 
             //item discount
-            /*if (isset($cart_data['category_discount']) && !empty($cart_data['category_discount'])) {
-                $item_discount = $cart_data['category_discount'][$product->category_id];
+            if (isset($cart_data['category_discount']) && !empty($cart_data['category_discount'])) {
+                
                 //$item_discount = $items['item_discount'];
-                if ($item_discount!=0) {
+                if (isset($cart_data['category_discount'][$product->category_id])) {
+                    $item_discount = $cart_data['category_discount'][$product->category_id];
                     $item_discount_price = $price * $item_discount / 100;
                     $item_final_price = $price - $item_discount_price;
                     $price = $item_final_price;
@@ -351,8 +352,8 @@ class OrderController extends Controller
             }else{
                 $cart_data['iten_data'][$key]['item_discount'] = 0;
                 $cart_data['iten_data'][$key]['item_discount_price'] = 0;
-            }  */
-            $item_discount = $items['item_discount'];
+            }
+           /* $item_discount = $items['item_discount'];
             if ($item_discount!=0) {
                 $item_discount_price = $price * $item_discount / 100;
                 $item_final_price = $price - $item_discount_price;
@@ -361,7 +362,7 @@ class OrderController extends Controller
             }else{
                 $cart_data['iten_data'][$key]['item_discount'] = 0;
                 $cart_data['iten_data'][$key]['item_discount_price'] = 0;
-            }
+            }*/
             //end item discount
 
 
@@ -403,7 +404,7 @@ class OrderController extends Controller
         return $cart_data;
     }
 
-    /*public function get_product_category(Request $request)
+    public function get_product_category(Request $request)
     {      
 
         $iten_data = $request->iten_data;
@@ -425,7 +426,7 @@ class OrderController extends Controller
         }
 
         return response()->json($categories);
-    }*/
+    }
 
 
     public function get_product_name($product_id)

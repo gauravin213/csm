@@ -47,19 +47,24 @@
             <input type="text" name="description" class="form-control" id="description" placeholder="Enter description">
           </div>
 
-         <!--  <div class="form-group">
+          <div class="form-group">
             <label for="exampleInputEmail1">Price</label>
             <input type="text" name="price" class="form-control" id="price" placeholder="Enter price">
+          </div>
+
+          <!-- <div class="form-group">
+            <label for="exampleInputEmail1">Sale Price</label>
+            <input type="text" name="sale_price" class="form-control" id="sale_price" placeholder="Enter sale price">
           </div> -->
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Sale Price</label>
-            <input type="text" name="sale_price" class="form-control" id="sale_price" placeholder="Enter sale price">
-          </div>
-
-          <div class="form-group">
             <label for="exampleInputEmail1">Category</label>
-            <input type="text" name="category_id" class="form-control" id="category_id" placeholder="Enter category" value="1">
+             <select name="category_id" class="form-control" id="category_id">
+              <option value="">select</option>
+              @foreach($categories as $category)
+              <option value="{{$category->id}}">{{$category->name}}</option>
+              @endforeach
+            </select>
           </div>
         </div>
         <!-- /.card-body -->

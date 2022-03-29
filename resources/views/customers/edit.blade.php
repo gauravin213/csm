@@ -16,12 +16,12 @@
         @method('PUT')
         <div class="card-body">
           <div class="form-group">
-            <label for="exampleInputEmail1">Name</label>
+            <label for="exampleInputEmail1">Client Name</label>
             <input type="text" name="name" class="form-control" id="name" placeholder="Enter name" value="{{$customer->name}}">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Address</label>
+            <label for="exampleInputEmail1">Billing Address</label>
             <input type="text" name="address" class="form-control" id="address" placeholder="Enter address" value="{{$customer->address}}">
           </div>
 
@@ -47,11 +47,11 @@
 
          
           <div class="form-group">
-            <label for="exampleInputEmail1">Pan No</label>
+             <label for="exampleInputEmail1">PAN Card No.</label>
             <input type="text" name="pan_no" class="form-control" id="pan_no" placeholder="Enter pan no" value="{{$customer->pan_no}}">
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Pan Front Image</label>
+            <label for="exampleInputEmail1">PAN Card Front Image</label>
             <input type="file" name="pan_no_front_img" class="form-control preview_img" id="pan_no_front_img" accept="image/*">
             @if ($customer->pan_no_front_img!='')
               <img src="{{url($customer->pan_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
@@ -59,7 +59,7 @@
               <img src="" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="exampleInputEmail1">Pan Back Image</label>
             <input type="file" name="pan_no_back_img" class="form-control preview_img" id="pan_no_back_img" accept="image/*">
             @if ($customer->pan_no_back_img!='')
@@ -67,14 +67,14 @@
              @else
               <img src="" id="pan_no_img" style="width: 20%;" />
             @endif
-          </div>
+          </div> -->
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Aadhar No</label>
+            <label for="exampleInputEmail1">Aadhar Card No</label>
             <input type="text" name="aadhar_no" class="form-control" id="aadhar_no" placeholder="Enter aadhar no" value="{{$customer->aadhar_no}}">
           </div>
            <div class="form-group">
-            <label for="exampleInputEmail1">Aadhar Front Image</label>
+            <label for="exampleInputEmail1">Aadhar Card Front Image</label>
             <input type="file" name="aadhar_no_front_img" class="form-control preview_img" id="aadhar_no_front_img" accept="image/*">
             @if ($customer->aadhar_no_front_img!='')
               <img src="{{url($customer->aadhar_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
@@ -83,7 +83,7 @@
             @endif
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Aadhar Back Image</label>
+            <label for="exampleInputEmail1">Aadhar Card Back Image</label>
             <input type="file" name="aadhar_no_back_img" class="form-control preview_img" id="aadhar_no_back_img" accept="image/*">
             @if ($customer->aadhar_no_back_img!='')
               <img src="{{url($customer->aadhar_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
@@ -93,23 +93,23 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Gst No</label>
+            <label for="exampleInputEmail1">GST No</label>
             <input type="text" name="gst_no" class="form-control" id="gst_no" placeholder="Enter gst no" value="{{$customer->gst_no}}">
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Gst Front Image</label>
+            <label for="exampleInputEmail1">GST Front Image</label>
             <input type="file" name="gst_no_front_img" class="form-control preview_img" id="gst_no_front_img" accept="image/*">
             @if ($customer->gst_no_front_img!='')
               <img src="{{url($customer->gst_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="exampleInputEmail1">Gst Back Image</label>
             <input type="file" name="gst_no_back_img" class="form-control preview_img" id="gst_no_back_img" accept="image/*">
             @if ($customer->gst_no_back_img!='')
               <img src="{{url($customer->gst_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
             @endif
-          </div>
+          </div> -->
 
           <div class="form-group" style="display: none;">
             <label for="exampleInputEmail1">Sales Persones</label>

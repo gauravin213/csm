@@ -112,6 +112,18 @@
             </div>
           </div>
 
+
+           <!--category discount-->
+           <div class="form-group" id="category_discount_div">
+            <label>Category Discount: </label>
+            <table class="table">
+              <tbody id="category_discount_append">
+              </tbody>
+            </table>
+          </div>
+          <!--category discount-->
+          
+
           <div class="form-group">
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-item">
               Add Items
