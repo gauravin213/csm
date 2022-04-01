@@ -55,6 +55,7 @@ class PricelistController extends Controller
         $pricelist = new Pricelist();
         $pricelist->product_id = $request->product_id;
         $pricelist->price_date = $request->price_date;
+        $pricelist->state = $request->state;
         $pricelist->price = $request->price;
         $pricelist->save();
         return redirect()->route('pricelists.index')->with('success','Price added successfully');
@@ -100,6 +101,7 @@ class PricelistController extends Controller
 
         $pricelist->product_id = $request->product_id;
         $pricelist->price_date = $request->price_date;
+        $pricelist->state = $request->state;
         $pricelist->price = $request->price;
         $pricelist->update();
         return redirect()->route('pricelists.index')->with('success','Price updated successfully');

@@ -47,7 +47,7 @@
             <select name="user_type" id="user_type" class="form-control" >
               <option value="">select</option>
               <option value="administrator">Administrator</option>
-              <option value="sales_mane">Sales Mane</option>
+              <option value="sales_mane">Sales Man</option>
             </select>
           </div>
 

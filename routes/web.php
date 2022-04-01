@@ -33,7 +33,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 	Route::resource('users', '\App\Http\Controllers\UserController');
 	Route::resource('customers', '\App\Http\Controllers\CustomerController');
 	Route::resource('pricelists', '\App\Http\Controllers\PricelistController');
+
+	//Show
+	Route::get('/orders/{id}/show', [App\Http\Controllers\OrderController::class, 'show']);
+
+	
 });
+
+
+Route::get('/orders/exportcsv', [App\Http\Controllers\OrderController::class, 'exportcsv']);
+Route::get('/transactions/exportcsv', [App\Http\Controllers\TransactionController::class, 'exportcsv']);
 
 //Ajax
 Route::post('/orders/additem', [App\Http\Controllers\OrderController::class, 'additem']);

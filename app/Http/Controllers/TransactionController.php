@@ -8,6 +8,9 @@ use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
+use File;
+use Response;
+
 class TransactionController extends Controller
 {
     /**
@@ -77,7 +80,7 @@ class TransactionController extends Controller
         }
         $transactions = Transaction::with(['order', 'customer', 'user'])->whereIn('order_id', $order_ids)->orderBy('id', 'DESC')->paginate(10);*/
 
-        return view('transactions.index', ['transactions'=>$transactions, 'customers'=>$customers, 'users'=>$users]);
+        return view('transactions.index', ['transactions'=>$transactions, 'customers'=>$customers, 'users'=>$users, 'args_filter' => $args_filter]);
     }
 
     /**
@@ -89,6 +92,64 @@ class TransactionController extends Controller
     {
         $user_id = auth()->user()->id;
         return view('transactions.create', ['user_id' => $user_id]);
+    }
+
+    public function exportcsv()
+    {       
+
+        $transactions = Transaction::all();
+
+        // these are the headers for the csv file.
+        $headers = array(
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Disposition' => 'attachment; filename=transactions-download.csv',
+            'Expires' => '0',
+            'Pragma' => 'public',
+        );
+
+
+        //I am storing the csv file in public >> files folder. So that why I am creating files folder
+        if (!File::exists(public_path()."/files")) {
+            File::makeDirectory(public_path() . "/files");
+        }
+
+        //creating the download file
+        $filename =  public_path("files/transactions-download.csv");
+        $handle = fopen($filename, 'w');
+
+        //adding the first row
+        fputcsv($handle, [
+            "ID",
+            "order_id",
+            "Customer Id",
+            "Paid Amount",
+            "Ballance Amount",
+            "Mode of Payment",
+            "Remark",
+            "Uploaded Receipt",
+        ]);
+
+        //adding the data from the array
+        foreach ($transactions as $transaction) {
+            fputcsv($handle, [
+                $transaction->id,
+                $transaction->order_id,
+                $transaction->customer_id,
+                $transaction->paid_amount,
+                $transaction->ballance_amount,
+                $transaction->mode_of_payment,
+                $transaction->remark,
+                $transaction->upload_receipt,
+            ]);
+
+        }
+        fclose($handle);
+
+        //download command
+        return Response::download($filename, "transactions-download.csv", $headers);
+
+        //end export
     }
 
     /**

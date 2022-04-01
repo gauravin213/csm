@@ -48,7 +48,7 @@
             <select name="user_type" id="user_type" class="form-control" >
               <option value="">select</option>
               <option value="administrator" {{$user->user_type == 'administrator'  ? 'selected' : ''}}>Administrator</option>
-              <option value="sales_mane" {{$user->user_type == 'sales_mane'  ? 'selected' : ''}}>Sales Mane</option>
+              <option value="sales_mane" {{$user->user_type == 'sales_mane'  ? 'selected' : ''}}>Sales Man</option>
             </select>
           </div>
 

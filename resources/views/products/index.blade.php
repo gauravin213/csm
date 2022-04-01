@@ -40,12 +40,18 @@
             <td>{{$product->id}}</td>
             <td>{{$product->name}}</td>
             <td>{{$product->price}}</td>
-            <td>{{$product->category_id}}</td>
             <td>
-              {!! Form::open(['method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!}
-              <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Edit</a>  
-              {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-              {!! Form::close() !!}
+              @if(is_object($product->category))
+              {{$product->category->name}}
+              @else
+              N/A
+              @endif
+            </td>
+            <td>
+              <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}"><i class="fas fa-edit"></i></a> 
+              {!! Form::open(['method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!} 
+               <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+               {{ Form::close() }}
             </td>
           </tr>
           @endforeach

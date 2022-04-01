@@ -11,6 +11,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Session;
 use DB;
+
+use File;
+use Response;
+
 class OrderController extends Controller
 {
     /**
@@ -71,7 +75,11 @@ class OrderController extends Controller
                 $orders = Order::where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
             }
         }
-        return view('orders.index', ['customers' => $customers, 'users' => $users, 'orders' => $orders]);
+
+
+        //echo "<pre>args_filter:"; print_r($args_filter); echo "</pre>";
+
+        return view('orders.index', ['customers' => $customers, 'users' => $users, 'orders' => $orders, 'args_filter' => $args_filter]);
     }
 
     /**
@@ -85,6 +93,74 @@ class OrderController extends Controller
         $customers = Customer::where('sales_persone_id', $user_id)->get();
         $products = Product::all();
         return view('orders.create', ['customers' => $customers, 'products' => $products, 'user_id' => $user_id]);
+    }
+
+    public function exportcsv()
+    {       
+
+        $orders = Order::all();
+
+        // these are the headers for the csv file.
+        $headers = array(
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Disposition' => 'attachment; filename=orders-download.csv',
+            'Expires' => '0',
+            'Pragma' => 'public',
+        );
+
+
+        //I am storing the csv file in public >> files folder. So that why I am creating files folder
+        if (!File::exists(public_path()."/files")) {
+            File::makeDirectory(public_path() . "/files");
+        }
+
+        //creating the download file
+        $filename =  public_path("files/orders-download.csv");
+        $handle = fopen($filename, 'w');
+
+        //adding the first row
+        fputcsv($handle, [
+            "ID",
+            "Payment Status",
+            "Placed By",
+            "Customer Id",
+            "Subtotal",
+            "Discount",
+            "Discount_price",
+            "Shipping",
+            "Shipping Address",
+            "Shipping State",
+            "Total",
+            "Balance Amount",
+            "Date"
+        ]);
+
+        //adding the data from the array
+        foreach ($orders as $order) {
+            fputcsv($handle, [
+                $order->id,
+                $order->payment_status,
+                $order->placed_by,
+                $order->customer_id,
+                $order->subtotal,
+                $order->discount,
+                $order->discount_price,
+                $order->shipping,
+                $order->shipping_address,
+                $order->shipping_state,
+                $order->total,
+                $order->balance_amount,
+                $order->created_at
+            ]);
+
+        }
+        fclose($handle);
+
+        //download command
+        return Response::download($filename, "orders-download.csv", $headers);
+
+        //end export
     }
 
     /**
@@ -119,6 +195,8 @@ class OrderController extends Controller
         $order->discount        = $res['discount'];
         $order->discount_price  = $res['discount_price'];
         $order->shipping        = $res['shipping'];
+        $order->shipping_state  = $res['shipping_state'];
+        $order->shipping_address  = $res['shipping_address'];
         $order->total           = $res['total'];
         $order->save();
 
@@ -148,8 +226,9 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Order $order)
-    {
-        //
+    {   
+        $order = Order::with(['user', 'customer', 'items', 'transaction'])->find($order->id);
+        return view('orders.show', ['order' => $order]);
     }
 
     /**
@@ -215,6 +294,8 @@ class OrderController extends Controller
         $order->discount        = $res['discount'];
         $order->discount_price  = $res['discount_price'];
         $order->shipping        = $res['shipping'];
+        $order->shipping_state  = $res['shipping_state'];
+        $order->shipping_address  = $res['shipping_address'];
         $order->total           = $res['total'];
         $order->update();
 
@@ -319,6 +400,7 @@ class OrderController extends Controller
                  $pricelist = Pricelist::select('*')
                 ->where('price_date', '=', $cart_data['price_date'])
                 ->where('product_id', '=', $items['product_id'])
+                ->where('state', '=', $cart_data['shipping_state'])
                 ->get();
                 if (count($pricelist) !=0) {
                     $cart_data['iten_data'][$key]['price'] = $pricelist[0]->price;
@@ -353,7 +435,7 @@ class OrderController extends Controller
                 $cart_data['iten_data'][$key]['item_discount'] = 0;
                 $cart_data['iten_data'][$key]['item_discount_price'] = 0;
             }
-           /* $item_discount = $items['item_discount'];
+           /*$item_discount = $items['item_discount'];
             if ($item_discount!=0) {
                 $item_discount_price = $price * $item_discount / 100;
                 $item_final_price = $price - $item_discount_price;

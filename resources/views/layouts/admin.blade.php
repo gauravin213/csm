@@ -11,8 +11,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="{{ asset('admin-lte-3.1.0-rc/plugins/fontawesome-free/css/all.min.css') }}">
+
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('admin-lte-3.1.0-rc/dist/css/adminlte.min.css') }}">
 
@@ -462,10 +467,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script type="text/javascript">
   jQuery(document).ready(function(){
 
-    //jQuery('#pan_no').mask('00-00000000');
-    //jQuery('#aadhar_no').mask('0000-0000-0000');
-    //jQuery('#gst_no').mask('0000000000');
-
     var now = new Date();
     var dd = now.getDate();
     var mm = now.getMonth() + 1;
@@ -834,8 +835,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
+    //Aadhar and Pan validation
+    jQuery('#pan_no').mask('AAAAA0000A');
+    jQuery('#aadhar_no').mask('0000 0000 0000');
+    //jQuery('#gst_no').mask('0000000000');
+
+
+    jQuery(document).on('click', '.delete_ev', function(e){
+      e.preventDefault();
+      var target = jQuery(this);
+      var element_id = target.attr('data-element_id');
+      if (confirm("Do you want to delete") == true) {
+        jQuery('.mydeleteform_'+element_id).submit();
+      } else {
+      }
+    });
+
   });
+
+
+//Aadhar and Pan validation
+function ValidatePAN() {
+  var txtPANCard = document.getElementById("pan_no");
+  var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+  if (regex.test(txtPANCard.value.toUpperCase())) { 
+      document.getElementById("pan_no_error_msg").style.visibility = "hidden";
+      return true;
+  } else {
+      document.getElementById("pan_no_error_msg").style.visibility = "visible";
+      return false;
+  }
+}
+function validateAadhaar(){ 
+  var regexp = /^[2-9]{1}[0-9]{3}\s[0-9]{4}\s[0-9]{4}$/; 
+  var ano = document.getElementById("aadhar_no").value; 
+  if(regexp.test(ano)) { 
+    document.getElementById("aadhar_no_error_msg").style.visibility = "hidden";
+    return true; 
+  }else{ 
+    document.getElementById("aadhar_no_error_msg").style.visibility = "visible";
+   return false; 
+  } 
+} 
 </script>
+
+
 
 
 <!-- <script>

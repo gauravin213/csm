@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
-
+<script>
+   function exportTasks(_this) {
+      let _url = $(_this).data('href');
+      window.location.href = _url;
+   }
+</script>
 <!-- Content Header (Page header) -->
 <div class="content-header">
   <div class="container-fluid">
@@ -15,7 +20,11 @@
       <!---->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Filter</h3>
+          <h3 class="card-title">Filter &nbsp; &nbsp; &nbsp;</h3> 
+           <div>
+            <button type="button" data-href="/csm/orders/exportcsv" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export
+            </button>
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
@@ -46,6 +55,9 @@
             </div>
             <div class="col-3">
              <button class="btn btn-default">Filter</button>
+             @if(count($args_filter)!=0)
+              <a href="{{url('/admin/orders')}}" class="btn btn-default">Remove Filter</a>
+             @endif
             </div>
           </div>
           <div class="row">
@@ -91,7 +103,7 @@
             <th>Balance</th>
             <th>Discount</th>
             <th>Date</th>
-            <th colspan="3">Action</th>
+            <th colspan="4">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -117,13 +129,17 @@
             <td>{{$order->discount}}</td>
             <td>{{$order->created_at}}</td>
             <td>
-              {!! Form::open(['method' => 'DELETE','route' => ['orders.destroy', $order->id],'style'=>'display:inline']) !!}
-              <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}">Edit</a>  
-              {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+              <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}"><i class="fas fa-edit"></i></a>  
+
+              {!! Form::open(['class' => 'mydeleteform_'.$order->id, 'method' => 'DELETE','route' => ['orders.destroy', $order->id],'style'=>'display:inline']) !!}
+              <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$order->id}}"><i class="fas fa-trash-alt"></i></button>
+               {{ Form::close() }}
+
+              <a class="btn btn-success" href="{{ route('orders.show',$order->id) }}"><i class="fas fa-eye"></i></a>
 
               @if($order->payment_status !='processing')
-               <!--  <a class="btn btn-default" href="{{ route('transactions.create','order_id=') }}{{$order->id}}">Balance</a> -->
-               <a class="btn btn-default" href="{{ url('admin/transactions/create?order_id='.$order->id.'&customer_id='.$order->customer_id.'&placed_by='.$order->placed_by)}}">Balance</a>
+               <a class="btn btn-info" href="{{ url('admin/transactions/create?order_id='.$order->id.'&customer_id='.$order->customer_id.'&placed_by='.$order->placed_by)}}">Pay <i class="fas fa-rupee-sign"></i></a>
               @endif
                 
               {!! Form::close() !!}

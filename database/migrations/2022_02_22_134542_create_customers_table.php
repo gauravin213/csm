@@ -16,9 +16,9 @@ class CreateCustomersTable extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            //$table->string('company_name')->nullable();
+            $table->string('company_name')->nullable();
+            $table->string('credit_limit')->nullable();
             $table->string('address');
-            //$table->string('delivery_address')->nullable();
             $table->string('mobile');
             $table->string('email');
             $table->string('profile_image')->nullable();
@@ -31,6 +31,7 @@ class CreateCustomersTable extends Migration
             $table->string('gst_no');
             $table->string('gst_no_front_img')->nullable();
             $table->string('gst_no_back_img')->nullable();
+            $table->string('gst_no_third_img')->nullable();
             $table->string('sales_persone_id');
             $table->bigInteger('balance_amount')->nullable();
             $table->timestamps();

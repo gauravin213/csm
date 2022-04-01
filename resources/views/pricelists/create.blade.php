@@ -45,6 +45,15 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">State</label>
+            <select name="state" class="form-control" id="state">
+              <option value="">select</option>
+              <option value="1">Mp/Bihar/Jaharkhand</option>  
+              <option value="2">Up/Uttarakhand/Chhatisgarh</option>        
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Price</label>
             <input type="text" name="price" class="form-control" id="price" placeholder="Enter price">
           </div>

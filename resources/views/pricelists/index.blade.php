@@ -40,10 +40,10 @@
             <td>{{$pricelist->price_date}}</td>
             <td>{{$pricelist->price}}</td>
             <td>
-              {!! Form::open(['method' => 'DELETE','route' => ['pricelists.destroy', $pricelist->id],'style'=>'display:inline']) !!}
-              <a class="btn btn-primary" href="{{ route('pricelists.edit',$pricelist->id) }}">Edit</a>  
-              {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-              {!! Form::close() !!}
+              <a class="btn btn-primary" href="{{ route('pricelists.edit',$pricelist->id) }}"><i class="fas fa-edit"></i></a>
+              {!! Form::open(['method' => 'DELETE','route' => ['pricelists.destroy', $pricelist->id],'style'=>'display:inline']) !!}  
+              <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+               {{ Form::close() }}
             </td>
           </tr>
           @endforeach

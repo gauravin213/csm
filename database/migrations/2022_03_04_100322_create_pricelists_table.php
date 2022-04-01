@@ -17,6 +17,7 @@ class CreatePricelistsTable extends Migration
             $table->id();
             $table->string('product_id');
             $table->string('price_date');
+            $table->string('state');
             $table->string('price');
             $table->timestamps();
         });

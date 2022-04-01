@@ -66,6 +66,20 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">State</label>
+            <select name="shipping_state" class="form-control" id="shipping_state">
+              <option value="">select</option>
+              <option value="1" {{$order->shipping_state == '1'  ? 'selected' : ''}}>Mp/Bihar/Jaharkhand</option>  
+              <option value="2" {{$order->shipping_state == '2'  ? 'selected' : ''}}>Up/Uttarakhand/Chhatisgarh</option>        
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Shipping address</label>
+            <input type="text" name="shipping_address" class="form-control" id="shipping_address" placeholder="enter shipping address" value="{{$order->shipping_address}}">
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Price Date</label>
             <input type="text" name="price_date" class="form-control" id="price_date" autocomplete="off" value="">
           </div>

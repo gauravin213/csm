@@ -21,9 +21,13 @@ class CreateOrdersTable extends Migration
             $table->string('subtotal');
             $table->string('discount');
             $table->string('discount_price');
-            $table->string('shipping');
             $table->string('total');
             $table->bigInteger('balance_amount')->nullable();
+            $table->string('shipping'); //rename shipping_rate
+            $table->string('shipping_address')->nullable();
+            $table->string('shipping_state')->nullable();
+            $table->string('billing_address')->nullable();
+            $table->string('billing_state')->nullable();
             $table->timestamps();
         });
     }

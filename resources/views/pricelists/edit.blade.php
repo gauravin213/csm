@@ -45,6 +45,15 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">State</label>
+            <select name="state" class="form-control" id="state">
+              <option value="" {{$pricelist->state == ''  ? 'selected' : ''}}>select</option>
+              <option value="1" {{$pricelist->state == '1'  ? 'selected' : ''}}>Mp/Bihar/Jaharkhand</option>  
+              <option value="2" {{$pricelist->state == '2'  ? 'selected' : ''}}>Up/Uttarakhand/Chhatisgarh</option>        
+            </select>
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Price</label>
             <input type="text" name="price" class="form-control" id="price" placeholder="Enter price" value="{{$pricelist->price}}">
           </div>

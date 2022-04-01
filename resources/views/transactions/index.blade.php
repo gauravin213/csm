@@ -1,6 +1,13 @@
 @extends('layouts.admin')
 
 @section('content')
+<script>
+   function exportTasks(_this) {
+      let _url = $(_this).data('href');
+      window.location.href = _url;
+   }
+</script>
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
   <div class="container-fluid">
@@ -20,7 +27,11 @@
       <!---->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Filter</h3>
+          <h3 class="card-title">Filter&nbsp; &nbsp; &nbsp;</h3> 
+          <div>
+            <button type="button" data-href="/csm/transactions/exportcsv" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export
+            </button>
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
@@ -42,6 +53,9 @@
             </div>
             <div class="col-4">
              <button class="btn btn-default">Filter</button>
+             @if(count($args_filter)!=0)
+              <a href="{{url('/admin/transactions')}}" class="btn btn-default">Remove Filter</a>
+             @endif
             </div>
           </div>
 
@@ -115,10 +129,11 @@
             </td> 
             <td>{{$transaction->created_at}}</td>
             <td>
+              <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}"><i class="fas fa-edit"></i></a>  
               {!! Form::open(['method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
-              <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}">Edit</a>  
-              {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-              {!! Form::close() !!}
+              <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+               {{ Form::close() }}
+
             </td>
           </tr>
           @endforeach

@@ -21,6 +21,18 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">Company Name</label>
+            <input type="text" name="company_name" class="form-control" id="company_name" placeholder="Enter company name" value="{{$customer->company_name}}">
+          </div>
+
+          @if($user_type == 'administrator')
+          <div class="form-group">
+            <label for="exampleInputEmail1">Credit Limit</label>
+            <input type="text" name="credit_limit" class="form-control" id="name" placeholder="Enter credit limit" value="{{$customer->credit_limit}}">
+          </div>
+          @endif
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Billing Address</label>
             <input type="text" name="address" class="form-control" id="address" placeholder="Enter address" value="{{$customer->address}}">
           </div>
@@ -48,7 +60,8 @@
          
           <div class="form-group">
              <label for="exampleInputEmail1">PAN Card No.</label>
-            <input type="text" name="pan_no" class="form-control" id="pan_no" placeholder="Enter pan no" value="{{$customer->pan_no}}">
+             <input type="text" name="pan_no" class="form-control" id="pan_no" placeholder="Enter pan no" value="{{$customer->pan_no}}" onfocusout="ValidatePAN()">
+             <span id="pan_no_error_msg" class="error" style="visibility: hidden;">Invalid PAN Number</span>
           </div>
           <div class="form-group">
             <label for="exampleInputEmail1">PAN Card Front Image</label>
@@ -71,7 +84,8 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Aadhar Card No</label>
-            <input type="text" name="aadhar_no" class="form-control" id="aadhar_no" placeholder="Enter aadhar no" value="{{$customer->aadhar_no}}">
+            <input type="text" name="aadhar_no" class="form-control" id="aadhar_no" placeholder="Enter aadhar no" value="{{$customer->aadhar_no}}" onfocusout="validateAadhaar()">
+            <span id="aadhar_no_error_msg" class="error" style="visibility: hidden;">Invalid Aadhaar Number</span>
           </div>
            <div class="form-group">
             <label for="exampleInputEmail1">Aadhar Card Front Image</label>
@@ -103,13 +117,20 @@
               <img src="{{url($customer->gst_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
             @endif
           </div>
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label for="exampleInputEmail1">Gst Back Image</label>
             <input type="file" name="gst_no_back_img" class="form-control preview_img" id="gst_no_back_img" accept="image/*">
             @if ($customer->gst_no_back_img!='')
               <img src="{{url($customer->gst_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
             @endif
-          </div> -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Gst Third Image</label>
+            <input type="file" name="gst_no_third_img" class="form-control preview_img" id="gst_no_third_img" accept="image/*">
+            @if ($customer->gst_no_third_img!='')
+              <img src="{{url($customer->gst_no_third_img)}}" id="pan_no_img" style="width: 20%;" />
+            @endif
+          </div>
 
           <div class="form-group" style="display: none;">
             <label for="exampleInputEmail1">Sales Persones</label>

@@ -33,6 +33,18 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">Company Name</label>
+            <input type="text" name="company_name" class="form-control" id="company_name" placeholder="Enter company name">
+          </div>
+
+          @if($user_type == 'administrator')
+          <div class="form-group">
+            <label for="exampleInputEmail1">Credit Limit</label>
+            <input type="text" name="credit_limit" class="form-control" id="credit_limit" placeholder="Enter credit limit">
+          </div>
+          @endif
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Billing Address</label>
             <input type="text" name="address" class="form-control" id="address" placeholder="Enter address">
           </div>
@@ -94,11 +106,16 @@
             <input type="file" name="gst_no_front_img" class="form-control preview_img" id="gst_no_front_img" accept="image/*">
             <img id="pan_no_img" style="width: 20%;" />
           </div>
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label for="exampleInputEmail1">GST Back Image</label>
             <input type="file" name="gst_no_back_img" class="form-control preview_img" id="gst_no_back_img" accept="image/*">
             <img id="pan_no_img" style="width: 20%;" />
-          </div> -->
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">GST Third Image</label>
+            <input type="file" name="gst_no_third_img" class="form-control preview_img" id="gst_no_third_img" accept="image/*">
+            <img id="pan_no_img" style="width: 20%;" />
+          </div>
           
           <div class="form-group" style="display: none;">
             <label for="exampleInputEmail1">Sales Person</label>

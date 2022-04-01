@@ -36,7 +36,8 @@ class CustomerController extends Controller
     public function create()
     {
         $user_id = auth()->user()->id;
-        return view('customers.create', ['user_id' => $user_id]);
+        $user_type = auth()->user()->user_type;
+        return view('customers.create', ['user_id' => $user_id, 'user_type'=>$user_type]);
     }
 
     /**
@@ -64,6 +65,8 @@ class CustomerController extends Controller
 
         $customer = new Customer();
         $customer->name = $request->name;
+        $customer->company_name = $request->company_name;
+        $customer->credit_limit = $request->credit_limit;
         $customer->address = $request->address;
         $customer->mobile = $request->mobile;
         $customer->email = $request->email;
@@ -77,7 +80,7 @@ class CustomerController extends Controller
             $customer->profile_image = $profile_image_path;
         }
 
-        if ($request->pan_no_front_img && $request->pan_no_back_img) {
+        if ($request->pan_no_front_img || $request->pan_no_back_img) {
             $pan_no_front_img = $request->file('pan_no_front_img')->getClientOriginalName();
             $pan_no_front_img_path = $request->file('pan_no_front_img')->store('uploads');
             $pan_no_back_img = $request->file('pan_no_back_img')->getClientOriginalName();
@@ -86,7 +89,7 @@ class CustomerController extends Controller
             $customer->pan_no_back_img = $pan_no_back_img_path;
         }
 
-        if ($request->aadhar_no_front_img && $request->aadhar_no_back_img) {
+        if ($request->aadhar_no_front_img || $request->aadhar_no_back_img) {
             $aadhar_no_front_img = $request->file('aadhar_no_front_img')->getClientOriginalName();
             $aadhar_no_front_img_path = $request->file('aadhar_no_front_img')->store('uploads');
             $aadhar_no_back_img = $request->file('aadhar_no_back_img')->getClientOriginalName();
@@ -95,13 +98,16 @@ class CustomerController extends Controller
             $customer->aadhar_no_back_img = $aadhar_no_back_img_path;
         }
 
-        if ($request->gst_no_front_img && $request->gst_no_back_img) {
+        if ($request->gst_no_front_img || $request->gst_no_back_img || $request->gst_no_third_img) {
             $gst_no_front_img = $request->file('gst_no_front_img')->getClientOriginalName();
             $gst_no_front_img_path = $request->file('gst_no_front_img')->store('uploads');
             $gst_no_back_img = $request->file('gst_no_back_img')->getClientOriginalName();
             $gst_no_back_img_path = $request->file('gst_no_back_img')->store('uploads');
+            $gst_no_third_img = $request->file('gst_no_third_img')->getClientOriginalName();
+            $gst_no_third_img_path = $request->file('gst_no_third_img')->store('uploads');
             $customer->gst_no_front_img = $gst_no_front_img_path;
             $customer->gst_no_back_img = $gst_no_back_img_path;
+            $customer->gst_no_third_img = $gst_no_third_img_path;
         }
 
         $customer->sales_persone_id = $request->sales_persone_id;
@@ -129,7 +135,8 @@ class CustomerController extends Controller
     public function edit(Customer $customer)
     {
         $user_id = auth()->user()->id;
-        return view('customers.edit', ['user_id' => $user_id, 'customer' => $customer]);
+        $user_type = auth()->user()->user_type;
+        return view('customers.edit', ['user_id' => $user_id, 'customer' => $customer, 'user_type'=>$user_type]);
     }
 
     /**
@@ -158,6 +165,8 @@ class CustomerController extends Controller
         ]);
         
         $customer->name = $request->name;
+        $customer->company_name = $request->company_name;
+        $customer->credit_limit = $request->credit_limit;
         $customer->address = $request->address;
         $customer->mobile = $request->mobile;
         $customer->email = $request->email;
@@ -171,7 +180,7 @@ class CustomerController extends Controller
             $customer->profile_image = $profile_image_path;
         }
 
-        if ($request->pan_no_front_img && $request->pan_no_back_img) {
+        if ($request->pan_no_front_img || $request->pan_no_back_img) {
             $pan_no_front_img = $request->file('pan_no_front_img')->getClientOriginalName();
             $pan_no_front_img_path = $request->file('pan_no_front_img')->store('uploads');
             $pan_no_back_img = $request->file('pan_no_back_img')->getClientOriginalName();
@@ -180,7 +189,7 @@ class CustomerController extends Controller
             $customer->pan_no_back_img = $pan_no_back_img_path;
         }
 
-        if ($request->aadhar_no_front_img && $request->aadhar_no_back_img) {
+        if ($request->aadhar_no_front_img || $request->aadhar_no_back_img) {
             $aadhar_no_front_img = $request->file('aadhar_no_front_img')->getClientOriginalName();
             $aadhar_no_front_img_path = $request->file('aadhar_no_front_img')->store('uploads');
             $aadhar_no_back_img = $request->file('aadhar_no_back_img')->getClientOriginalName();
@@ -189,13 +198,16 @@ class CustomerController extends Controller
             $customer->aadhar_no_back_img = $aadhar_no_back_img_path;
         }
 
-        if ($request->gst_no_front_img && $request->gst_no_back_img) {
+        if ($request->gst_no_front_img || $request->gst_no_back_img || $request->gst_no_third_img) {
             $gst_no_front_img = $request->file('gst_no_front_img')->getClientOriginalName();
             $gst_no_front_img_path = $request->file('gst_no_front_img')->store('uploads');
             $gst_no_back_img = $request->file('gst_no_back_img')->getClientOriginalName();
             $gst_no_back_img_path = $request->file('gst_no_back_img')->store('uploads');
+            $gst_no_third_img = $request->file('gst_no_third_img')->getClientOriginalName();
+            $gst_no_third_img_path = $request->file('gst_no_third_img')->store('uploads');
             $customer->gst_no_front_img = $gst_no_front_img_path;
             $customer->gst_no_back_img = $gst_no_back_img_path;
+            $customer->gst_no_third_img = $gst_no_third_img_path;
         }
 
         $customer->sales_persone_id = $request->sales_persone_id;

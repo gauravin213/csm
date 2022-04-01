@@ -42,10 +42,10 @@
             <td>{{$customer->mobile}}</td>
             <td>{{$customer->email}}</td>
             <td>
+              <a class="btn btn-primary" href="{{ route('customers.edit',$customer->id) }}"><i class="fas fa-edit"></i></a> 
               {!! Form::open(['method' => 'DELETE','route' => ['customers.destroy', $customer->id],'style'=>'display:inline']) !!}
-              <a class="btn btn-primary" href="{{ route('customers.edit',$customer->id) }}">Edit</a>  
-              {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-              {!! Form::close() !!}
+              <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+               {{ Form::close() }}
             </td>
           </tr>
           @endforeach
