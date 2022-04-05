@@ -94,10 +94,42 @@ class TransactionController extends Controller
         return view('transactions.create', ['user_id' => $user_id]);
     }
 
-    public function exportcsv()
-    {       
+    public function exportcsv(Request $request)
+    {    
 
-        $transactions = Transaction::all();
+        $data = $request->all();
+        //echo "<pre>data:"; print_r($data); echo "</pre>";
+       
+        $args_filter = [];
+        if (count($data)!=0) {
+            foreach ($data as $key => $value) {
+                if ( !in_array($key, ['page', 'from_date', 'to_date']) ) {
+                    if ($value!='') {
+                        $args_filter[$key] = $value;
+                    }
+                }
+            }
+        }
+        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+
+       if (count($args_filter)!=0) {
+            if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') && (isset($_GET['to_date']) && $_GET['to_date'] !='') ) {
+                $from_date = date("Y-m-d", strtotime($_GET['from_date']));
+                $to_date = date("Y-m-d", strtotime($_GET['to_date']));
+                $transactions = Transaction::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
+            }else{ 
+                $transactions = Transaction::where($args_filter)->orderBy('id', 'DESC')->get();
+            }
+        }else{
+            $transactions = Transaction::all();
+        }
+
+        /*foreach ($transactions as $transaction) {
+            echo "-->".$transaction->id; echo "<br>";       
+        }
+        die;*/
+
+        //$transactions = Transaction::all();
 
         // these are the headers for the csv file.
         $headers = array(

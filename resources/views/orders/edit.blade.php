@@ -69,8 +69,8 @@
             <label for="exampleInputEmail1">State</label>
             <select name="shipping_state" class="form-control" id="shipping_state">
               <option value="">select</option>
-              <option value="1" {{$order->shipping_state == '1'  ? 'selected' : ''}}>Mp/Bihar/Jaharkhand</option>  
-              <option value="2" {{$order->shipping_state == '2'  ? 'selected' : ''}}>Up/Uttarakhand/Chhatisgarh</option>        
+              <option value="1" {{$order->shipping_state == '1'  ? 'selected' : ''}}>UP/MP/Chhattisgarh</option>  
+              <option value="2" {{$order->shipping_state == '2'  ? 'selected' : ''}}>Bihar/Jharkhand</option>        
             </select>
           </div>
 

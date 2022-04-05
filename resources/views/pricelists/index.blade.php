@@ -9,6 +9,44 @@
       {{ $message }}
     </div>
     @endif
+
+     <!---->
+    <form id="csm_export_form" action="{{url('/pricelists/exportcsv')}}" method="GET">
+      <input type="hidden" name="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+      <!-- <input type="hidden" name="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}"> -->
+    </form>
+    <!---->
+    <form action="" method="GET">
+      <!---->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Filter &nbsp; &nbsp; &nbsp;</h3> 
+           <div>
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-3">
+              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+            </div>
+            <!-- <div class="col-3">
+               <input type="text" name="to_date" id="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+            </div> -->
+            <div class="col-3">
+             <button class="btn btn-default">Filter</button>
+              @if(isset($_GET['from_date']))
+              <a href="{{url('/admin/pricelists')}}" class="btn btn-default">Remove Filter</a>
+             @endif
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!---->
+    </form>
+
+
     <div class="row mb-2">
       <div class="col-sm-6">
         <h1 class="m-0"><a href="{{ url('admin/pricelists/create') }}" class="btn btn-primary">Add Price</a></h1>
@@ -41,8 +79,9 @@
             <td>{{$pricelist->price}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('pricelists.edit',$pricelist->id) }}"><i class="fas fa-edit"></i></a>
-              {!! Form::open(['method' => 'DELETE','route' => ['pricelists.destroy', $pricelist->id],'style'=>'display:inline']) !!}  
-              <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+              {!! Form::open(['class' => 'mydeleteform_'.$pricelist->id, 'method' => 'DELETE','route' => ['pricelists.destroy', $pricelist->id],'style'=>'display:inline']) !!}  
+              <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$pricelist->id}}"><i class="fas fa-trash-alt"></i></button>
                {{ Form::close() }}
             </td>
           </tr>

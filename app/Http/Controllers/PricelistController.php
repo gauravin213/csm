@@ -6,6 +6,9 @@ use App\Models\Pricelist;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+use File;
+use Response;
+
 class PricelistController extends Controller
 {
     /**
@@ -15,17 +18,92 @@ class PricelistController extends Controller
      */
     public function index()
     {   
-        $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+        
+        if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
 
-        /*$pricelist = Pricelist::select('*')
-                ->where('price_date', '=', '03-07-2022')
-                ->where('product_id', '=', 26)
-                ->get();
-        echo "<pre>==>"; print_r($pricelist); echo "</pre>"; */
+            $from_date = $_GET['from_date'];
+            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->paginate(10);
 
+           /*foreach ($pricelists as $pricelist) {
+                echo "id: ".$pricelist->id; echo "<br>";
+            }
+            die;*/
+        }else{
+            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+        }
+
+        //$pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
 
         return view('pricelists.index', ['pricelists' => $pricelists]);
     }
+
+
+    public function exportcsv(Request $request)
+    {      
+
+        if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
+            $from_date = $_GET['from_date'];
+            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->paginate(10);
+        }else{
+            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+        }
+
+        /*foreach ($pricelists as $pricelist) {
+            echo "-->".$pricelist->id; echo "<br>";       
+        }
+        die;*/
+
+        //$orders = Order::all();
+
+        // these are the headers for the csv file.
+        $headers = array(
+            'Content-Type' => 'application/vnd.ms-excel; charset=utf-8',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Disposition' => 'attachment; filename=pricelists-download.csv',
+            'Expires' => '0',
+            'Pragma' => 'public',
+        );
+
+
+        //I am storing the csv file in public >> files folder. So that why I am creating files folder
+        if (!File::exists(public_path()."/files")) {
+            File::makeDirectory(public_path() . "/files");
+        }
+
+        //creating the download file
+        $filename =  public_path("files/pricelists-download.csv");
+        $handle = fopen($filename, 'w');
+
+        //adding the first row
+        fputcsv($handle, [
+            "ID",
+            'Product Id',
+            'Price date',
+            'State',
+            'Price',
+            'Created At'
+        ]);
+
+        //adding the data from the array
+        foreach ($pricelists as $pricelist) {
+            fputcsv($handle, [
+                $pricelist->id,
+                $pricelist->product_id,
+                $pricelist->price_date,
+                $pricelist->state,
+                $pricelist->price,
+                $pricelist->created_at
+            ]);
+
+        }
+        fclose($handle);
+
+        //download command
+        return Response::download($filename, "pricelists-download.csv", $headers);
+
+        //end export
+    }
+
 
     /**
      * Show the form for creating a new resource.

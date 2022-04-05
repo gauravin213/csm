@@ -43,8 +43,9 @@
             <td>{{$user->user_type}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}"><i class="fas fa-edit"></i></a>  
-              {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
-              <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+              {!! Form::open(['class' => 'mydeleteform_'.$user->id, 'method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+              <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$user->id}}"><i class="fas fa-trash-alt"></i></button>
                {{ Form::close() }}
             </td>
           </tr>

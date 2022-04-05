@@ -80,33 +80,44 @@ class CustomerController extends Controller
             $customer->profile_image = $profile_image_path;
         }
 
-        if ($request->pan_no_front_img || $request->pan_no_back_img) {
+        if ($request->pan_no_front_img) {
             $pan_no_front_img = $request->file('pan_no_front_img')->getClientOriginalName();
             $pan_no_front_img_path = $request->file('pan_no_front_img')->store('uploads');
+            $customer->pan_no_front_img = $pan_no_front_img_path;
+         
+        }
+        if ($request->pan_no_back_img) {
             $pan_no_back_img = $request->file('pan_no_back_img')->getClientOriginalName();
             $pan_no_back_img_path = $request->file('pan_no_back_img')->store('uploads');
-            $customer->pan_no_front_img = $pan_no_front_img_path;
             $customer->pan_no_back_img = $pan_no_back_img_path;
         }
 
-        if ($request->aadhar_no_front_img || $request->aadhar_no_back_img) {
+
+        if ($request->aadhar_no_front_img) {
             $aadhar_no_front_img = $request->file('aadhar_no_front_img')->getClientOriginalName();
             $aadhar_no_front_img_path = $request->file('aadhar_no_front_img')->store('uploads');
+            $customer->aadhar_no_front_img = $aadhar_no_front_img_path;
+        }
+        if ($request->aadhar_no_back_img) {
             $aadhar_no_back_img = $request->file('aadhar_no_back_img')->getClientOriginalName();
             $aadhar_no_back_img_path = $request->file('aadhar_no_back_img')->store('uploads');
-            $customer->aadhar_no_front_img = $aadhar_no_front_img_path;
             $customer->aadhar_no_back_img = $aadhar_no_back_img_path;
         }
 
-        if ($request->gst_no_front_img || $request->gst_no_back_img || $request->gst_no_third_img) {
+
+        if ($request->gst_no_front_img) {
             $gst_no_front_img = $request->file('gst_no_front_img')->getClientOriginalName();
             $gst_no_front_img_path = $request->file('gst_no_front_img')->store('uploads');
+            $customer->gst_no_front_img = $gst_no_front_img_path;
+        }
+        if ($request->gst_no_back_img ) {
             $gst_no_back_img = $request->file('gst_no_back_img')->getClientOriginalName();
             $gst_no_back_img_path = $request->file('gst_no_back_img')->store('uploads');
+            $customer->gst_no_back_img = $gst_no_back_img_path;
+        }
+        if ($request->gst_no_third_img) {
             $gst_no_third_img = $request->file('gst_no_third_img')->getClientOriginalName();
             $gst_no_third_img_path = $request->file('gst_no_third_img')->store('uploads');
-            $customer->gst_no_front_img = $gst_no_front_img_path;
-            $customer->gst_no_back_img = $gst_no_back_img_path;
             $customer->gst_no_third_img = $gst_no_third_img_path;
         }
 
@@ -174,39 +185,50 @@ class CustomerController extends Controller
         $customer->aadhar_no = $request->aadhar_no;
         $customer->gst_no = $request->gst_no;
 
-        if ($request->profile_image) {
+         if ($request->profile_image) {
             $profile_image = $request->file('profile_image')->getClientOriginalName();
             $profile_image_path = $request->file('profile_image')->store('uploads');
             $customer->profile_image = $profile_image_path;
         }
 
-        if ($request->pan_no_front_img || $request->pan_no_back_img) {
+        if ($request->pan_no_front_img) {
             $pan_no_front_img = $request->file('pan_no_front_img')->getClientOriginalName();
             $pan_no_front_img_path = $request->file('pan_no_front_img')->store('uploads');
+            $customer->pan_no_front_img = $pan_no_front_img_path;
+         
+        }
+        if ($request->pan_no_back_img) {
             $pan_no_back_img = $request->file('pan_no_back_img')->getClientOriginalName();
             $pan_no_back_img_path = $request->file('pan_no_back_img')->store('uploads');
-            $customer->pan_no_front_img = $pan_no_front_img_path;
             $customer->pan_no_back_img = $pan_no_back_img_path;
         }
 
-        if ($request->aadhar_no_front_img || $request->aadhar_no_back_img) {
+
+        if ($request->aadhar_no_front_img) {
             $aadhar_no_front_img = $request->file('aadhar_no_front_img')->getClientOriginalName();
             $aadhar_no_front_img_path = $request->file('aadhar_no_front_img')->store('uploads');
+            $customer->aadhar_no_front_img = $aadhar_no_front_img_path;
+        }
+        if ($request->aadhar_no_back_img) {
             $aadhar_no_back_img = $request->file('aadhar_no_back_img')->getClientOriginalName();
             $aadhar_no_back_img_path = $request->file('aadhar_no_back_img')->store('uploads');
-            $customer->aadhar_no_front_img = $aadhar_no_front_img_path;
             $customer->aadhar_no_back_img = $aadhar_no_back_img_path;
         }
 
-        if ($request->gst_no_front_img || $request->gst_no_back_img || $request->gst_no_third_img) {
+
+        if ($request->gst_no_front_img) {
             $gst_no_front_img = $request->file('gst_no_front_img')->getClientOriginalName();
             $gst_no_front_img_path = $request->file('gst_no_front_img')->store('uploads');
+            $customer->gst_no_front_img = $gst_no_front_img_path;
+        }
+        if ($request->gst_no_back_img ) {
             $gst_no_back_img = $request->file('gst_no_back_img')->getClientOriginalName();
             $gst_no_back_img_path = $request->file('gst_no_back_img')->store('uploads');
+            $customer->gst_no_back_img = $gst_no_back_img_path;
+        }
+        if ($request->gst_no_third_img) {
             $gst_no_third_img = $request->file('gst_no_third_img')->getClientOriginalName();
             $gst_no_third_img_path = $request->file('gst_no_third_img')->store('uploads');
-            $customer->gst_no_front_img = $gst_no_front_img_path;
-            $customer->gst_no_back_img = $gst_no_back_img_path;
             $customer->gst_no_third_img = $gst_no_third_img_path;
         }
 

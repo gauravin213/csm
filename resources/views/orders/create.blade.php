@@ -57,8 +57,8 @@
             <label for="exampleInputEmail1">State</label>
             <select name="shipping_state" class="form-control" id="shipping_state">
               <option value="">select</option>
-              <option value="1">Mp/Bihar/Jaharkhand</option>  
-              <option value="2">Up/Uttarakhand/Chhatisgarh</option>        
+              <option value="1">UP/MP/Chhattisgarh</option>  
+              <option value="2">Bihar/Jharkhand</option>        
             </select>
           </div>
 

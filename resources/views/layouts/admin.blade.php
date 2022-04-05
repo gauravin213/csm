@@ -840,7 +840,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     jQuery('#aadhar_no').mask('0000 0000 0000');
     //jQuery('#gst_no').mask('0000000000');
 
-
+    //confirme befor deletion
     jQuery(document).on('click', '.delete_ev', function(e){
       e.preventDefault();
       var target = jQuery(this);
@@ -850,6 +850,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
       } else {
       }
     });
+
+
+
+    //export btn
+    jQuery(document).on('click', '#csm_export_btn', function(e){
+      e.preventDefault();
+      var target = jQuery(this);
+      jQuery('#csm_export_form').submit();
+    });
+    
 
   });
 

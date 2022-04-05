@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
-<script>
+<!-- <script>
    function exportTasks(_this) {
       let _url = $(_this).data('href');
       window.location.href = _url;
    }
-</script>
+</script> -->
 <!-- Content Header (Page header) -->
 <div class="content-header">
   <div class="container-fluid">
@@ -16,14 +16,26 @@
     </div>
     @endif
 
+
+    <!---->
+    <form id="csm_export_form" action="{{url('/orders/exportcsv')}}" method="GET">
+      <input type="hidden" name="payment_status" value="{{(isset($_GET['payment_status'])) ? $_GET['payment_status'] : ''}}"> 
+      <input type="hidden" name="customer_id" value="{{(isset($_GET['customer_id'])) ? $_GET['customer_id'] : ''}}"> 
+      <input type="hidden" name="placed_by" value="{{(isset($_GET['placed_by'])) ? $_GET['placed_by'] : ''}}"> 
+      <input type="hidden" name="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+      <input type="hidden" name="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+    </form>
+    <!---->
+
     <form action="" method="GET">
       <!---->
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Filter &nbsp; &nbsp; &nbsp;</h3> 
            <div>
-            <button type="button" data-href="/csm/orders/exportcsv" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export
-            </button>
+            <!-- <button type="button" data-href="/csm/orders/exportcsv" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export
+            </button> -->
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
           </div>
         </div>
         <div class="card-body">

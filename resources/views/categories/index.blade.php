@@ -39,8 +39,9 @@
             <td>{{$category->name}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('categories.edit',$category->id) }}"><i class="fas fa-edit"></i></a>
-              {!! Form::open(['method' => 'DELETE','route' => ['categories.destroy', $category->id],'style'=>'display:inline']) !!}
-                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+              {!! Form::open(['class' => 'mydeleteform_'.$category->id,'method' => 'DELETE','route' => ['categories.destroy', $category->id],'style'=>'display:inline']) !!}
+                <!-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> -->
+                <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$category->id}}"><i class="fas fa-trash-alt"></i></button>
               {{ Form::close() }}
             </td>
           </tr>

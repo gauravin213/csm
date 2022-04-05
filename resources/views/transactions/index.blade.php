@@ -22,6 +22,14 @@
     </div>
     @endif
 
+     <!---->
+    <form id="csm_export_form" action="{{url('/transactions/exportcsv')}}" method="GET">
+      <input type="hidden" name="customer_id" value="{{(isset($_GET['customer_id'])) ? $_GET['customer_id'] : ''}}"> 
+      <input type="hidden" name="placed_by" value="{{(isset($_GET['placed_by'])) ? $_GET['placed_by'] : ''}}"> 
+      <input type="hidden" name="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+      <input type="hidden" name="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+    </form>
+    <!---->
 
      <form action="" method="GET">
       <!---->
@@ -29,8 +37,7 @@
         <div class="card-header">
           <h3 class="card-title">Filter&nbsp; &nbsp; &nbsp;</h3> 
           <div>
-            <button type="button" data-href="/csm/transactions/exportcsv" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export
-            </button>
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
           </div>
         </div>
         <div class="card-body">
@@ -130,8 +137,9 @@
             <td>{{$transaction->created_at}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}"><i class="fas fa-edit"></i></a>  
-              {!! Form::open(['method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
-              <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+              {!! Form::open(['class' => 'mydeleteform_'.$transaction->id, 'method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
+              <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$transaction->id}}"><i class="fas fa-trash-alt"></i></button>
                {{ Form::close() }}
 
             </td>

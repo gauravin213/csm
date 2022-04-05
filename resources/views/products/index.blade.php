@@ -49,8 +49,9 @@
             </td>
             <td>
               <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}"><i class="fas fa-edit"></i></a> 
-              {!! Form::open(['method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!} 
-               <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+              {!! Form::open(['class' => 'mydeleteform_'.$product->id, 'method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!} 
+               <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$product->id}}"><i class="fas fa-trash-alt"></i></button>
                {{ Form::close() }}
             </td>
           </tr>

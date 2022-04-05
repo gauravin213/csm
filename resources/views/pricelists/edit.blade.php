@@ -48,8 +48,8 @@
             <label for="exampleInputEmail1">State</label>
             <select name="state" class="form-control" id="state">
               <option value="" {{$pricelist->state == ''  ? 'selected' : ''}}>select</option>
-              <option value="1" {{$pricelist->state == '1'  ? 'selected' : ''}}>Mp/Bihar/Jaharkhand</option>  
-              <option value="2" {{$pricelist->state == '2'  ? 'selected' : ''}}>Up/Uttarakhand/Chhatisgarh</option>        
+              <option value="1" {{$pricelist->state == '1'  ? 'selected' : ''}}>UP/MP/Chhattisgarh</option>  
+              <option value="2" {{$pricelist->state == '2'  ? 'selected' : ''}}>Bihar/Jharkhand</option>        
             </select>
           </div>
 
