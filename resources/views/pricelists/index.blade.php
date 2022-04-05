@@ -66,6 +66,7 @@
           <tr>
             <th>Product Name</th>
             <th>Price Date</th>
+            <th>State</th>
             <th>Price</th>
             <th colspan="2">Action</th>
           </tr>
@@ -76,6 +77,15 @@
           <tr>
             <td>{{App\Http\Controllers\OrderController::get_product_name($pricelist->product_id)}}</td>
             <td>{{$pricelist->price_date}}</td>
+             <td>
+                @if($pricelist->state == 1)
+                <span>UP/MP/Chhattisgarh</span>
+                @elseif($pricelist->state == 2)
+                <span>Bihar/Jharkhand</span>
+                @else
+                <span>N/A</span>
+                @endif
+             </td>
             <td>{{$pricelist->price}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('pricelists.edit',$pricelist->id) }}"><i class="fas fa-edit"></i></a>

@@ -43,9 +43,9 @@ class PricelistController extends Controller
 
         if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
             $from_date = $_GET['from_date'];
-            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->paginate(10);
+            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->get();
         }else{
-            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+            $pricelists = Pricelist::orderBy('id', 'DESC')->get();
         }
 
         /*foreach ($pricelists as $pricelist) {

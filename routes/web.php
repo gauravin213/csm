@@ -85,4 +85,17 @@ composer require laravelcollective/html
 custom paginatation template
 https://www.codecheef.org/article/laravel-7-custom-pagination-example-tutorial
 {!! $customers->links() !!}
+
+
+
+https://www.jhanley.com/laravel-redirecting-http-to-https/
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://yourdomain.com
+
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
+php artisan make:middleware HttpRedirect
 */
