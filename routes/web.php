@@ -36,6 +36,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 
 	//Show
 	Route::get('/orders/{id}/show', [App\Http\Controllers\OrderController::class, 'show']);
+	Route::get('/customers/{id}/show', [App\Http\Controllers\CustomerController::class, 'show']);
 
 	
 });
@@ -44,6 +45,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 Route::get('/orders/exportcsv', [App\Http\Controllers\OrderController::class, 'exportcsv']);
 Route::get('/transactions/exportcsv', [App\Http\Controllers\TransactionController::class, 'exportcsv']);
 Route::get('/pricelists/exportcsv', [App\Http\Controllers\PricelistController::class, 'exportcsv']);
+Route::get('/customers/exportcsv', [App\Http\Controllers\CustomerController::class, 'exportcsv']);
 
 //Ajax
 Route::post('/orders/additem', [App\Http\Controllers\OrderController::class, 'additem']);

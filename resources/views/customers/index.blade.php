@@ -9,6 +9,38 @@
       {{ $message }}
     </div>
     @endif
+
+    <!---->
+    <form id="csm_export_form" action="{{url('/customers/exportcsv')}}" method="GET">
+      <input type="hidden" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
+    </form>
+    <!---->
+
+    <form action="" method="GET">
+      <!---->
+      <div class="card">
+        <div class="card-header">
+         <!--  <h3 class="card-title">Filter&nbsp; &nbsp; &nbsp;</h3>  -->
+          <div>
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row" style="margin-top: 5px;">
+            <div class="col-4">
+              <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
+            </div>
+            <div class="col-4">
+              <button class="btn btn-default">Search</button>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!---->
+    </form>
+
+
     <div class="row mb-2">
       <div class="col-sm-6">
         <h1 class="m-0"><a href="{{ url('admin/customers/create') }}" class="btn btn-primary">Add Customers</a></h1>
@@ -47,6 +79,8 @@
               <!-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> -->
               <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$customer->id}}"><i class="fas fa-trash-alt"></i></button>
                {{ Form::close() }}
+
+               <a class="btn btn-success" href="{{ route('customers.show',$customer->id) }}"><i class="fas fa-eye"></i></a>
             </td>
           </tr>
           @endforeach

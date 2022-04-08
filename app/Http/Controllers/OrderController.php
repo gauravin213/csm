@@ -49,7 +49,7 @@ class OrderController extends Controller
         $args_filter = [];
         if (count($_GET)!=0) {
             foreach ($_GET as $key => $value) {
-                if ( !in_array($key, ['page', 'from_date', 'to_date']) ) {
+                if ( !in_array($key, ['page']) ) {
                     if ($value!='') {
                         $args_filter[$key] = $value;
                     }
@@ -60,14 +60,41 @@ class OrderController extends Controller
             }
         }
 
+        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+
         if (count($args_filter)!=0) {
-            if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') && (isset($_GET['to_date']) && $_GET['to_date'] !='') ) {
-                $from_date = date("Y-m-d", strtotime($_GET['from_date']));
-                $to_date = date("Y-m-d", strtotime($_GET['to_date']));
-                $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+
+            unset($args_filter['from_date']);
+            unset($args_filter['to_date']);
+
+            if ( isset($_GET['from_date']) && isset($_GET['to_date']) ) {
+                $from_date = ($_GET['from_date']!='') ? date("Y-m-d", strtotime($_GET['from_date'])) : '';
+                $to_date = ($_GET['to_date']!='')? date("Y-m-d", strtotime($_GET['to_date'])): '';
+
+                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+                /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+                echo "from_date: ".$from_date; echo "<br>";
+                echo "to_date: ".$to_date; echo "<br>";*/
+
+                if ($from_date != '' && $to_date == '') { //echo "string1";
+                	$orders = Order::where($args_filter)->where('created_at', 'LIKE', '%'.$from_date.'%')->orderBy('id', 'DESC')->paginate(10);
+                }else{ //echo "string2";
+
+                    if ($from_date !='' && $to_date!='') {
+                       $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+                    }else{
+                       $orders = Order::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+                    }
+
+                }
+
+                $args_filter['from_date'] = $_GET['from_date'];
+                $args_filter['to_date'] = $_GET['to_date'];
+
             }else{
                 $orders = Order::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
             }
+
         }else{
             if ($user_type == 'administrator') {
                 $orders = Order::orderBy('id', 'DESC')->paginate(10);
@@ -104,7 +131,7 @@ class OrderController extends Controller
         $args_filter = [];
         if (count($data)!=0) {
             foreach ($data as $key => $value) {
-                if ( !in_array($key, ['page', 'from_date', 'to_date']) ) {
+                if ( !in_array($key, ['page']) ) {
                     if ($value!='') {
                         $args_filter[$key] = $value;
                     }
@@ -115,10 +142,31 @@ class OrderController extends Controller
 
 
         if (count($args_filter)!=0) {
-            if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') && (isset($_GET['to_date']) && $_GET['to_date'] !='') ) { 
-                $from_date = date("Y-m-d", strtotime($_GET['from_date']));
-                $to_date = date("Y-m-d", strtotime($_GET['to_date']));
-                $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
+        	unset($args_filter['from_date']);
+            unset($args_filter['to_date']);
+
+            if ( isset($_GET['from_date']) && isset($_GET['to_date']) ) {
+                $from_date = ($_GET['from_date']!='') ? date("Y-m-d", strtotime($_GET['from_date'])) : '';
+                $to_date = ($_GET['to_date']!='')? date("Y-m-d", strtotime($_GET['to_date'])): '';
+                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
+
+                /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+                echo "from_date: ".$from_date; echo "<br>";
+                echo "to_date: ".$to_date; echo "<br>";*/
+
+                if ($from_date != '' && $to_date == '') {
+                	$orders = Order::where($args_filter)->where('created_at', 'LIKE', '%'.$from_date.'%')->orderBy('id', 'DESC')->get();
+                }else{
+
+                    if ($from_date !='' && $to_date!='') {
+                       $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
+                    }else{
+                       $orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
+                    }
+
+                }
+
+
             }else{ 
                 $orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
             }
@@ -126,7 +174,7 @@ class OrderController extends Controller
             $orders = Order::all();
         }
 
-       /* foreach ($orders as $order) {
+        /*foreach ($orders as $order) {
             echo "-->".$order->id; echo "<br>";       
         }
         die;*/

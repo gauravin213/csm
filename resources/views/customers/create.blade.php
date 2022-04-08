@@ -116,11 +116,28 @@
             <input type="file" name="gst_no_third_img" class="form-control preview_img" id="gst_no_third_img" accept="image/*">
             <img id="pan_no_img" style="width: 20%;" />
           </div>
-          
+
+
+          @if($user_type == 'administrator')
+            <div class="form-group">
+              <label for="exampleInputEmail1">Sales Person</label>
+              <select name="sales_persone_id" class="form-control" id="sales_persone_id">
+                <option value="">select</option>
+                @foreach($salesmans as $salesman)
+                  <option value="{{$salesman->id}}">{{$salesman->name}}</option>
+                @endforeach
+              </select>
+            </div>
+          @else
           <div class="form-group" style="display: none;">
             <label for="exampleInputEmail1">Sales Person</label>
             <input type="text" name="sales_persone_id" class="form-control" id="sales_persone_id" value="{{$user_id}}">
           </div>
+          @endif
+          
+         
+
+
         </div>
         <!-- /.card-body -->
 

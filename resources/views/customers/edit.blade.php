@@ -132,10 +132,26 @@
             @endif
           </div>
 
+        
+          @if($user_type == 'administrator')
+            <div class="form-group">
+              <label for="exampleInputEmail1">Sales Person</label>
+              <select name="sales_persone_id" class="form-control" id="sales_persone_id">
+                <option value="">select</option>
+                @foreach($salesmans as $salesman)
+                  <option value="{{$salesman->id}}"  {{($salesman->id == $customer->sales_persone_id) ? 'selected' : ''}}>{{$salesman->name}}</option>
+                @endforeach
+              </select>
+            </div>
+          @else
           <div class="form-group" style="display: none;">
             <label for="exampleInputEmail1">Sales Persones</label>
             <input type="text" name="sales_persone_id" class="form-control" id="sales_persone_id" value="{{$user_id}}" value="{{$customer->sales_persone_id}}">
           </div>
+          @endif
+
+
+
         </div>
         <!-- /.card-body -->
 

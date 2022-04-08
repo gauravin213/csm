@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
-<script>
+<!-- <script>
    function exportTasks(_this) {
       let _url = $(_this).data('href');
       window.location.href = _url;
    }
-</script>
+</script> -->
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -61,7 +61,7 @@
             <div class="col-4">
              <button class="btn btn-default">Filter</button>
              @if(count($args_filter)!=0)
-              <a href="{{url('/admin/transactions')}}" class="btn btn-default">Remove Filter</a>
+              <a href="{{url('/admin/transactions')}}" class="btn btn-danger">Remove Filter</a>
              @endif
             </div>
           </div>

@@ -68,7 +68,7 @@
             <div class="col-3">
              <button class="btn btn-default">Filter</button>
              @if(count($args_filter)!=0)
-              <a href="{{url('/admin/orders')}}" class="btn btn-default">Remove Filter</a>
+              <a href="{{url('/admin/orders')}}" class="btn btn-danger">Remove Filter</a>
              @endif
             </div>
           </div>

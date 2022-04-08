@@ -36,7 +36,7 @@
             <div class="col-3">
              <button class="btn btn-default">Filter</button>
               @if(isset($_GET['from_date']))
-              <a href="{{url('/admin/pricelists')}}" class="btn btn-default">Remove Filter</a>
+              <a href="{{url('/admin/pricelists')}}" class="btn btn-danger">Remove Filter</a>
              @endif
             </div>
           </div>
