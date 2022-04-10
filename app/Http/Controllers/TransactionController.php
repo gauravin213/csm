@@ -51,29 +51,15 @@ class TransactionController extends Controller
             unset($args_filter['from_date']);
             unset($args_filter['to_date']);
              //$orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
-            if ( isset($_GET['from_date']) && isset($_GET['to_date']) ) {
-                $from_date = ($_GET['from_date']!='') ? date("Y-m-d", strtotime($_GET['from_date'])) : '';
-                $to_date = ($_GET['to_date']!='')? date("Y-m-d", strtotime($_GET['to_date'])): '';
+             if ( (isset($_GET['from_date']) && !empty($_GET['from_date'])) && isset($_GET['to_date']) ) {  
+                $from_date = ($_GET['from_date']!='') ? date("Y-m-d 00:00:00", strtotime($_GET['from_date'])) : '';
+                $to_date = ($_GET['to_date']!='')? date("Y-m-d 23:59:59", strtotime($_GET['to_date'])): date("Y-m-d 23:59:59", strtotime($_GET['from_date']));
 
-                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
-
-                /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+               /* echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
                 echo "from_date: ".$from_date; echo "<br>";
                 echo "to_date: ".$to_date; echo "<br>";*/
 
-                if ($from_date != '' && $to_date == '') { //echo "string1";
-                    $transactions = Transaction::where($args_filter)->where('created_at', 'LIKE', '%'.$from_date.'%')->orderBy('id', 'DESC')->paginate(10);
-                }else{ //echo "string2";
-                    
-                    if ($from_date != '' && $to_date != '') { 
-
-                        $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
-                   
-                    }else{ 
-                        $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->orderBy('id', 'DESC')->paginate(10);
-                    }
-
-                }
+                $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
 
                 $args_filter['from_date'] = $_GET['from_date'];
                 $args_filter['to_date'] = $_GET['to_date'];
@@ -140,32 +126,23 @@ class TransactionController extends Controller
        if (count($args_filter)!=0) {
             unset($args_filter['from_date']);
             unset($args_filter['to_date']);
-            if ( isset($_GET['from_date']) && isset($_GET['to_date']) ) {
-                $from_date = ($_GET['from_date']!='') ? date("Y-m-d", strtotime($_GET['from_date'])) : '';
-                $to_date = ($_GET['to_date']!='')? date("Y-m-d", strtotime($_GET['to_date'])): '';
+             if ( (isset($_GET['from_date']) && !empty($_GET['from_date'])) && isset($_GET['to_date']) ) {  
+                 $from_date = ($_GET['from_date']!='') ? date("Y-m-d 00:00:00", strtotime($_GET['from_date'])) : '';
+                $to_date = ($_GET['to_date']!='')? date("Y-m-d 23:59:59", strtotime($_GET['to_date'])): date("Y-m-d 23:59:59", strtotime($_GET['from_date']));
+
+                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
 
                 /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
                 echo "from_date: ".$from_date; echo "<br>";
                 echo "to_date: ".$to_date; echo "<br>";*/
 
-                if ($from_date != '' && $to_date == '') { //echo "string1";
-                    $transactions = Transaction::where($args_filter)->where('created_at', 'LIKE', '%'.$from_date.'%')->orderBy('id', 'DESC')->get();
-                }else{ //echo "string2";
-                    
-                    if ($from_date != '' && $to_date != '') { 
-                      $transactions = Transaction::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
-                   
-                    }else{ 
-                        $transactions = Transaction::where($args_filter)->orderBy('id', 'DESC')->get();
-                    }
-
-                }
+                $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
 
             }else{ 
-                $transactions = Transaction::where($args_filter)->orderBy('id', 'DESC')->get();
+                $transactions = Transaction::with(['order', 'customer', 'user'])->where($args_filter)->orderBy('id', 'DESC')->get();
             }
         }else{
-            $transactions = Transaction::all();
+            $transactions = Transaction::with(['order', 'customer', 'user'])->get();
         }
 
         /*foreach ($transactions as $transaction) {
@@ -197,8 +174,9 @@ class TransactionController extends Controller
         //adding the first row
         fputcsv($handle, [
             "ID",
-            "order_id",
+            "Order Id",
             "Customer Id",
+            "Placed By",
             "Paid Amount",
             "Ballance Amount",
             "Mode of Payment",
@@ -208,15 +186,21 @@ class TransactionController extends Controller
 
         //adding the data from the array
         foreach ($transactions as $transaction) {
+
+            $placed_by = (is_object($transaction->user)) ? $transaction->user->name : 'N/A';
+            $customer_id = (is_object($transaction->customer)) ? $transaction->customer->name : 'N/A';
+            $upload_receipt = (!empty($transaction->upload_receipt)) ? url($transaction->upload_receipt) : 'N/A';
+
             fputcsv($handle, [
                 $transaction->id,
                 $transaction->order_id,
-                $transaction->customer_id,
+                $customer_id,
+                $placed_by,
                 $transaction->paid_amount,
                 $transaction->ballance_amount,
                 $transaction->mode_of_payment,
                 $transaction->remark,
-                $transaction->upload_receipt,
+                $upload_receipt,
             ]);
 
         }

@@ -29,6 +29,10 @@
         <div class="card-body">
 
           <div class="form-group">
+            <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a>
+         </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Product</label>
             <div>
               <select name="product_id" class="form-control" id="product_id2">

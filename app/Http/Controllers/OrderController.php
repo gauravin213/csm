@@ -60,38 +60,28 @@ class OrderController extends Controller
             }
         }
 
-        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+       // echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
 
         if (count($args_filter)!=0) {
 
             unset($args_filter['from_date']);
             unset($args_filter['to_date']);
 
-            if ( isset($_GET['from_date']) && isset($_GET['to_date']) ) {
-                $from_date = ($_GET['from_date']!='') ? date("Y-m-d", strtotime($_GET['from_date'])) : '';
-                $to_date = ($_GET['to_date']!='')? date("Y-m-d", strtotime($_GET['to_date'])): '';
+            if ( (isset($_GET['from_date']) && !empty($_GET['from_date'])) && isset($_GET['to_date']) ) {  
 
-                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+                $from_date = ($_GET['from_date']!='') ? date("Y-m-d 00:00:00", strtotime($_GET['from_date'])) : '';
+                $to_date = ($_GET['to_date']!='')? date("Y-m-d 23:59:59", strtotime($_GET['to_date'])): date("Y-m-d 23:59:59", strtotime($_GET['from_date']));
+
                 /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
                 echo "from_date: ".$from_date; echo "<br>";
                 echo "to_date: ".$to_date; echo "<br>";*/
 
-                if ($from_date != '' && $to_date == '') { //echo "string1";
-                	$orders = Order::where($args_filter)->where('created_at', 'LIKE', '%'.$from_date.'%')->orderBy('id', 'DESC')->paginate(10);
-                }else{ //echo "string2";
-
-                    if ($from_date !='' && $to_date!='') {
-                       $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
-                    }else{
-                       $orders = Order::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
-                    }
-
-                }
+                $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
 
                 $args_filter['from_date'] = $_GET['from_date'];
                 $args_filter['to_date'] = $_GET['to_date'];
 
-            }else{
+            }else{ 
                 $orders = Order::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
             }
 
@@ -142,40 +132,30 @@ class OrderController extends Controller
 
 
         if (count($args_filter)!=0) {
-        	unset($args_filter['from_date']);
+            unset($args_filter['from_date']);
             unset($args_filter['to_date']);
 
-            if ( isset($_GET['from_date']) && isset($_GET['to_date']) ) {
-                $from_date = ($_GET['from_date']!='') ? date("Y-m-d", strtotime($_GET['from_date'])) : '';
-                $to_date = ($_GET['to_date']!='')? date("Y-m-d", strtotime($_GET['to_date'])): '';
-                //$orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
-
+             if ( (isset($_GET['from_date']) && !empty($_GET['from_date'])) && isset($_GET['to_date']) ) {  
+                $from_date = ($_GET['from_date']!='') ? date("Y-m-d 00:00:00", strtotime($_GET['from_date'])) : '';
+                $to_date = ($_GET['to_date']!='')? date("Y-m-d 23:59:59", strtotime($_GET['to_date'])): date("Y-m-d 23:59:59", strtotime($_GET['from_date']));
+                
                 /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
                 echo "from_date: ".$from_date; echo "<br>";
                 echo "to_date: ".$to_date; echo "<br>";*/
 
-                if ($from_date != '' && $to_date == '') {
-                	$orders = Order::where($args_filter)->where('created_at', 'LIKE', '%'.$from_date.'%')->orderBy('id', 'DESC')->get();
-                }else{
-
-                    if ($from_date !='' && $to_date!='') {
-                       $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
-                    }else{
-                       $orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
-                    }
-
-                }
-
+                $orders = Order::with(['user', 'customer', 'items'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->get();
 
             }else{ 
-                $orders = Order::where($args_filter)->orderBy('id', 'DESC')->get();
+                $orders = Order::with(['user', 'customer', 'items'])->where($args_filter)->orderBy('id', 'DESC')->get();
             }
         }else{
-            $orders = Order::all();
+            $orders = Order::with(['user', 'customer', 'items'])->get();
         }
 
         /*foreach ($orders as $order) {
-            echo "-->".$order->id; echo "<br>";       
+            foreach ($order->items as $item) {
+                echo "-->".$order->id.' - '.$item->name; echo "<br>";  
+            }
         }
         die;*/
 
@@ -201,7 +181,7 @@ class OrderController extends Controller
         $handle = fopen($filename, 'w');
 
         //adding the first row
-        fputcsv($handle, [
+       /* fputcsv($handle, [
             "ID",
             "Payment Status",
             "Placed By",
@@ -215,15 +195,19 @@ class OrderController extends Controller
             "Total",
             "Balance Amount",
             "Date"
-        ]);
+        ]);*/
 
         //adding the data from the array
-        foreach ($orders as $order) {
+        /*foreach ($orders as $order) {
+
+            $placed_by = (is_object($order->user)) ? $order->user->name : 'N/A';
+            $customer_id = (is_object($order->customer)) ? $order->customer->name : 'N/A';
+
             fputcsv($handle, [
                 $order->id,
                 $order->payment_status,
-                $order->placed_by,
-                $order->customer_id,
+                $placed_by,
+                $customer_id,
                 $order->subtotal,
                 $order->discount,
                 $order->discount_price,
@@ -235,7 +219,71 @@ class OrderController extends Controller
                 $order->created_at
             ]);
 
+        }*/
+
+
+        fputcsv($handle, [
+            "ID",
+            "Payment Status",
+            "Placed By",
+            "Customer Id",
+            "Subtotal",
+            "Discount",
+            "Discount_price",
+            "Shipping",
+            "Shipping Address",
+            "Shipping State",
+            "Total",
+            "Balance Amount",
+            "Date",
+
+            "Item ID",
+            "Item Name",
+            "Item Price",
+            "Item Discount",
+            "Item Discount Price",
+            "Item Quantity",
+            "Item Line Subtotal",
+
+        ]);
+
+
+        foreach ($orders as $order) {
+
+            $placed_by = (is_object($order->user)) ? $order->user->name : 'N/A';
+            $customer_id = (is_object($order->customer)) ? $order->customer->name : 'N/A';
+
+            foreach ($order->items as $item) {
+
+                fputcsv($handle, [
+                    $order->id,
+                    $order->payment_status,
+                    $placed_by,
+                    $customer_id,
+                    $order->subtotal,
+                    $order->discount,
+                    $order->discount_price,
+                    $order->shipping,
+                    $order->shipping_address,
+                    $order->shipping_state,
+                    $order->total,
+                    $order->balance_amount,
+                    $order->created_at,
+
+                    $item->product_id,
+                    $item->name,
+                    $item->price,
+                    $item->item_discount,
+                    $item->item_discount_price,
+                    $item->qty,
+                    $item->line_subtotal,
+
+                ]);
+            }
+
         }
+
+
         fclose($handle);
 
         //download command
@@ -260,9 +308,9 @@ class OrderController extends Controller
             'iten_data' => 'required'
         ]);
 
-    	$data = $request->all();
-    	$iten_data = $request->iten_data;
-    	$res = $this->calculate_totals($data);
+        $data = $request->all();
+        $iten_data = $request->iten_data;
+        $res = $this->calculate_totals($data);
        /* echo "<pre>"; print_r($data); echo "</pre>";  
         echo "<pre>"; print_r($res); echo "</pre>";  
         die;*/
@@ -337,7 +385,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Order $order)
-    {	
+    {   
         /*$request->validate([
             'payment_status' => 'required',
             'placed_by' => 'required',
@@ -345,10 +393,10 @@ class OrderController extends Controller
             'iten_data' => 'required'
         ]);*/
 
-    	$data = $request->all();
-    	$iten_data = $request->iten_data;
+        $data = $request->all();
+        $iten_data = $request->iten_data;
         $res = $this->calculate_totals($data);
-    	//echo "<pre>all: "; print_r($data); echo "</pre>";
+        //echo "<pre>all: "; print_r($data); echo "</pre>";
         //echo "<pre>Res: "; print_r($res); echo "</pre>";
         //die;
 
@@ -426,9 +474,9 @@ class OrderController extends Controller
         $subtotal = 0;
         $total = 0;
         foreach ($products as $key => $product) {
-        	$price = $product->price;
-        	$qty = $product_qty[$product->id];
-        	$line_subtotal = $price * $qty;
+            $price = $product->price;
+            $qty = $product_qty[$product->id];
+            $line_subtotal = $price * $qty;
             $main_arr['iten_data'][] = [
                 'id'    => $key,
                 'product_id'  => $product->id,

@@ -25,6 +25,7 @@ class CustomerController extends Controller
         if ($user_type == 'administrator') {
             if ( isset($_GET['s']) && $_GET['s'] !='') {
                 $customers = Customer::query()
+                ->with('user')
                 ->where('name', 'LIKE', '%'.$_GET['s'].'%')
                 ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
                 ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
@@ -37,10 +38,28 @@ class CustomerController extends Controller
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
             }else{
-                $customers = Customer::orderBy('id', 'DESC')->paginate(10);
+                $customers = Customer::with('user')->orderBy('id', 'DESC')->paginate(10);
             }
         }else{
-            $customers = Customer::where('sales_persone_id', $user_id)->orderBy('id', 'DESC')->paginate(10);
+             if ( isset($_GET['s']) && $_GET['s'] !='') {
+                $customers = Customer::query()
+                ->with('user')
+                ->where('sales_persone_id', $user_id)
+                ->orWhere('name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+            }else{
+                $customers = Customer::with('user')->where('sales_persone_id', $user_id)->orderBy('id', 'DESC')->paginate(10);
+            }
+            
         }
 
         return view('customers.index', compact('customers'));
@@ -57,6 +76,7 @@ class CustomerController extends Controller
         if ($user_type == 'administrator') {
             if ( isset($_GET['s']) && $_GET['s'] !='') {
                 $customers = Customer::query()
+                ->with('user')
                 ->where('name', 'LIKE', '%'.$_GET['s'].'%')
                 ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
                 ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
@@ -69,10 +89,27 @@ class CustomerController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get();
             }else{
-                $customers = Customer::orderBy('id', 'DESC')->get();
+                $customers = Customer::with('user')->orderBy('id', 'DESC')->get();
             }
         }else{
-            $customers = Customer::where('sales_persone_id', $user_id)->orderBy('id', 'DESC')->get();
+            if ( isset($_GET['s']) && $_GET['s'] !='') {
+                $customers = Customer::query()
+                ->with('user')
+                ->where('sales_persone_id', $user_id)
+                ->orWhere('name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orderBy('id', 'DESC')
+                ->get();
+            }else{
+                $customers = Customer::with('user')->where('sales_persone_id', $user_id)->orderBy('id', 'DESC')->get();
+            }
         }
 
         // these are the headers for the csv file.
@@ -119,6 +156,9 @@ class CustomerController extends Controller
 
         //adding the data from the array
         foreach ($customers as $customer) {
+
+            $sales_persone_id = (is_object($customer->user)) ? $customer->user->name : 'N/A';
+
             fputcsv($handle, [
                 $customer->id,
                 $customer->name,
@@ -138,7 +178,7 @@ class CustomerController extends Controller
                 $customer->gst_no_front_img,
                 $customer->gst_no_back_img,
                 $customer->gst_no_third_img,
-                $customer->sales_persone_id
+                $sales_persone_id
             ]);
 
         }

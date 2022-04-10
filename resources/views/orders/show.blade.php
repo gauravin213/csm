@@ -36,6 +36,9 @@ a.pre_item {
   nav.main-header.navbar.navbar-expand.navbar-white.navbar-light{
     display: none;
   }
+  a.btn.btn-primary.back-btn {
+      display: none;
+  }
   
 }
 </style>
@@ -53,11 +56,14 @@ a.pre_item {
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Order Info</h3>
-        
       </div>
       <div class="card-body">
         
       <div class="card-body table-responsive p-0">
+
+         <div class="form-group">
+            <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a>
+         </div>
 
         <div class="form-group pre_itemx">
           <a class="pre_item" href="javascript://" onclick="printDiv('printableArea')">Print</a>

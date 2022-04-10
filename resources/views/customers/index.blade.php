@@ -62,6 +62,7 @@
             <th>Name</th>
             <th>Mobile</th>
             <th>Email</th>
+            <th>Sales Man</th>
             <th colspan="2">Action</th>
           </tr>
         </thead>
@@ -73,6 +74,13 @@
             <td>{{$customer->name}}</td>
             <td>{{$customer->mobile}}</td>
             <td>{{$customer->email}}</td>
+            <td>
+              @if(is_object($customer->user))
+              {{$customer->user->name}}
+              @else
+              N/A
+              @endif
+            </td>
             <td>
               <a class="btn btn-primary" href="{{ route('customers.edit',$customer->id) }}"><i class="fas fa-edit"></i></a> 
               {!! Form::open(['class' => 'mydeleteform_'.$customer->id, 'method' => 'DELETE','route' => ['customers.destroy', $customer->id],'style'=>'display:inline']) !!}

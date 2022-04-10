@@ -15,6 +15,10 @@
         <table class="table table-hover text-nowrap">
           <tbody>
             <tr>
+              <td> <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a></td>
+              <td></td>
+            </tr>
+            <tr>
               <th>Client Name</th>
               <td>{{$customer->name}}</td>
             </tr>

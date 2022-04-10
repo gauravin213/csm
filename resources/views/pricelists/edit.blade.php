@@ -28,6 +28,12 @@
         {{ csrf_field() }}
         @method('PUT')
         <div class="card-body">
+
+          <div class="form-group">
+            <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a>
+         </div>
+
+         
           <div class="form-group">
             <label for="exampleInputEmail1">Product</label>
             <div>

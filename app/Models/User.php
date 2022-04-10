@@ -42,4 +42,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    //Mutator change the behaviour of field
+    /*public function setPasswordAttribute($password){
+        $this->attributes['password'] = bcrypt($password);
+    }*/
+
+    //Accessor modify the field data 
+    /*public function getNameAttribute($name){
+        return ucfirst($name);
+    }*/
 }

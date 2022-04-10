@@ -27,6 +27,12 @@
         <form action="{{ route('transactions.store') }}" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="card-body">
+
+          <div class="form-group">
+            <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a>
+         </div>
+
+         
           <div class="form-group">
             <label for="exampleInputEmail1">Order Id</label>
             <input type="text" name="order_id" class="form-control" id="order_id" placeholder="Enter order_id" value="{{(isset($_GET['order_id'])) ? $_GET['order_id'] : ''}}">

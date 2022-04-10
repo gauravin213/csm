@@ -1,6 +1,4 @@
-ID,order_id,"Customer Id","Paid Amount","Ballance Amount","Mode of Payment",Remark,"Uploaded Receipt"
-36,29,85,100,165.4,Cash,12/12/2022,uploads/BpMTH0vzw5ctsk4pi6WJ2fCEFDjQGN7f72rL5Fvc.png
-35,29,85,41000,265.4,Cheque,23/12/2022,uploads/vpkntoi1sznxsQXOXBsYAN3bqssRCI6k1lOerYU4.png
-34,29,85,300,41265.4,Cheque,dd,
-33,28,27,107200,80,,,
-32,28,27,12300,107280,,,
+ID,"Order Id","Customer Id","Placed By","Paid Amount","Ballance Amount","Mode of Payment",Remark,"Uploaded Receipt"
+36,29,Ravi2,Sales,100,165.4,Cash,12/12/2022,http://127.0.0.1/csm/uploads/BpMTH0vzw5ctsk4pi6WJ2fCEFDjQGN7f72rL5Fvc.png
+35,29,Ravi2,Sales,41000,265.4,Cheque,23/12/2022,http://127.0.0.1/csm/uploads/vpkntoi1sznxsQXOXBsYAN3bqssRCI6k1lOerYU4.png
+34,29,Ravi2,Sales,300,41265.4,Cheque,dd,N/A

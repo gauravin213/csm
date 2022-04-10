@@ -27,6 +27,11 @@
         <form id="csm_order_form" action="{{ route('orders.store') }}" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
         <div class="card-body">
+
+          <div class="form-group">
+            <a class="btn btn-primary" href="{{ URL::previous() }}">Go Back</a>
+           </div>
+           
           <div class="form-group">
             <label for="exampleInputEmail1">Payment Status</label>
             <select name="payment_status" class="form-control" id="payment_status">
