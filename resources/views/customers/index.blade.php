@@ -32,6 +32,9 @@
             </div>
             <div class="col-4">
               <button class="btn btn-default">Search</button>
+              @if(isset($_GET['s']) && $_GET['s'] !='')
+              <a href="{{url('/admin/customers')}}" class="btn btn-danger">Remove Filter</a>
+             @endif
             </div>
           </div>
         </div>
