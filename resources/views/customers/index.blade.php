@@ -85,11 +85,14 @@
               @endif
             </td>
             <td>
+              @can('isAdministrator')
               <a class="btn btn-primary" href="{{ route('customers.edit',$customer->id) }}"><i class="fas fa-edit"></i></a> 
+              @endcan
+
               {!! Form::open(['class' => 'mydeleteform_'.$customer->id, 'method' => 'DELETE','route' => ['customers.destroy', $customer->id],'style'=>'display:inline']) !!}
               <!-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> -->
               <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$customer->id}}"><i class="fas fa-trash-alt"></i></button>
-               {{ Form::close() }}
+              {{ Form::close() }}
 
                <a class="btn btn-success" href="{{ route('customers.show',$customer->id) }}"><i class="fas fa-eye"></i></a>
             </td>

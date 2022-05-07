@@ -33,7 +33,7 @@
          </div>
          
           <div class="form-group">
-            <label for="exampleInputEmail1">Client Name</label>
+            <label for="exampleInputEmail1">Customer Name</label>
             <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
           </div>
 
@@ -50,12 +50,12 @@
           @endif
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Billing Address</label>
+            <label for="exampleInputEmail1">Address Of Client</label>
             <input type="text" name="address" class="form-control" id="address" placeholder="Enter address">
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Mobile</label>
+            <label for="exampleInputEmail1">Mobile No.</label>
             <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Enter mobile">
           </div>
 
@@ -65,7 +65,7 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Profile Image</label>
+            <label for="exampleInputEmail1">Photo Of Client</label>
             <input type="file" name="profile_image" class="form-control preview_img" id="profile_image" accept="image/*">
            <img src="" id="pan_no_img" style="width: 20%;" />
           </div>
@@ -87,7 +87,7 @@
 
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Aadhar Card No</label>
+            <label for="exampleInputEmail1">Aadhar Card No.</label>
             <input type="text" name="aadhar_no" class="form-control" id="aadhar_no" placeholder="Enter aadhar no">
           </div>
           <div class="form-group">
@@ -103,16 +103,16 @@
 
 
           <div class="form-group">
-            <label for="exampleInputEmail1">GST No</label>
+            <label for="exampleInputEmail1">GST No.</label>
             <input type="text" name="gst_no" class="form-control" id="gst_no" placeholder="Enter gst no">
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">GST Front Image</label>
+            <label for="exampleInputEmail1">GST First Image</label>
             <input type="file" name="gst_no_front_img" class="form-control preview_img" id="gst_no_front_img" accept="image/*">
             <img id="pan_no_img" style="width: 20%;" />
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">GST Back Image</label>
+            <label for="exampleInputEmail1">GST Second Image</label>
             <input type="file" name="gst_no_back_img" class="form-control preview_img" id="gst_no_back_img" accept="image/*">
             <img id="pan_no_img" style="width: 20%;" />
           </div>

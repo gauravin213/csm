@@ -838,7 +838,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     //Aadhar and Pan validation
     jQuery('#pan_no').mask('AAAAA0000A');
     jQuery('#aadhar_no').mask('0000 0000 0000');
-    //jQuery('#gst_no').mask('0000000000');
+    jQuery('#gst_no').mask('000000000000000');
 
     //confirme befor deletion
     jQuery(document).on('click', '.delete_ev', function(e){

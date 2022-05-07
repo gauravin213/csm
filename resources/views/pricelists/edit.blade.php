@@ -35,7 +35,7 @@
 
          
           <div class="form-group">
-            <label for="exampleInputEmail1">Product</label>
+            <label for="exampleInputEmail1">Select Product</label>
             <div>
               <select name="product_id" class="form-control" id="product_id2">
               @foreach($products as $product)

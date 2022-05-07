@@ -34,7 +34,7 @@
 
          
           <div class="form-group">
-            <label for="exampleInputEmail1">Name</label>
+            <label for="exampleInputEmail1">Category Name</label>
             <input type="text" name="name" class="form-control" id="name" placeholder="Enter name">
           </div>
 

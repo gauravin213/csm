@@ -141,7 +141,17 @@
             <td>{{$order->discount}}</td>
             <td>{{$order->created_at}}</td>
             <td>
-              <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}"><i class="fas fa-edit"></i></a>  
+
+              @can('isAdministrator')
+              <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}"><i class="fas fa-edit"></i></a> 
+              @endcan
+
+              @can('isSalesMane')
+                @if($order->payment_status !='completed')
+                <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}"><i class="fas fa-edit"></i></a> 
+                @endif
+              @endcan
+               
 
               {!! Form::open(['class' => 'mydeleteform_'.$order->id, 'method' => 'DELETE','route' => ['orders.destroy', $order->id],'style'=>'display:inline']) !!}
               <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->

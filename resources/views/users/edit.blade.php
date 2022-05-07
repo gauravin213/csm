@@ -54,6 +54,7 @@
               <option value="">select</option>
               <option value="administrator" {{$user->user_type == 'administrator'  ? 'selected' : ''}}>Administrator</option>
               <option value="sales_mane" {{$user->user_type == 'sales_mane'  ? 'selected' : ''}}>Sales Man</option>
+              <option value="sales_manager" {{$user->user_type == 'sales_manager'  ? 'selected' : ''}}>Sales Manger</option>
             </select>
           </div>
 

@@ -106,8 +106,16 @@ class OrderController extends Controller
      */
     public function create()
     {   
-        $user_id = auth()->user()->id;
-        $customers = Customer::where('sales_persone_id', $user_id)->get();
+        $user = auth()->user();
+        $user_id = $user->id;
+        $user_type = $user->user_type;
+
+        if (in_array($user_type, ['administrator'])) {
+            $customers = Customer::all();
+        }else{
+            $customers = Customer::where('sales_persone_id', $user_id)->get();
+        }
+        
         $products = Product::all();
         return view('orders.create', ['customers' => $customers, 'products' => $products, 'user_id' => $user_id]);
     }
@@ -369,8 +377,17 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         $ord_arr = [];
-        $user_id = auth()->user()->id;
-        $customers = Customer::where('sales_persone_id', $user_id)->get();
+
+        $user = auth()->user();
+        $user_id = $user->id;
+        $user_type = $user->user_type;
+
+        if (in_array($user_type, ['administrator'])) {
+            $customers = Customer::all();
+        }else{
+            $customers = Customer::where('sales_persone_id', $user_id)->get();
+        }
+
         $products = Product::all();
         $order_items = Orderitem::where('order_id', $order->id)->get();
         return view('orders.edit', ['user_id' => $user_id, 'customers' => $customers, 'order' => $order, 'products' => $products, 'order_items' => $order_items]);

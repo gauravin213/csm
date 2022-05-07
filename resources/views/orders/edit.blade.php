@@ -60,7 +60,7 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Customer</label>
+            <label for="exampleInputEmail1">Customer Name  {{$order->customer_id}}</label>
             <select name="customer_id" class="form-control" id="customer_id">
               <option value="">select</option>
               @foreach($customers as $customer)

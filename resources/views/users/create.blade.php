@@ -54,6 +54,7 @@
               <option value="">select</option>
               <option value="administrator">Administrator</option>
               <option value="sales_mane">Sales Man</option>
+              <option value="sales_manager">Sales Manger</option>
             </select>
           </div>
 
