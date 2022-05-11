@@ -28,6 +28,7 @@ class CreateOrdersTable extends Migration
             $table->string('shipping_state')->nullable();
             $table->string('billing_address')->nullable();
             $table->string('billing_state')->nullable();
+            $table->string('remark')->nullable();
             $table->timestamps();
         });
     }

@@ -69,17 +69,23 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Shipping address</label>
-            <input type="text" name="shipping_address" class="form-control" id="shipping_address" placeholder="enter shipping address" value="">
+            <textarea  name="shipping_address" class="form-control" id="shipping_address" placeholder="enter shipping address"></textarea>
           </div>
 
           <div class="form-group">
             <label for="exampleInputEmail1">Price Date</label>
             <input type="text" name="price_date" class="form-control" id="price_date" autocomplete="off" value="">
           </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Remark</label>
+            <textarea name="remark" class="form-control" id="remark" placeholder="enter shipping address"></textarea>
+          </div>
           
           <div class="form-group">
             <div class="card-body">
-              <table class="table table-bordered">
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -127,6 +133,7 @@
                       <td><span id="total_label">0</span> <input type="hidden" name="total" id="total" value="0"></td>
                   </tr>
                 </tbody>
+              </div>
             </table>
             </div>
           </div>

@@ -332,7 +332,7 @@ class TransactionController extends Controller
 
         $transaction->order_id = $request->order_id;
         $transaction->customer_id = $request->customer_id; 
-        $transaction->placed_by = $request->placed_by;
+        //$transaction->placed_by = $request->placed_by;
         $transaction->paid_amount = $request->paid_amount;
         $transaction->ballance_amount = $request->ballance_amount;
         $transaction->mode_of_payment = $request->mode_of_payment;

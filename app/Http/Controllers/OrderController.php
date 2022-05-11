@@ -334,6 +334,7 @@ class OrderController extends Controller
         $order->shipping        = $res['shipping'];
         $order->shipping_state  = $res['shipping_state'];
         $order->shipping_address  = $res['shipping_address'];
+        $order->remark  = $res['remark'];
         $order->total           = $res['total'];
         $order->save();
 
@@ -434,7 +435,7 @@ class OrderController extends Controller
 
         //update order
         $order->payment_status  = $res['payment_status'];
-        $order->placed_by       = $res['placed_by'];
+        //$order->placed_by       = $res['placed_by'];
         $order->customer_id     = $res['customer_id'];
         $order->subtotal        = $res['subtotal'];
         $order->discount        = $res['discount'];
@@ -442,6 +443,7 @@ class OrderController extends Controller
         $order->shipping        = $res['shipping'];
         $order->shipping_state  = $res['shipping_state'];
         $order->shipping_address  = $res['shipping_address'];
+        $order->remark  = $res['remark'];
         $order->total           = $res['total'];
         $order->update();
 

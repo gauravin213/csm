@@ -60,7 +60,7 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Customer Name  {{$order->customer_id}}</label>
+            <label for="exampleInputEmail1">Customer Name</label>
             <select name="customer_id" class="form-control" id="customer_id">
               <option value="">select</option>
               @foreach($customers as $customer)
@@ -80,12 +80,17 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Shipping address</label>
-            <input type="text" name="shipping_address" class="form-control" id="shipping_address" placeholder="enter shipping address" value="{{$order->shipping_address}}">
+            <textarea  name="shipping_address" class="form-control" id="shipping_address" placeholder="enter shipping address">{{$order->shipping_address}}</textarea>
           </div>
 
           <div class="form-group">
             <label for="exampleInputEmail1">Price Date</label>
             <input type="text" name="price_date" class="form-control" id="price_date" autocomplete="off" value="">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Remark</label>
+            <textarea name="remark" class="form-control" id="remark" placeholder="enter shipping address">{{$order->remark}}</textarea>
           </div>
 
           <div class="form-group">

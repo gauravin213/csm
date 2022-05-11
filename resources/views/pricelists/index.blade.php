@@ -60,8 +60,8 @@
 <div class="content">
   <div class="card">
     <!-- /.card-header -->
-    <div class="card-body p-0">
-      <table class="table" id="sample-table">
+    <div class="card-body table-responsive p-0">
+  <table class="table table-hover text-nowrap">
         <thead>
           <tr>
             <th>Product Name</th>
