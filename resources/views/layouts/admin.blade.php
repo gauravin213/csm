@@ -317,6 +317,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           @endcan
 
+           @guest
+            @if (Route::has('login'))
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ route('login') }}"><i class="nav-icon fas fa-sign-out-alt"></i>Login</a>
+                </li>
+            @endif
+            
+            @else
+                <li class="nav-item">
+                  <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>
+                       {{ __('Logout') }}
+                    </p>
+                  </a>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                      @csrf
+                  </form>
+                </li>
+            @endguest
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -836,9 +858,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
     //Aadhar and Pan validation
-    jQuery('#pan_no').mask('AAAAA0000A');
-    jQuery('#aadhar_no').mask('0000 0000 0000');
-    jQuery('#gst_no').mask('000000000000000');
+    jQuery('#pan_no').mask('SSSSS0000S'); //AAAAA0000A
+    jQuery('#aadhar_no').mask('0000 0000 0000'); 
+    jQuery('#gst_no').mask('00SSSSS0000S0S0'); // 000000000000000
 
     //confirme befor deletion
     jQuery(document).on('click', '.delete_ev', function(e){
