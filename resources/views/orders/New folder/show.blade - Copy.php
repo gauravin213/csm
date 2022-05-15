@@ -1,54 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-
-
-<style type="text/css">
-a.pre_item {
-    float: right;
-}
-
-@media screen {
-  
-}
-@media print {
-
-  @page{ 
-      size: auto; /* auto is the initial value */ 
-      /* this affects the margin in the printer settings */ 
-      margin: 15mm 15mm 15mm 15mm;  /*top left bottom right*/
-  } 
-
-  body{ 
-      /* this affects the margin on the content before sending to printer */ 
-      /*margin: 0px;  */
-  }
-
-  footer.main-footer {
-      display: none;
-  }
-  .pre_itemx {
-      display: none;
-  }
-  aside.main-sidebar.sidebar-dark-primary.elevation-4{
-    display: none;
-  }
-  nav.main-header.navbar.navbar-expand.navbar-white.navbar-light{
-    display: none;
-  }
-  a.btn.btn-primary.back-btn {
-      display: none;
-  }
-  
-}
-</style>
-<script type="text/javascript">
-  function printDiv(divName) {
-    window.print();
-  }
-</script>
-
-
 <div class="content-header"></div>
 <!-- Main content -->
 <div class="content">
@@ -60,14 +12,6 @@ a.pre_item {
       <div class="card-body">
         
       <div class="card-body table-responsive p-0">
-
-         <div class="form-group">
-            <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a>
-         </div>
-
-        <div class="form-group pre_itemx">
-          <a class="pre_item" href="javascript://" onclick="printDiv('printableArea')">Print</a>
-        </div>
 
         <div class="form-group">
           <label for="exampleInputEmail1">Order Details</label>
@@ -170,7 +114,6 @@ a.pre_item {
                 <th>Mode of Payment</th>
                 <th>Remark</th>
                 <th>Receipt</th>
-                <th>Date</th>
               </tr>
             </thead>
             <tbody>
@@ -189,7 +132,6 @@ a.pre_item {
                     @endif
                     </div>
                 </td>
-                <td>{{$transaction->created_at}}</td>
               </tr>
               @endforeach
             </tbody>

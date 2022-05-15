@@ -48,7 +48,9 @@
               <th>Profile Image</th>
               <td>
                 @if ($customer->profile_image!='')
-                  <img src="{{url($customer->profile_image)}}" id="pan_no_img" style="width: 20%;" />
+                  <a href="{{url($customer->profile_image)}}" data-toggle="lightbox" data-title="Profile Image" data-gallery="gallery">
+                     <img src="{{url($customer->profile_image)}}" id="pan_no_img" style="width: 20%;" />
+                  </a>
                 @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif
@@ -62,7 +64,9 @@
               <th>PAN Card Front Image</th>
               <td>
                 @if ($customer->pan_no_front_img!='')
-                  <img src="{{url($customer->pan_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+                  <a href="{{url($customer->pan_no_front_img)}}" data-toggle="lightbox" data-title="PAN Card Front Image" data-gallery="gallery">
+                     <img src="{{url($customer->pan_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+                  </a>
                  @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif
@@ -76,7 +80,9 @@
               <th>Aadhar Card Front Image</th>
               <td>
                 @if ($customer->aadhar_no_front_img!='')
-                  <img src="{{url($customer->aadhar_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+                  <a href="{{url($customer->aadhar_no_front_img)}}" data-toggle="lightbox" data-title="Aadhar Card Front Image" data-gallery="gallery">
+                      <img src="{{url($customer->aadhar_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+                  </a>
                  @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif
@@ -86,7 +92,9 @@
               <th>Aadhar Card Back Image</th>
               <td>
                 @if ($customer->aadhar_no_back_img!='')
-                  <img src="{{url($customer->aadhar_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
+                  <a href="{{url($customer->aadhar_no_back_img)}}" data-toggle="lightbox" data-title="Aadhar Card Back Image" data-gallery="gallery">
+                       <img src="{{url($customer->aadhar_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
+                  </a>
                  @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif
@@ -100,7 +108,9 @@
               <th>GST Front Image</th>
               <td>
                 @if ($customer->gst_no_front_img!='')
-                  <img src="{{url($customer->gst_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+                <a href="{{url($customer->gst_no_front_img)}}" data-toggle="lightbox" data-title="GST Front Image" data-gallery="gallery">
+                      <img src="{{url($customer->gst_no_front_img)}}" id="pan_no_img" style="width: 20%;" />
+                  </a> 
                 @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif
@@ -110,7 +120,9 @@
               <th>Gst Back Image</th>
               <td>
                 @if ($customer->gst_no_back_img!='')
-                  <img src="{{url($customer->gst_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
+                <a href="{{url($customer->gst_no_back_img)}}" data-toggle="lightbox" data-title="Gst Back Image" data-gallery="gallery">
+                    <img src="{{url($customer->gst_no_back_img)}}" id="pan_no_img" style="width: 20%;" />
+                </a> 
                 @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif
@@ -120,7 +132,9 @@
               <th>Gst Third Image</th>
               <td>
                 @if ($customer->gst_no_third_img!='')
-                  <img src="{{url($customer->gst_no_third_img)}}" id="pan_no_img" style="width: 20%;" />
+                  <a href="{{url($customer->gst_no_third_img)}}" data-toggle="lightbox" data-title="Gst Third Image" data-gallery="gallery">
+                    <img src="{{url($customer->gst_no_third_img)}}" id="pan_no_img" style="width: 20%;" />
+                  </a> 
                  @else
                   <img src="" id="pan_no_img" style="width: 20%;" />
                 @endif

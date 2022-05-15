@@ -183,7 +183,10 @@ a.pre_item {
                 <td>
                   <div>
                     @if ($transaction->upload_receipt!='')
-                    <img src="{{url($transaction->upload_receipt)}}" class="receipt_img"/>
+                   
+                    <a href="{{url($transaction->upload_receipt)}}" data-toggle="lightbox" data-title="Receipt Image" data-gallery="gallery">
+                       <img src="{{url($transaction->upload_receipt)}}" class="receipt_img"/>
+                    </a>
                     @else
                       N/A
                     @endif

@@ -10,15 +10,6 @@
     </div>
     @endif
 
-    <div class="margin" style="margin-bottom: 5px;">
-      <div class="btn-group">
-        <a href="{{ url('admin/customers/create') }}" class="btn btn-primary">Add Customers</a>
-      </div>
-      <div class="btn-group">
-        <button type="button" id="csm_export_btn" class="btn btn-success">Export</button>
-      </div>
-    </div>
-
     <!---->
     <form id="csm_export_form" action="{{url('/customers/exportcsv')}}" method="GET">
       <input type="hidden" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
@@ -29,14 +20,17 @@
       <!---->
       <div class="card">
         <div class="card-header">
-         <h3 class="card-title">Search&nbsp; &nbsp; &nbsp;</h3>  
+         <!--  <h3 class="card-title">Filter&nbsp; &nbsp; &nbsp;</h3>  -->
+          <div>
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
+          </div>
         </div>
         <div class="card-body">
           <div class="row" style="margin-top: 5px;">
-            <div class="col-sm-4">
+            <div class="col-4">
               <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
             </div>
-            <div class="col-sm-4">
+            <div class="col-4">
               <button class="btn btn-default">Search</button>
               @if(isset($_GET['s']) && $_GET['s'] !='')
               <a href="{{url('/admin/customers')}}" class="btn btn-danger">Remove Filter</a>
@@ -48,6 +42,13 @@
       </div>
       <!---->
     </form>
+
+
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"><a href="{{ url('admin/customers/create') }}" class="btn btn-primary">Add Customers</a></h1>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->

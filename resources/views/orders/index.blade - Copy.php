@@ -17,16 +17,6 @@
     @endif
 
 
-    <div class="margin" style="margin-bottom: 5px;">
-      <div class="btn-group">
-        <h1 class="m-0"><a href="{{ url('admin/orders/create') }}" class="btn btn-primary">Add Order</a></h1>
-      </div>
-      <div class="btn-group">
-        <button type="button" id="csm_export_btn" class="btn btn-success btn">Export</button>
-      </div>
-    </div>
-
-
     <!---->
     <form id="csm_export_form" action="{{url('/orders/exportcsv')}}" method="GET">
       <input type="hidden" name="payment_status" value="{{(isset($_GET['payment_status'])) ? $_GET['payment_status'] : ''}}"> 
@@ -40,15 +30,17 @@
     <form action="" method="GET">
       <!---->
       <div class="card">
-
         <div class="card-header">
-           <h3 class="card-title">Filter &nbsp; &nbsp; &nbsp;</h3> 
+          <h3 class="card-title">Filter &nbsp; &nbsp; &nbsp;</h3> 
+           <div>
+            <!-- <button type="button" data-href="/csm/orders/exportcsv" id="export" class="btn btn-success btn-sm" onclick="exportTasks(event.target);">Export
+            </button> -->
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
+          </div>
         </div>
-
         <div class="card-body">
-
           <div class="row">
-            <div class="col-sm-4">
+            <div class="col-3">
               <select name="payment_status" class="form-control" id="payment_status">
                 <option value="">Payment status</option>
                 <option value="pending"  {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='pending') ? 'selected' : ''}}>Pending</option>
@@ -57,7 +49,7 @@
                 <option value="completed" {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='completed') ? 'selected' : ''}}>Completed</option>
               </select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-3">
              <select name="customer_id" class="form-control" id="customer_id">
                 <option value="">Customer</option>
                 @foreach($customers as $customer)
@@ -65,7 +57,7 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-3">
               <select name="placed_by" class="form-control" id="placed_by">
                 <option value="">User</option>
                 @foreach($users as $user)
@@ -73,30 +65,35 @@
                 @endforeach
               </select>
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-4">
-              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
-            </div>
-            <div class="col-sm-4">
-               <input type="text" name="to_date" id="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
-            </div>
-            <div class="col-sm-4">
+            <div class="col-3">
              <button class="btn btn-default">Filter</button>
              @if(count($args_filter)!=0)
               <a href="{{url('/admin/orders')}}" class="btn btn-danger">Remove Filter</a>
              @endif
             </div>
           </div>
-
+          <div class="row">
+            <div class="col-3">
+              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+            </div>
+            <div class="col-3">
+               <input type="text" name="to_date" id="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+            </div>
+          </div>
         </div>
         <!-- /.card-body -->
       </div>
       <!---->
     </form>
 
-    
+
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0"><a href="{{ url('admin/orders/create') }}" class="btn btn-primary">Add Order</a></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+      </div>
+    </div><!-- /.row -->
 
   </div><!-- /.container-fluid -->
 </div>

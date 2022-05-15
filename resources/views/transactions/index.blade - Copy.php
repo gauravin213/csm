@@ -22,12 +22,6 @@
     </div>
     @endif
 
-    <div class="margin" style="margin-bottom: 5px;">
-      <div class="btn-group">
-       <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
-      </div>
-    </div>
-
      <!---->
     <form id="csm_export_form" action="{{url('/transactions/exportcsv')}}" method="GET">
       <input type="hidden" name="customer_id" value="{{(isset($_GET['customer_id'])) ? $_GET['customer_id'] : ''}}"> 
@@ -42,11 +36,13 @@
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">Filter&nbsp; &nbsp; &nbsp;</h3> 
+          <div>
+            <button type="button" id="csm_export_btn" class="btn btn-success btn-sm">Export</button>
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
-
-            <div class="col-sm-4">
+            <div class="col-4">
              <select name="customer_id" class="form-control" id="customer_id">
                 <option value="">Customer</option>
                 @foreach($customers as $customer)
@@ -54,8 +50,7 @@
                 @endforeach
               </select>
             </div>
-
-            <div class="col-sm-4">
+            <div class="col-4">
               <select name="placed_by" class="form-control" id="placed_by">
                 <option value="">User</option>
                 @foreach($users as $user)
@@ -63,23 +58,23 @@
                 @endforeach
               </select>
             </div>
-
-            <div class="col-sm-4">
-              <input type="text" name="from_date" id="from_date" class="form-control" placeholder="from" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
-            </div>
-
-            <div class="col-sm-4">
-               <input type="text" name="to_date" id="to_date" class="form-control" placeholder="to" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
-            </div>
-
-            <div class="col-sm-4">
+            <div class="col-4">
              <button class="btn btn-default">Filter</button>
              @if(count($args_filter)!=0)
               <a href="{{url('/admin/transactions')}}" class="btn btn-danger">Remove Filter</a>
              @endif
             </div>
-
           </div>
+
+          <div class="row" style="margin-top: 5px;">
+            <div class="col-4">
+              <input type="text" name="from_date" id="from_date" class="form-control" placeholder="from" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+            </div>
+            <div class="col-4">
+               <input type="text" name="to_date" id="to_date" class="form-control" placeholder="to" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+            </div>
+          </div>
+
 
         </div>
         <!-- /.card-body -->

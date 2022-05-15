@@ -99,6 +99,8 @@
     @endif
 
 
+
+
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">Add Order</h3>
@@ -171,9 +173,9 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Item Discount</th>
                         <th>Qty</th>
                         <th>Subtotal</th>
+                        <th>Item Discount</th>
                         <th></th>
                     </tr>
                 </thead>

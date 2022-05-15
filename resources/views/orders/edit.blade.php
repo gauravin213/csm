@@ -184,16 +184,17 @@
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>Item Discount</th>
                         <th>Qty</th>
                         <th>Subtotal</th>
+                        <th>Item Discount</th>
                         <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody id="csm_items_body">
                   @foreach($order_items as $key => $order_item) 
-                    <tr>
+                    <tr id="item_{{$order_item->id}}" class="items">
+
                         <td> 
                           {{$order_item->name}} 
                           <input type="hidden" name="iten_data[{{$order_item->id}}][id]" value="{{$order_item->id}}">
@@ -208,14 +209,24 @@
                           @endif
                           <input type="hidden" name="iten_data[{{$order_item->id}}][price]" value="{{$order_item->price}}">
                         </td>
+
                         <td>
-                          <input type="text" name="iten_data[{{$order_item->id}}][item_discount]" value="{{$order_item->item_discount}}" style="width:60px;">
+                          <input type="number" class="itemqty" data-prodid="{{$order_item->id}}" name="iten_data[{{$order_item->id}}][qty]" value="{{$order_item->qty}}" style="width:60px;">
+                        </td>
+
+                        <td>
+                          {{$order_item->line_subtotal}} <input type="hidden" name="iten_data[{{$order_item->id}}][line_subtotal]" value="{{$order_item->line_subtotal}}">
+                        </td>
+
+                        <td>
+                          <span>{{$order_item->item_discount}}</span>
+                          <input type="hidden" name="iten_data[{{$order_item->id}}][item_discount]" value="{{$order_item->item_discount}}" style="width:60px;">
                           <input type="hidden" name="iten_data[{{$order_item->id}}][item_discount_price]" value="{{$order_item->item_discount_price}}" style="width:60px;">
                         </td>
 
-                        <td><input type="number" class="itemqty" data-prodid="{{$order_item->id}}" name="iten_data[{{$order_item->id}}][qty]" value="{{$order_item->qty}}" style="width:60px;"></td>
-                        <td>{{$order_item->line_subtotal}} <input type="hidden" name="iten_data[{{$order_item->id}}][line_subtotal]" value="{{$order_item->line_subtotal}}"></td>
-                        <td><a href="#" class='csm_remove_item' data-product_id='{{$order_item->id}}'>X</a></td>
+                        <td>
+                          <a href="#" class='csm_remove_item' data-product_id='{{$order_item->id}}'>X</a>
+                        </td>
                     </tr>
                   @endforeach
                 </tbody>

@@ -2,9 +2,9 @@ ID,"Payment Status","Placed By","Customer Id",Subtotal,Discount,Discount_price,S
 16,pending,sales-AbhishekV,"V Customer",4541,0,0,0,,,4541,,"2022-03-09 17:24:51",25,"Demo Item 2",102,,,10,1020
 16,pending,sales-AbhishekV,"V Customer",4541,0,0,0,,,4541,,"2022-03-09 17:24:51",26,"Demo Item 3",103,,,15,1545
 16,pending,sales-AbhishekV,"V Customer",4541,0,0,0,,,4541,,"2022-03-09 17:24:51",27,"Demo Item 4",104,,,19,1976
-17,pending,sales-AbhishekV,"V Customer2",3150,0,0,0,,,3150,,"2022-03-09 17:25:46",25,"Demo Item 2",102,,,10,1020
-17,pending,sales-AbhishekV,"V Customer2",3150,0,0,0,,,3150,,"2022-03-09 17:25:46",27,"Demo Item 4",104,,,10,1040
-17,pending,sales-AbhishekV,"V Customer2",3150,0,0,0,,,3150,,"2022-03-09 17:25:46",32,"Demo Item 9",109,,,10,1090
+17,completed,sales-AbhishekV,"V Customer2",3150,0,0,0,,,3150,,"2022-03-09 17:25:46",25,"Demo Item 2",102,0,0,10,1020
+17,completed,sales-AbhishekV,"V Customer2",3150,0,0,0,,,3150,,"2022-03-09 17:25:46",27,"Demo Item 4",104,0,0,10,1040
+17,completed,sales-AbhishekV,"V Customer2",3150,0,0,0,,,3150,,"2022-03-09 17:25:46",32,"Demo Item 9",109,0,0,10,1090
 18,pending,sales-AbhishekDixit,D_CUSTOMER,3110,10,311,99,,,2898,,"2022-03-09 17:35:55",25,"Demo Item 2",102,,,10,1020
 18,pending,sales-AbhishekDixit,D_CUSTOMER,3110,10,311,99,,,2898,,"2022-03-09 17:35:55",27,"Demo Item 4",104,,,10,1040
 18,pending,sales-AbhishekDixit,D_CUSTOMER,3110,10,311,99,,,2898,,"2022-03-09 17:35:55",28,"Demo Item 5",105,,,10,1050
@@ -39,3 +39,5 @@ ID,"Payment Status","Placed By","Customer Id",Subtotal,Discount,Discount_price,S
 29,pending,admin,Ravi2,47485,0,0,0,dvdxvxvx,1,47485,165,"2022-03-29 18:14:52",49,"Starter (RN Feeds ) (50KG)",1000,0,0,10,10000
 29,pending,admin,Ravi2,47485,0,0,0,dvdxvxvx,1,47485,165,"2022-03-29 18:14:52",53,"Gennex Feeds Finisher (50 Kg)",1023,0,0,15,15345
 29,pending,admin,Ravi2,47485,0,0,0,dvdxvxvx,1,47485,165,"2022-03-29 18:14:52",55,"Force India HealthCare Product",1230,0,0,18,22140
+30,completed,sales-AbhishekV,"V Customer",203,0,0,0,CCCCCCC,1,203,,"2022-05-11 16:44:59",24,"Demo Item 1 xx",101,0,0,1,101
+30,completed,sales-AbhishekV,"V Customer",203,0,0,0,CCCCCCC,1,203,,"2022-05-11 16:44:59",25,"Demo Item 2",102,0,0,1,102
