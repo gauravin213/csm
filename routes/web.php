@@ -33,6 +33,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 	Route::resource('users', '\App\Http\Controllers\UserController');
 	Route::resource('customers', '\App\Http\Controllers\CustomerController');
 	Route::resource('pricelists', '\App\Http\Controllers\PricelistController');
+	Route::resource('advance-payments', '\App\Http\Controllers\AdvancePaymentController');
 
 	//Show
 	Route::get('/orders/{id}/show', [App\Http\Controllers\OrderController::class, 'show']);
@@ -55,12 +56,13 @@ Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class,
 Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
 Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
 Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
+Route::post('/orders/advance-payments', [App\Http\Controllers\AdvancePaymentController::class, 'advance_payments']);
 
 
 /*
 Make:
 php artisan make:controller OrdersitemController --model=User
-php artisan make:model Pricelist -mcr
+php artisan make:model AdvancePayment -mcr
 php artisan make:seeder CustomersTableSeeder
 
 Step 1:

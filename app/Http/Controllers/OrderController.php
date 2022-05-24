@@ -234,24 +234,25 @@ class OrderController extends Controller
             "ID",
             "Payment Status",
             "Placed By",
-            "Customer Id",
-            "Subtotal",
-            "Discount",
-            "Discount_price",
-            "Shipping",
+            "Customer Name",
+            //"Discount",
+            //"Discount Price",
+            //"Balance Amount",
+            "Shipping State", //issue
             "Shipping Address",
-            "Shipping State",
+            "Remark",
+            "Subtotal",
+            "Shipping/Freight",
             "Total",
-            "Balance Amount",
             "Date",
 
             "Item ID",
             "Item Name",
             "Item Price",
-            "Item Discount",
-            "Item Discount Price",
             "Item Quantity",
             "Item Line Subtotal",
+            "Item Discount",
+            //"Item Discount Price",
 
         ]);
 
@@ -263,28 +264,38 @@ class OrderController extends Controller
 
             foreach ($order->items as $item) {
 
+                $shipping_state = '';
+                if ($order->shipping_state == 1) {
+                   $shipping_state = 'UP/MP/Chhattisgarh';
+                }else if($order->shipping_state == 2){
+                    $shipping_state = 'Bihar/Jharkhand';
+                }else{
+                    $shipping_state = '';
+                }
+
                 fputcsv($handle, [
                     $order->id,
                     $order->payment_status,
                     $placed_by,
                     $customer_id,
-                    $order->subtotal,
-                    $order->discount,
-                    $order->discount_price,
-                    $order->shipping,
+                    //$order->discount,
+                    //$order->discount_price,
+                    //$order->balance_amount,
+                    $shipping_state,
                     $order->shipping_address,
-                    $order->shipping_state,
+                    $order->remark,
+                    $order->subtotal,
+                    $order->shipping,
                     $order->total,
-                    $order->balance_amount,
                     $order->created_at,
 
                     $item->product_id,
                     $item->name,
                     $item->price,
-                    $item->item_discount,
-                    $item->item_discount_price,
                     $item->qty,
                     $item->line_subtotal,
+                    $item->item_discount,
+                    //$item->item_discount_price,
 
                 ]);
             }

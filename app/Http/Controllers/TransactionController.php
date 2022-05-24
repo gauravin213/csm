@@ -175,13 +175,14 @@ class TransactionController extends Controller
         fputcsv($handle, [
             "ID",
             "Order Id",
-            "Customer Id",
+            "Customer Name",
             "Placed By",
             "Paid Amount",
-            "Ballance Amount",
+            "Balance Amount",
             "Mode of Payment",
-            "Remark",
             "Uploaded Receipt",
+            "Remark",
+            "Order Total",
         ]);
 
         //adding the data from the array
@@ -189,7 +190,9 @@ class TransactionController extends Controller
 
             $placed_by = (is_object($transaction->user)) ? $transaction->user->name : 'N/A';
             $customer_id = (is_object($transaction->customer)) ? $transaction->customer->name : 'N/A';
+            $order_total = (is_object($transaction->order)) ? $transaction->order->total : 'N/A';
             $upload_receipt = (!empty($transaction->upload_receipt)) ? url($transaction->upload_receipt) : 'N/A';
+
 
             fputcsv($handle, [
                 $transaction->id,
@@ -199,8 +202,9 @@ class TransactionController extends Controller
                 $transaction->paid_amount,
                 $transaction->ballance_amount,
                 $transaction->mode_of_payment,
-                $transaction->remark,
                 $upload_receipt,
+                $transaction->remark,
+                $order_total
             ]);
 
         }

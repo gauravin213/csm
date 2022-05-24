@@ -63,7 +63,7 @@
             <th>#</th>
             <th>Name</th>
             <th>Mobile</th>
-            <th>Email</th>
+            <th>Total Fund</th>
             <th>Sales Man</th>
             <th colspan="2">Action</th>
           </tr>
@@ -75,7 +75,7 @@
             <td>{{$customer->id}}</td>
             <td>{{$customer->name}}</td>
             <td>{{$customer->mobile}}</td>
-            <td>{{$customer->email}}</td>
+            <td>{{$customer->total_fund}}</td>
             <td>
               @if(is_object($customer->user))
               {{$customer->user->name}}

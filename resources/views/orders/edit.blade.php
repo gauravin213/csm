@@ -58,9 +58,9 @@
     */
     .table_m_r td:nth-of-type(1):before { content: "Name"; }
     .table_m_r td:nth-of-type(2):before { content: "Price"; }
-    .table_m_r td:nth-of-type(3):before { content: "Item Discount"; }
-    .table_m_r td:nth-of-type(4):before { content: "Qty"; }
-    .table_m_r td:nth-of-type(5):before { content: "Subtotal"; }
+    .table_m_r td:nth-of-type(3):before { content: "Qty"; }
+    .table_m_r td:nth-of-type(4):before { content: "Subtotal"; }
+    .table_m_r td:nth-of-type(5):before { content: "Item Discount"; }
     .table_m_r td:nth-of-type(6):before { content: "Action"; }
 
 
@@ -147,7 +147,7 @@
             <select name="customer_id" class="form-control" id="customer_id">
               <option value="">select</option>
               @foreach($customers as $customer)
-              <option value="{{$customer->id}}" {{$customer->id == $order->customer_id  ? 'selected' : ''}}>{{$customer->name}}</option>
+              <option value="{{$customer->id}}" {{$customer->id == $order->customer_id  ? 'selected' : ''}}>{{$customer->name}}({{$customer->company_name}})</option>
               @endforeach
             </select>
           </div>

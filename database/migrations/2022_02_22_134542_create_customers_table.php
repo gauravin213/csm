@@ -34,6 +34,8 @@ class CreateCustomersTable extends Migration
             $table->string('gst_no_third_img')->nullable();
             $table->string('sales_persone_id');
             $table->bigInteger('balance_amount')->nullable();
+            //$table->bigInteger('total_fund')->nullable();
+            $table->decimal('total_fund', 10, 2)->nullable();
             $table->timestamps();
         });
     }

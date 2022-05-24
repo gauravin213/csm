@@ -77,10 +77,10 @@
 
           <div class="row">
             <div class="col-sm-4">
-              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}" placeholder="from">
             </div>
             <div class="col-sm-4">
-               <input type="text" name="to_date" id="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">
+               <input type="text" name="to_date" id="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}" placeholder="to">
             </div>
             <div class="col-sm-4">
              <button class="btn btn-default">Filter</button>

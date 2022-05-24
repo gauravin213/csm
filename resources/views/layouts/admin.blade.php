@@ -301,6 +301,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
+          <!-- <li class="nav-item">
+            <a href="{{ url('admin/advance-payments') }}" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Advance Payment
+              </p>
+            </a>
+          </li> -->
+
           @can('isAdministrator')
           <li class="nav-item">
             <a href="{{ url('admin/users') }}" class="nav-link">
@@ -698,8 +707,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var discount = jQuery('#discount').val();
         var htm = `
             <tr>
-              <td></td>
-              <td></td>
               <th>
                 Discount <span id="discount_label">${discount}</span>% 
                 <a href="#" id="remove_discount">Remove</a> 
@@ -721,8 +728,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         e.preventDefault();
         var htm = `
           <tr>
-            <td></td>
-            <td></td>
             <th>Discount 0% <input type="hidden" name="discount" value="0"></th>
             <td>(-)0 <input type="hidden" name="discount_price" value="0"></td>
           </tr>
@@ -738,8 +743,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var shipping = jQuery('#shipping').val();
         var htm = `
             <tr>
-              <td></td>
-              <td></td>
               <th>Shipping <a href="#" id="remove_shipping">Remove</a></th>
               <td><span id="shipping_label">${shipping}</span> <input type="hidden" name="shipping" id="shipping" value="${shipping}"></td>
             </tr>
@@ -755,8 +758,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         e.preventDefault();
         var htm = `
             <tr>
-              <td></td>
-              <td></td>
               <th>Shipping</th>
               <td>0 <input type="hidden" name="shipping" value="0"></td>
             </tr>

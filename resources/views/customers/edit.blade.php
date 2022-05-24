@@ -18,7 +18,11 @@
 
           <div class="form-group">
             <a class="btn btn-primary back-btn" href="{{ URL::previous() }}">Go Back</a>
-         </div>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Total Fund: {{$customer->total_fund}}</label>
+          </div>
 
          
           <div class="form-group">
@@ -156,8 +160,7 @@
           </div>
           @endif
 
-
-
+        
         </div>
         <!-- /.card-body -->
 
