@@ -399,7 +399,7 @@ class CustomerController extends Controller
             $customer->gst_no_third_img = $gst_no_third_img_path;
         }
 
-        $customer->sales_persone_id = $request->sales_persone_id;
+        //$customer->sales_persone_id = $request->sales_persone_id;
         $customer->update();
         //return redirect()->route('customers.index')->with('success','Customer updated successfully');
         return redirect('admin/customers/'.$customer->id.'/edit')->with('success','Order added successfully');

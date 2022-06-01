@@ -20,7 +20,7 @@
 
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Edit Product</h3>
+        <h3 class="card-title">Edit Payment</h3>
       </div>
       <!-- /.card-header -->
       <!-- form start -->
@@ -38,7 +38,7 @@
             <select name="customer_id" class="form-control" id="customer_id">
               <option value="">select</option>
               @foreach($customers as $customer)
-              <option value="{{$customer->id}}" {{$customer->id == $order->customer_id  ? 'selected' : ''}}>{{$customer->name}}({{$customer->company_name}})</option>
+              <option value="{{$customer->id}}" {{$customer->id == $advancePayment->customer_id  ? 'selected' : ''}}>{{$customer->name}}({{$customer->company_name}})</option>
               @endforeach
             </select>
           </div>

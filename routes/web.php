@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\Transaction;
+use App\Models\Order;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +21,22 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+/*Route::get('/test', function(){
+
+	$order = Order::with(['customer'])->where('id', 36)->first();
+	if (is_object($order)) {
+		$order_total = $order->total;
+		$customer_id = $order->customer->id;
+		$customer_wallet = $order->customer->total_fund;
+		echo "order_total: ".$order_total; echo "<br>";
+		echo "customer_id: ".$customer_id; echo "<br>";
+		echo "customer_wallet: ".$customer_wallet; echo "<br>";
+	}
+
+	die('123');
+});*/
 
 
 //custom admin routes
@@ -56,7 +73,7 @@ Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class,
 Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
 Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
 Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
-Route::post('/orders/advance-payments', [App\Http\Controllers\AdvancePaymentController::class, 'advance_payments']);
+//Route::post('/orders/advance-payments', [App\Http\Controllers\AdvancePaymentController::class, 'advance_payments']);
 
 
 /*

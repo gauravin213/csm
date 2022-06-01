@@ -11,7 +11,7 @@
     @endif
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0"><a href="{{ url('admin/advance-payments/create') }}" class="btn btn-primary">Add Advance Payment</a></h1>
+        <h1 class="m-0"><a href="{{ url('admin/advance-payments/create') }}" class="btn btn-primary">Add Payment</a></h1>
       </div><!-- /.col -->
     </div><!-- /.row -->
   </div><!-- /.container-fluid -->

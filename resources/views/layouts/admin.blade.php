@@ -301,14 +301,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a href="{{ url('admin/advance-payments') }}" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Advance Payment
               </p>
             </a>
-          </li> -->
+          </li>
 
           @can('isAdministrator')
           <li class="nav-item">
@@ -406,7 +406,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Ekko Lightbox -->
 <script src="{{ asset('admin-lte-3.1.0-rc/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 <script>
-  $(function () {
+  /*$(function () {
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
       event.preventDefault();
       $(this).ekkoLightbox({
@@ -419,7 +419,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
       $('.btn[data-filter]').removeClass('active');
       $(this).addClass('active');
     });
-  })
+  });*/
+
+jQuery(document).ready(function(){
+  jQuery(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    jQuery(this).ekkoLightbox({
+      alwaysShowClose: true
+    });
+  });
+
+  //jQuery('.filter-container').filterizr({gutterPixels: 3});
+  jQuery('.btn[data-filter]').on('click', function() {
+    jQuery('.btn[data-filter]').removeClass('active');
+    jQuery(this).addClass('active');
+  });
+});
 </script>
 
 <!--model-->
@@ -901,14 +916,162 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }
     });
 
-
-
     //export btn
     jQuery(document).on('click', '#csm_export_btn', function(e){
       e.preventDefault();
       var target = jQuery(this);
       jQuery('#csm_export_form').submit();
     });
+
+
+    /*//Advance paymenr
+    var total_fund_tmp = jQuery('#total_fund').val();
+    jQuery(document).on('keyup', '#paid_amount', function (e) {
+        e.preventDefault();
+        var target = jQuery(this);
+        var paid_amount = target.val();
+        var total_fund = jQuery('#total_fund').val();
+        var total_fund_updated = 0;
+
+        //total_fund_enable
+        if(jQuery('#total_fund_enable').is(':checked')){ 
+          //console.log('checked: ');
+          if (paid_amount != '') {
+            total_fund_updated = parseFloat(total_fund_tmp) - parseFloat(paid_amount);
+             
+             if (total_fund_updated > 0) { //Positive value
+              jQuery('#total_fund_text').text(total_fund_updated);
+              jQuery('#total_fund').val(total_fund_updated);
+             }else{ //Negavive value
+                jQuery('#total_fund_text').text(0);
+                jQuery('#total_fund').val(0);
+                console.log('negavive: ', total_fund_updated);
+             }
+
+          }else{
+             jQuery('#total_fund_text').text(total_fund_tmp);
+             jQuery('#total_fund').val(total_fund_tmp);
+          }
+          console.log('total_fund_updated: ', total_fund_updated);
+          console.log('paid_amount: ', paid_amount);
+          console.log('total_fund_tmp: ', total_fund_tmp);
+        }else{
+          //console.log('not checked: ');
+        }
+    });*/
+
+
+    //Advance paymenr
+    jQuery.fn.calculatePaymentWithWallet = function(wallet_amountx, enter_amountx, order_totalx){
+
+        var wallet_amount  = parseFloat(wallet_amountx);
+        var enter_amount   = parseFloat(enter_amountx);
+        var order_total    = parseFloat(order_totalx);
+
+        var case_mode = 0;
+        var case_cond = '';
+        var update_wallet = 0;
+        var to_pay = 0;
+        var balance_amount = 0;
+        
+        //case 1 wallet_amount < order_total
+        var diff = order_total - wallet_amount;
+        if(diff > 0){
+          update_wallet = 0 * diff;
+          to_pay = wallet_amount + enter_amount;
+          balance_amount = order_total - to_pay;
+          case_mode = 1;
+          case_cond = `${wallet_amount} < ${order_total}`;
+        }
+
+        //case 2 wallet_amount > order_total
+        var diff = order_total - wallet_amount;
+        if(diff < 0){
+          update_wallet = -1 * diff;
+          to_pay = order_total - enter_amount;
+          balance_amount = 0;
+          case_mode = 2;
+          case_cond = `${wallet_amount} > ${order_total}`;
+        }
+
+        //case 3 wallet_amount == order_total
+        var diff = order_total - wallet_amount;
+        if(diff == 0){
+          update_wallet = 0;
+          to_pay = order_total;
+          balance_amount = 0;
+          case_mode = 3;
+          case_cond = `${wallet_amount} == ${order_total}`;
+        }
+
+
+        console.log('case: ', case_mode);
+        console.log('case: ', case_cond);
+        console.log('update_wallet: ', update_wallet);
+        console.log('to_pay: ', to_pay);
+        console.log('balance_amount: ', balance_amount);
+
+        jQuery('#case_mode').text(case_mode);
+        jQuery('#case_cond').text(case_cond);
+
+        jQuery('#update_wallet').text(update_wallet);
+        jQuery('#to_pay').text(to_pay);
+        jQuery('#balance_amount').text(balance_amount);
+
+
+        jQuery('#update_wallet_x').val(update_wallet);
+        jQuery('#to_pay_x').val(to_pay);
+        jQuery('#balance_amount_x').val(balance_amount);
+        
+
+    }
+
+    jQuery('#trans_summry').slideUp();
+
+    jQuery(document).on('click', '#tras_summry_calculate_btn', function (e) {
+        e.preventDefault();
+        var target = jQuery(this);
+
+        var wallet_amount  = jQuery('#wallet_amount').val();
+        var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
+        var order_total    = jQuery('#order_total').val();
+        jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+
+    });
+
+    jQuery(document).on('click', '#total_fund_enable', function () {
+      
+        var target = jQuery(this);
+
+        var wallet_amount  = jQuery('#wallet_amount').val();
+        var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
+        var order_total    = jQuery('#order_total').val();
+        jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+
+        if(target.is(':checked')){  
+          //alert('checked');
+          jQuery('#trans_summry').slideDown();
+        }else{ 
+          //alert('unchecked');
+          jQuery('#trans_summry').slideUp();
+        }
+
+    });
+
+
+    jQuery(document).on('keyup', '#paid_amount', function () {
+
+      var target = jQuery(this);
+
+      var wallet_amount  = jQuery('#wallet_amount').val();
+      var enter_amount   = (target.val() != '') ? target.val() : 0;
+      var order_total    = jQuery('#order_total').val();
+      jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+
+    });
+    //End Advance paymenr
+
+
     
 
   });

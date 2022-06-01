@@ -99,10 +99,12 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create(Request $request)
+    {   
+        $order_id = $request->order_id;
         $user_id = auth()->user()->id;
-        return view('transactions.create', ['user_id' => $user_id]);
+        $order = Order::with(['customer', 'user'])->where('id', $order_id)->first();
+        return view('transactions.create', ['user_id' => $user_id, 'order' => $order]);
     }
 
     public function exportcsv(Request $request)
@@ -224,10 +226,20 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $param = $request->all();
+        //echo "<pre>"; print_r($param); echo "</pre>";  die;
+
+
+        $total_fund_enable = $request->total_fund_enable;
+        $customer_id = $request->customer_id;
+        $to_pay_x = $request->to_pay_x;
+        $balance_amount_x = $request->balance_amount_x;
+        $update_wallet_x = $request->update_wallet_x;
+
         $data = $request->all();
         $res = $this->calculate_balance($data);
-        //echo "<pre>"; print_r($res); echo "</pre>";  die;
-
+        
         $request->validate([
             'order_id' => 'required',
             'paid_amount' => 'required'
@@ -241,8 +253,17 @@ class TransactionController extends Controller
         $transaction->order_id = $res['order_id'];
         $transaction->customer_id = $res['customer_id'];
         $transaction->placed_by = $res['placed_by'];
-        $transaction->paid_amount = $res['paid_amount'];
-        $transaction->ballance_amount = $res['ballance_amount'];
+
+        
+        if ($total_fund_enable == 'yes') {
+            $transaction->paid_amount = $to_pay_x;
+            $transaction->ballance_amount = $balance_amount_x;
+        }else{
+            $transaction->paid_amount = $res['paid_amount'];
+            $transaction->ballance_amount = $res['ballance_amount'];
+        }
+
+
         $transaction->mode_of_payment = $res['mode_of_payment'];
         $transaction->remark = $res['remark'];
 
@@ -254,11 +275,27 @@ class TransactionController extends Controller
         
         $transaction->save();
 
-        //update balance amount
-        Order::where('id',$res['order_id'])->update([
-            'balance_amount' => $res['ballance_amount'],
-            'payment_status' => ($res['ballance_amount'] > 0 )? 'pending' : 'processing'
-        ]);
+
+        //update order balance amount
+        if ($total_fund_enable == 'yes') {
+            Order::where('id',$res['order_id'])->update([
+                'balance_amount' => $balance_amount_x,
+                'payment_status' => ($balance_amount_x > 0 )? 'pending' : 'processing'
+            ]);
+        }else{
+            Order::where('id',$res['order_id'])->update([
+                'balance_amount' => $res['ballance_amount'],
+                'payment_status' => ($res['ballance_amount'] > 0 )? 'pending' : 'processing'
+            ]);
+        }
+
+    
+        //update custom total_fund
+        if ($total_fund_enable == 'yes') {
+            Customer::where('id',$customer_id)->update([
+                'total_fund' => $update_wallet_x
+            ]);
+        }
 
         return redirect()->route('transactions.index')->with('success','Transaction added successfully');
         //return redirect('admin/orders/'.$res['order_id'].'/edit')->with('success','Payment added successfully');
