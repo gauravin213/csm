@@ -74,17 +74,6 @@
             </div>
           </div>
 
-          <!-- <div>
-            <label>Enter amount: </label> <input type="text" name="enter_amount" id="enter_amount">
-          </div> -->
-
-          <!-- <div>
-            <button type="button" id="tras_summry_calculate_btn" class="btn btn-default btn-sm">Re calculate</button>
-          </div> -->
-
-
-
-
 
           <!--hidden-->
           <input type="hidden" name="order_id"  value="{{$order->id}}">
@@ -98,51 +87,39 @@
           <input type="hidden" name="update_wallet_x" id="update_wallet_x"  value="">
           <!--hidden-->
 
-          <!-- <div class="form-group">
-            <label for="exampleInputEmail1" style="color: green;">
-            Advance Payment Amount: <span id="total_fund_text">{{$order->customer->total_fund}}</span> 
-            <input type="hidden" name="total_fund" id="total_fund" value="{{$order->customer->total_fund}}">
-            <input type="checkbox" name="total_fund_enable" id="total_fund_enable" value="yes">
-            </label>
-          </div> -->
+          <div id="section_payment">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Paid Amount</label>
+              <input type="text" name="paid_amount" class="form-control" id="paid_amount" placeholder="Enter Amount" value="">
+            </div>
 
-         <!--  <div class="form-group">
-            <label for="exampleInputEmail1">Order Id</label>
-            <input type="text" name="order_id" class="form-control" id="order_id" placeholder="Enter order_id" value="{{(isset($_GET['order_id'])) ? $_GET['order_id'] : ''}}">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Mode Of Payment</label>
+              <select name="mode_of_payment" class="form-control" id="mode_of_payment">
+                <option value="">select</option>
+                <option value="Cash">Cash</option>
+                <option value="Cheque">Cheque</option>
+                <option value="RTGS">RTGS</option>
+                <option value="NEFT">NEFT</option>
+                <option value="IMPS">IMPS</option>
+                <option value="DD">DD</option>
+                <option value="UPI">UPI</option>              
+              </select>
+            </div>
 
-            <input type="hidden" name="customer_id" class="form-control" id="customer_id2" placeholder="Enter customer_id" value="{{(isset($_GET['customer_id'])) ? $_GET['customer_id'] : ''}}">
-            <input type="hidden" name="placed_by" class="form-control" id="placed_by" placeholder="Enter placed_by" value="{{(isset($_GET['placed_by'])) ? $_GET['placed_by'] : ''}}">
-          </div> -->
+             <div class="form-group">
+              <label for="exampleInputEmail1">Upload Receipt</label>
+              <input type="file" name="upload_receipt" class="form-control preview_img" id="upload_receipt" accept="image/*">
+              <img src="" id="pan_no_img" style="width: 20%;" />
+            </div>
 
-          <div class="form-group">
-            <label for="exampleInputEmail1">Paid Amount</label>
-            <input type="text" name="paid_amount" class="form-control" id="paid_amount" placeholder="Enter Amount" value="">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Remark/Note</label>
+              <textarea name="remark" class="form-control" id="remark" placeholder="Specify Cheque Date/Transaction ID Of Payment"></textarea>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="exampleInputEmail1">Mode Of Payment</label>
-            <select name="mode_of_payment" class="form-control" id="mode_of_payment">
-              <option value="">select</option>
-              <option value="Cash">Cash</option>
-              <option value="Cheque">Cheque</option>
-              <option value="RTGS">RTGS</option>
-              <option value="NEFT">NEFT</option>
-              <option value="IMPS">IMPS</option>
-              <option value="DD">DD</option>
-              <option value="UPI">UPI</option>              
-            </select>
-          </div>
-
-           <div class="form-group">
-            <label for="exampleInputEmail1">Upload Receipt</label>
-            <input type="file" name="upload_receipt" class="form-control preview_img" id="upload_receipt" accept="image/*">
-            <img src="" id="pan_no_img" style="width: 20%;" />
-          </div>
-
-          <div class="form-group">
-            <label for="exampleInputEmail1">Remark/Note</label>
-            <textarea name="remark" class="form-control" id="remark" placeholder="Specify Cheque Date/Transaction ID Of Payment"></textarea>
-          </div>
+          
 
         </div>
         <!-- /.card-body -->

@@ -236,44 +236,122 @@ class TransactionController extends Controller
         $to_pay_x = $request->to_pay_x;
         $balance_amount_x = $request->balance_amount_x;
         $update_wallet_x = $request->update_wallet_x;
+        $paid_amount = $request->paid_amount;
 
         $data = $request->all();
         $res = $this->calculate_balance($data);
         
-        $request->validate([
+        /*$request->validate([
             'order_id' => 'required',
             'paid_amount' => 'required'
-        ]);
+        ]);*/
 
         if ($res['ballance_amount'] < 0) {
             return redirect()->route('transactions.index')->with('warning','All transaction has been completed');
         }
 
-        $transaction = new Transaction();
-        $transaction->order_id = $res['order_id'];
-        $transaction->customer_id = $res['customer_id'];
-        $transaction->placed_by = $res['placed_by'];
 
-        
-        if ($total_fund_enable == 'yes') {
+        if ($total_fund_enable == 'yes' && $paid_amount!='') {
+
+            //Wallet entry
+            $transaction = new Transaction();
+            $transaction->order_id = $res['order_id'];
+            $transaction->customer_id = $res['customer_id'];
+            $transaction->placed_by = $res['placed_by'];
+
+            
             $transaction->paid_amount = $to_pay_x;
             $transaction->ballance_amount = $balance_amount_x;
-        }else{
+
+            $transaction->mode_of_payment = 'wallet';
+            $transaction->remark = $res['remark'];
+
+            if ($request->upload_receipt) {
+                $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+                $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+                $transaction->upload_receipt = $upload_receipt_image_path;
+            }
+            
+            $transaction->save();
+            //End Wallet entry
+
+            //Payment method entry
+            $transaction = new Transaction();
+            $transaction->order_id = $res['order_id'];
+            $transaction->customer_id = $res['customer_id'];
+            $transaction->placed_by = $res['placed_by'];
+
             $transaction->paid_amount = $res['paid_amount'];
             $transaction->ballance_amount = $res['ballance_amount'];
+
+            $transaction->mode_of_payment = $res['mode_of_payment'];
+            $transaction->remark = $res['remark'];
+
+            if ($request->upload_receipt) {
+                $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+                $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+                $transaction->upload_receipt = $upload_receipt_image_path;
+            }
+            
+            $transaction->save();
+            //End Payment method entry
+
+            
+            
+        }else if ($total_fund_enable == 'yes') {
+
+            //Wallet entry
+            $transaction = new Transaction();
+            $transaction->order_id = $res['order_id'];
+            $transaction->customer_id = $res['customer_id'];
+            $transaction->placed_by = $res['placed_by'];
+
+            
+            $transaction->paid_amount = $to_pay_x;
+            $transaction->ballance_amount = $balance_amount_x;
+
+            $transaction->mode_of_payment = 'wallet';
+            $transaction->remark = $res['remark'];
+
+            if ($request->upload_receipt) {
+                $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+                $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+                $transaction->upload_receipt = $upload_receipt_image_path;
+            }
+            
+            $transaction->save();
+            //End Wallet entry        
+            
+        }
+        else{
+            //Payment method entry
+            $transaction = new Transaction();
+            $transaction->order_id = $res['order_id'];
+            $transaction->customer_id = $res['customer_id'];
+            $transaction->placed_by = $res['placed_by'];
+
+            $transaction->paid_amount = $res['paid_amount'];
+            $transaction->ballance_amount = $res['ballance_amount'];
+
+            $transaction->mode_of_payment = $res['mode_of_payment'];
+            $transaction->remark = $res['remark'];
+
+            if ($request->upload_receipt) {
+                $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+                $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+                $transaction->upload_receipt = $upload_receipt_image_path;
+            }
+            
+            $transaction->save();
+            //End Payment method entry
         }
 
-
-        $transaction->mode_of_payment = $res['mode_of_payment'];
-        $transaction->remark = $res['remark'];
-
-        if ($request->upload_receipt) {
-            $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
-            $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
-            $transaction->upload_receipt = $upload_receipt_image_path;
+        //update custom total_fund
+        if ($total_fund_enable == 'yes') {
+            Customer::where('id',$customer_id)->update([
+                'total_fund' => $update_wallet_x
+            ]);
         }
-        
-        $transaction->save();
 
 
         //update order balance amount
@@ -289,14 +367,7 @@ class TransactionController extends Controller
             ]);
         }
 
-    
-        //update custom total_fund
-        if ($total_fund_enable == 'yes') {
-            Customer::where('id',$customer_id)->update([
-                'total_fund' => $update_wallet_x
-            ]);
-        }
-
+        
         return redirect()->route('transactions.index')->with('success','Transaction added successfully');
         //return redirect('admin/orders/'.$res['order_id'].'/edit')->with('success','Payment added successfully');
     }

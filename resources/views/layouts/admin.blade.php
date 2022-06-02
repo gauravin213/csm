@@ -973,9 +973,10 @@ jQuery(document).ready(function(){
         var update_wallet = 0;
         var to_pay = 0;
         var balance_amount = 0;
+
+        var diff = order_total - wallet_amount;
         
         //case 1 wallet_amount < order_total
-        var diff = order_total - wallet_amount;
         if(diff > 0){
           update_wallet = 0 * diff;
           to_pay = wallet_amount + enter_amount;
@@ -985,7 +986,6 @@ jQuery(document).ready(function(){
         }
 
         //case 2 wallet_amount > order_total
-        var diff = order_total - wallet_amount;
         if(diff < 0){
           update_wallet = -1 * diff;
           to_pay = order_total - enter_amount;
@@ -995,7 +995,6 @@ jQuery(document).ready(function(){
         }
 
         //case 3 wallet_amount == order_total
-        var diff = order_total - wallet_amount;
         if(diff == 0){
           update_wallet = 0;
           to_pay = order_total;
@@ -1005,11 +1004,11 @@ jQuery(document).ready(function(){
         }
 
 
-        console.log('case: ', case_mode);
+        /*console.log('case: ', case_mode);
         console.log('case: ', case_cond);
         console.log('update_wallet: ', update_wallet);
         console.log('to_pay: ', to_pay);
-        console.log('balance_amount: ', balance_amount);
+        console.log('balance_amount: ', balance_amount);*/
 
         jQuery('#case_mode').text(case_mode);
         jQuery('#case_cond').text(case_cond);
@@ -1018,55 +1017,79 @@ jQuery(document).ready(function(){
         jQuery('#to_pay').text(to_pay);
         jQuery('#balance_amount').text(balance_amount);
 
-
         jQuery('#update_wallet_x').val(update_wallet);
         jQuery('#to_pay_x').val(to_pay);
         jQuery('#balance_amount_x').val(balance_amount);
-        
 
+        return {
+          case_mode: case_mode,
+          case_cond: case_cond,
+          update_wallet: update_wallet,
+          to_pay: to_pay,
+          balance_amount: balance_amount
+        }
+        
     }
 
     jQuery('#trans_summry').slideUp();
 
-    jQuery(document).on('click', '#tras_summry_calculate_btn', function (e) {
-        e.preventDefault();
-        var target = jQuery(this);
-
-        var wallet_amount  = jQuery('#wallet_amount').val();
-        var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
-        var order_total    = jQuery('#order_total').val();
-        jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
-
-    });
-
+    var enter_amount_temp = 0;
     jQuery(document).on('click', '#total_fund_enable', function () {
-      
-        var target = jQuery(this);
+      var target = jQuery(this);
+      var wallet_amount  = jQuery('#wallet_amount').val();
+      var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
+      var order_total    = jQuery('#order_total').val();
+      var act = jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
 
-        var wallet_amount  = jQuery('#wallet_amount').val();
-        var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
-        var order_total    = jQuery('#order_total').val();
-        jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+      enter_amount_temp = act.balance_amount;
 
-        if(target.is(':checked')){  
-          //alert('checked');
-          jQuery('#trans_summry').slideDown();
-        }else{ 
-          //alert('unchecked');
-          jQuery('#trans_summry').slideUp();
+      if(target.is(':checked')){  
+        jQuery('#trans_summry').slideDown();
+        if (act.case_mode === 2 || act.case_mode === 3) {
+          jQuery('#section_payment').slideUp();
         }
+      }else{ 
+        jQuery('#trans_summry').slideUp();
+        jQuery('#section_payment').slideDown();
+      }
 
     });
-
 
     jQuery(document).on('keyup', '#paid_amount', function () {
-
       var target = jQuery(this);
-
       var wallet_amount  = jQuery('#wallet_amount').val();
       var enter_amount   = (target.val() != '') ? target.val() : 0;
       var order_total    = jQuery('#order_total').val();
-      jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+      
+      var a = parseFloat(enter_amount);
+      var b = parseFloat(enter_amount_temp);
+      console.log(a+' == '+b);
+
+      if (a <= b) {
+        var act =  jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+      }else{
+        alert("Paid ammount limit exceeded");
+        target.val(b);
+      }
+
+    });
+
+    jQuery(document).on('change', '#paid_amount', function () {
+      var target = jQuery(this);
+      var wallet_amount  = jQuery('#wallet_amount').val();
+      var enter_amount   = (target.val() != '') ? target.val() : 0;
+      var order_total    = jQuery('#order_total').val();
+      
+      var a = parseFloat(enter_amount);
+      var b = parseFloat(enter_amount_temp);
+      console.log(a+' == '+b);
+
+      if (a <= b) {
+        var act =  jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+      }else{
+        alert("Paid ammount limit exceeded");
+        target.val(b);
+      }
 
     });
     //End Advance paymenr
