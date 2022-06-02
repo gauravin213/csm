@@ -251,7 +251,12 @@ class TransactionController extends Controller
         }
 
 
-        if ($total_fund_enable == 'yes' && $paid_amount!='') {
+        if ($total_fund_enable == 'yes' && $paid_amount!='') {  
+
+            //echo "case 1"; echo "<br><br>";
+            //echo "to_pay_x: ".$to_pay_x; echo "<br>";
+            //echo "balance_amount_x: ".$balance_amount_x; echo "<br>";
+            //echo "paid_amount: ".$paid_amount; echo "<br>";
 
             //Wallet entry
             $transaction = new Transaction();
@@ -261,7 +266,7 @@ class TransactionController extends Controller
 
             
             $transaction->paid_amount = $to_pay_x;
-            $transaction->ballance_amount = $balance_amount_x;
+            $transaction->ballance_amount = ($balance_amount_x == $paid_amount) ? 0 : $balance_amount_x;
 
             $transaction->mode_of_payment = 'wallet';
             $transaction->remark = $res['remark'];
@@ -282,7 +287,7 @@ class TransactionController extends Controller
             $transaction->placed_by = $res['placed_by'];
 
             $transaction->paid_amount = $res['paid_amount'];
-            $transaction->ballance_amount = $res['ballance_amount'];
+            $transaction->ballance_amount = ($balance_amount_x == $paid_amount) ? 0 : $res['ballance_amount'];
 
             $transaction->mode_of_payment = $res['mode_of_payment'];
             $transaction->remark = $res['remark'];
@@ -298,7 +303,12 @@ class TransactionController extends Controller
 
             
             
-        }else if ($total_fund_enable == 'yes') {
+        }else if ($total_fund_enable == 'yes') { 
+
+            //echo "case 1 and case 3"; echo "<br><br>";
+            //echo "to_pay_x: ".$to_pay_x; echo "<br>";
+            //echo "balance_amount_x: ".$balance_amount_x; echo "<br>";
+            //echo "paid_amount: ".$paid_amount; echo "<br>";
 
             //Wallet entry
             $transaction = new Transaction();
@@ -323,7 +333,12 @@ class TransactionController extends Controller
             //End Wallet entry        
             
         }
-        else{
+        else{ 
+
+            //echo "normal"; echo "<br><br>";
+            //echo "paid_amount: ".$res['paid_amount']; echo "<br>";
+            //echo "ballance_amount: ".$res['ballance_amount']; echo "<br>";
+
             //Payment method entry
             $transaction = new Transaction();
             $transaction->order_id = $res['order_id'];
@@ -346,6 +361,9 @@ class TransactionController extends Controller
             //End Payment method entry
         }
 
+
+        //die;
+
         //update custom total_fund
         if ($total_fund_enable == 'yes') {
             Customer::where('id',$customer_id)->update([
@@ -367,7 +385,6 @@ class TransactionController extends Controller
             ]);
         }
 
-        
         return redirect()->route('transactions.index')->with('success','Transaction added successfully');
         //return redirect('admin/orders/'.$res['order_id'].'/edit')->with('success','Payment added successfully');
     }

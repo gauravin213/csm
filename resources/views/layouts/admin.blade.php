@@ -1066,7 +1066,7 @@ jQuery(document).ready(function(){
       console.log(a+' == '+b);
 
       if (a <= b) {
-        var act =  jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+        //var act =  jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
       }else{
         alert("Paid ammount limit exceeded");
         target.val(b);
@@ -1074,7 +1074,7 @@ jQuery(document).ready(function(){
 
     });
 
-    jQuery(document).on('change', '#paid_amount', function () {
+    /*jQuery(document).on('change', '#paid_amount', function () {
       var target = jQuery(this);
       var wallet_amount  = jQuery('#wallet_amount').val();
       var enter_amount   = (target.val() != '') ? target.val() : 0;
@@ -1091,7 +1091,7 @@ jQuery(document).ready(function(){
         target.val(b);
       }
 
-    });
+    });*/
     //End Advance paymenr
 
 
