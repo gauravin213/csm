@@ -1033,24 +1033,34 @@ jQuery(document).ready(function(){
 
     jQuery('#trans_summry').slideUp();
 
-    var enter_amount_temp = 0;
+ 
     jQuery(document).on('click', '#total_fund_enable', function () {
       var target = jQuery(this);
+
+      jQuery('#paid_amount').val("");
+
       var wallet_amount  = jQuery('#wallet_amount').val();
       var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
       var order_total    = jQuery('#order_total').val();
       var act = jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
-
-      enter_amount_temp = act.balance_amount;
 
       if(target.is(':checked')){  
         jQuery('#trans_summry').slideDown();
         if (act.case_mode === 2 || act.case_mode === 3) {
           jQuery('#section_payment').slideUp();
         }
+
+        var order_balance_amount = jQuery('#order_balance_amount').val();
+        if (order_balance_amount) {
+          jQuery('#paid_amount').attr('data-max', order_balance_amount);
+        }else{
+          jQuery('#paid_amount').attr('data-max', act.balance_amount);
+        }
+
       }else{ 
         jQuery('#trans_summry').slideUp();
         jQuery('#section_payment').slideDown();
+        jQuery('#paid_amount').attr('data-max', order_total);
       }
 
     });
@@ -1062,36 +1072,15 @@ jQuery(document).ready(function(){
       var order_total    = jQuery('#order_total').val();
       
       var a = parseFloat(enter_amount);
-      var b = parseFloat(enter_amount_temp);
-      console.log(a+' == '+b);
+      var b = parseFloat(jQuery('#paid_amount').attr('data-max'));
+      //console.log(a+' == '+b);
 
-      if (a <= b) {
-        //var act =  jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
-      }else{
-        alert("Paid ammount limit exceeded");
+      if (a > b && b) {
+        alert("Paid amount limit exceeded "+b);
         target.val(b);
       }
 
     });
-
-    /*jQuery(document).on('change', '#paid_amount', function () {
-      var target = jQuery(this);
-      var wallet_amount  = jQuery('#wallet_amount').val();
-      var enter_amount   = (target.val() != '') ? target.val() : 0;
-      var order_total    = jQuery('#order_total').val();
-      
-      var a = parseFloat(enter_amount);
-      var b = parseFloat(enter_amount_temp);
-      console.log(a+' == '+b);
-
-      if (a <= b) {
-        var act =  jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
-      }else{
-        alert("Paid ammount limit exceeded");
-        target.val(b);
-      }
-
-    });*/
     //End Advance paymenr
 
 

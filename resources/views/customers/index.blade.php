@@ -63,7 +63,7 @@
             <th>#</th>
             <th>Name</th>
             <th>Mobile</th>
-            <th>Total Fund</th>
+            <th>Wallet</th>
             <th>Sales Man</th>
             <th colspan="2">Action</th>
           </tr>

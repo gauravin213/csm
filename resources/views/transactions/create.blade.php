@@ -53,6 +53,12 @@
             <div>
               <label>Order Total: </label><span>{{$order->total}}</span> 
             </div>
+
+            @if($order->balance_amount!='')
+             <div>
+              <label>Order Balance Amount: </label><span>{{$order->balance_amount}}</span> 
+            </div>
+            @endif
           </div>
 
           <div class="form-group" id="trans_summry" style="display: none;">
@@ -78,6 +84,7 @@
           <!--hidden-->
           <input type="hidden" name="order_id"  value="{{$order->id}}">
           <input type="hidden" name="order_total" id="order_total" value="{{$order->total}}">
+          <input type="hidden" name="order_balance_amount" id="order_balance_amount" value="{{$order->balance_amount}}">
           <input type="hidden" name="customer_id" value="{{$order->customer->id}}">
           <input type="hidden" name="wallet_amount" id="wallet_amount" value="{{$order->customer->total_fund}}">
           <input type="hidden" name="placed_by"  value="{{$user_id}}">
@@ -90,7 +97,11 @@
           <div id="section_payment">
             <div class="form-group">
               <label for="exampleInputEmail1">Paid Amount</label>
-              <input type="text" name="paid_amount" class="form-control" id="paid_amount" placeholder="Enter Amount" value="">
+              @if($order->balance_amount)
+               <input type="number" name="paid_amount" class="form-control" id="paid_amount" placeholder="Enter Amount" value="" data-max="{{$order->balance_amount}}">
+              @else
+               <input type="number" name="paid_amount" class="form-control" id="paid_amount" placeholder="Enter Amount" value="" data-max="{{$order->total}}">
+              @endif
             </div>
 
             <div class="form-group">

@@ -226,50 +226,46 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        $order_total        = $request->order_total;
+        $order_balance_amount = $request->order_balance_amount;
+        $order_id           = $request->order_id;
+        $customer_id        = $request->customer_id;
+        $placed_by          = $request->placed_by;
+        $paid_amount        = $request->paid_amount;
+        $mode_of_payment    = $request->mode_of_payment;
+        $upload_receipt     = $request->upload_receipt;
+        $remark             = $request->remark;
 
-        $param = $request->all();
-        //echo "<pre>"; print_r($param); echo "</pre>";  die;
-
-
-        $total_fund_enable = $request->total_fund_enable;
-        $customer_id = $request->customer_id;
-        $to_pay_x = $request->to_pay_x;
-        $balance_amount_x = $request->balance_amount_x;
-        $update_wallet_x = $request->update_wallet_x;
-        $paid_amount = $request->paid_amount;
-
-        $data = $request->all();
-        $res = $this->calculate_balance($data);
-        
-        /*$request->validate([
-            'order_id' => 'required',
-            'paid_amount' => 'required'
-        ]);*/
-
-        if ($res['ballance_amount'] < 0) {
-            return redirect()->route('transactions.index')->with('warning','All transaction has been completed');
-        }
+        $total_fund_enable  = $request->total_fund_enable;
+        $to_pay_x           = $request->to_pay_x;
+        $balance_amount_x   = $request->balance_amount_x;
+        $update_wallet_x    = $request->update_wallet_x;
 
 
         if ($total_fund_enable == 'yes' && $paid_amount!='') {  
 
-            //echo "case 1"; echo "<br><br>";
-            //echo "to_pay_x: ".$to_pay_x; echo "<br>";
-            //echo "balance_amount_x: ".$balance_amount_x; echo "<br>";
-            //echo "paid_amount: ".$paid_amount; echo "<br>";
+            $ballance_amount = $order_total - ($to_pay_x + $paid_amount);
+
+           /* echo "case 1"; echo "<br><br>";
+            echo "order_total: ".$order_total; echo "<br>";
+            echo "update_wallet_x: ".$update_wallet_x; echo "<br>";
+            echo "to_pay_x: ".$to_pay_x; echo "<br>";
+            echo "balance_amount_x: ".$balance_amount_x; echo "<br>";
+            echo "paid_amount: ".$paid_amount; echo "<br><br>";
+            echo "ballance_amount: ".$ballance_amount; echo "<br>";*/
 
             //Wallet entry
             $transaction = new Transaction();
-            $transaction->order_id = $res['order_id'];
-            $transaction->customer_id = $res['customer_id'];
-            $transaction->placed_by = $res['placed_by'];
+            $transaction->order_id = $order_id;
+            $transaction->customer_id = $customer_id;
+            $transaction->placed_by = $placed_by;
 
             
             $transaction->paid_amount = $to_pay_x;
-            $transaction->ballance_amount = ($balance_amount_x == $paid_amount) ? 0 : $balance_amount_x;
+            $transaction->ballance_amount = 0;
 
             $transaction->mode_of_payment = 'wallet';
-            $transaction->remark = $res['remark'];
+            $transaction->remark = $remark;
 
             if ($request->upload_receipt) {
                 $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
@@ -282,15 +278,15 @@ class TransactionController extends Controller
 
             //Payment method entry
             $transaction = new Transaction();
-            $transaction->order_id = $res['order_id'];
-            $transaction->customer_id = $res['customer_id'];
-            $transaction->placed_by = $res['placed_by'];
+            $transaction->order_id = $order_id;
+            $transaction->customer_id = $customer_id;
+            $transaction->placed_by = $placed_by;
 
-            $transaction->paid_amount = $res['paid_amount'];
-            $transaction->ballance_amount = ($balance_amount_x == $paid_amount) ? 0 : $res['ballance_amount'];
+            $transaction->paid_amount = $paid_amount;
+            $transaction->ballance_amount = $ballance_amount;
 
-            $transaction->mode_of_payment = $res['mode_of_payment'];
-            $transaction->remark = $res['remark'];
+            $transaction->mode_of_payment = $mode_of_payment;
+            $transaction->remark = $remark;
 
             if ($request->upload_receipt) {
                 $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
@@ -301,27 +297,38 @@ class TransactionController extends Controller
             $transaction->save();
             //End Payment method entry
 
-            
+            //Update balance
+            Order::where('id',$order_id)->update([
+                'balance_amount' => $ballance_amount,
+                'payment_status' => ($balance_amount_x > 0 )? 'pending' : 'processing'
+            ]);
+
+            //update wallet
+            Customer::where('id',$customer_id)->update([
+                'total_fund' => $update_wallet_x
+            ]);
+
             
         }else if ($total_fund_enable == 'yes') { 
 
-            //echo "case 1 and case 3"; echo "<br><br>";
-            //echo "to_pay_x: ".$to_pay_x; echo "<br>";
-            //echo "balance_amount_x: ".$balance_amount_x; echo "<br>";
-            //echo "paid_amount: ".$paid_amount; echo "<br>";
+            /*echo "case 1 and case 3"; echo "<br><br>";
+            echo "order_total: ".$order_total; echo "<br>";
+            echo "update_wallet_x: ".$update_wallet_x; echo "<br>";
+            echo "to_pay_x: ".$to_pay_x; echo "<br>";
+            echo "balance_amount_x: ".$balance_amount_x; echo "<br>";
+            echo "paid_amount: ".$paid_amount; echo "<br>";*/
 
             //Wallet entry
             $transaction = new Transaction();
-            $transaction->order_id = $res['order_id'];
-            $transaction->customer_id = $res['customer_id'];
-            $transaction->placed_by = $res['placed_by'];
-
+            $transaction->order_id = $order_id;
+            $transaction->customer_id = $customer_id;
+            $transaction->placed_by = $placed_by;
             
             $transaction->paid_amount = $to_pay_x;
             $transaction->ballance_amount = $balance_amount_x;
 
             $transaction->mode_of_payment = 'wallet';
-            $transaction->remark = $res['remark'];
+            $transaction->remark = $remark;
 
             if ($request->upload_receipt) {
                 $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
@@ -330,89 +337,101 @@ class TransactionController extends Controller
             }
             
             $transaction->save();
-            //End Wallet entry        
+            //End Wallet entry
+
+            //Update balance
+            Order::where('id',$order_id)->update([
+                'balance_amount' => $balance_amount_x,
+                'payment_status' => ($balance_amount_x > 0 )? 'pending' : 'processing'
+            ]); 
+
+            //update wallet
+            Customer::where('id',$customer_id)->update([
+                'total_fund' => $update_wallet_x
+            ]);
             
         }
         else{ 
 
+            $request->validate([
+                'paid_amount' => 'required',
+                'mode_of_payment' => 'required'
+            ]);
+
+            $ballance_amount = $this->calculate_balance($order_id, $paid_amount);
+
             //echo "normal"; echo "<br><br>";
-            //echo "paid_amount: ".$res['paid_amount']; echo "<br>";
-            //echo "ballance_amount: ".$res['ballance_amount']; echo "<br>";
+            //echo "order_total: ".$order_total; echo "<br>";
+            //echo "paid_amount: ".$paid_amount; echo "<br>";
+            //echo "order_balance_amount: ".$order_balance_amount; echo "<br>"; 
+            //echo "ballance_amount: ".$ballance_amount; echo "<br>"; 
+            //die;
 
-            //Payment method entry
-            $transaction = new Transaction();
-            $transaction->order_id = $res['order_id'];
-            $transaction->customer_id = $res['customer_id'];
-            $transaction->placed_by = $res['placed_by'];
+            /*if ($paid_amount >  $order_balance_amount) { echo "string";
+                return redirect()->route('transactions.index')->with('warning','Paid amount limit exceeded ');
+            }*/
 
-            $transaction->paid_amount = $res['paid_amount'];
-            $transaction->ballance_amount = $res['ballance_amount'];
 
-            $transaction->mode_of_payment = $res['mode_of_payment'];
-            $transaction->remark = $res['remark'];
+            if ($ballance_amount >= 0) {
+                //Payment method entry
+                $transaction = new Transaction();
+                $transaction->order_id = $order_id;
+                $transaction->customer_id = $customer_id;
+                $transaction->placed_by = $placed_by;
 
-            if ($request->upload_receipt) {
-                $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
-                $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
-                $transaction->upload_receipt = $upload_receipt_image_path;
+                $transaction->paid_amount = $paid_amount;
+                $transaction->ballance_amount = $ballance_amount;
+
+                $transaction->mode_of_payment = $mode_of_payment;
+                $transaction->remark = $remark;
+
+                if ($request->upload_receipt) {
+                    $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+                    $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+                    $transaction->upload_receipt = $upload_receipt_image_path;
+                }
+                
+                $transaction->save();
+                //End Payment method entry
+
+                //Update balance
+                Order::where('id',$order_id)->update([
+                    'balance_amount' => $ballance_amount,
+                    'payment_status' => ($ballance_amount > 0 )? 'pending' : 'processing'
+                ]);
+            }else{
+                echo "ballance_amount: ".$ballance_amount;
+                die();
             }
+
             
-            $transaction->save();
-            //End Payment method entry
         }
 
 
         //die;
 
-        //update custom total_fund
-        if ($total_fund_enable == 'yes') {
-            Customer::where('id',$customer_id)->update([
-                'total_fund' => $update_wallet_x
-            ]);
-        }
-
-
-        //update order balance amount
-        if ($total_fund_enable == 'yes') {
-            Order::where('id',$res['order_id'])->update([
-                'balance_amount' => $balance_amount_x,
-                'payment_status' => ($balance_amount_x > 0 )? 'pending' : 'processing'
-            ]);
-        }else{
-            Order::where('id',$res['order_id'])->update([
-                'balance_amount' => $res['ballance_amount'],
-                'payment_status' => ($res['ballance_amount'] > 0 )? 'pending' : 'processing'
-            ]);
-        }
 
         return redirect()->route('transactions.index')->with('success','Transaction added successfully');
         //return redirect('admin/orders/'.$res['order_id'].'/edit')->with('success','Payment added successfully');
     }
 
-    public function calculate_balance($data)
+    public function calculate_balance($order_id, $paid_amount)
     {
 
-        $order = Order::find($data['order_id']);
+        $order = Order::find($order_id);
         $order_total = $order->total;
 
-        $total_paid = $data['paid_amount'];
+        $total_paid = $paid_amount;
         $total_ballance_amount = 0;
-        $transactions = Transaction::where('order_id', $data['order_id'])->get();
+        $transactions = Transaction::where('order_id', $order_id)->get();
         foreach ($transactions as $transaction) {
             $paid_amount = $transaction->paid_amount;
             $total_paid = $total_paid + $paid_amount;
         }
-        //echo "order_total: ".$order_total; echo "<br>";
-        //echo "total_paid: ".$total_paid; echo "<br>";
-
+    
         $total_ballance_amount = $order_total - $total_paid;
-        //echo "total_ballance_amount: ".$total_ballance_amount; echo "<br>";
-        //die;
-
-        //set balance
-        $data['ballance_amount'] = $total_ballance_amount;
-
-        return $data;
+      
+        return $total_ballance_amount;
     }
 
     /**
