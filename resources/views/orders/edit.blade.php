@@ -143,7 +143,7 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Customer Name</label>
+            <label for="exampleInputEmail1">Party Name</label>
             <select name="customer_id" class="form-control" id="customer_id">
               <option value="">select</option>
               @foreach($customers as $customer)
@@ -168,12 +168,12 @@
 
           <div class="form-group">
             <label for="exampleInputEmail1">Shipping address</label>
-            <textarea  name="shipping_address" class="form-control" id="shipping_address" placeholder="enter shipping address">{{$order->shipping_address}}</textarea>
+            <textarea  name="shipping_address" class="form-control" id="shipping_address" placeholder="Enter Shipping Address">{{$order->shipping_address}}</textarea>
           </div>
 
           <div class="form-group">
             <label for="exampleInputEmail1">Remark</label>
-            <textarea name="remark" class="form-control" id="remark" placeholder="enter shipping address">{{$order->remark}}</textarea>
+            <textarea name="remark" class="form-control" id="remark" placeholder="Enter Remark">{{$order->remark}}</textarea>
           </div>
 
           <div class="form-group">

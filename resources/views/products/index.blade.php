@@ -23,42 +23,53 @@
   <div class="card">
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
-  <table class="table table-hover text-nowrap">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th colspan="2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
 
-          @foreach($products as $product)
-          <tr>
-            <td>{{$product->id}}</td>
-            <td>{{$product->name}}</td>
-            <td>{{$product->price}}</td>
-            <td>
-              @if(is_object($product->category))
-              {{$product->category->name}}
-              @else
-              N/A
-              @endif
-            </td>
-            <td>
-              <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}"><i class="fas fa-edit"></i></a> 
-              {!! Form::open(['class' => 'mydeleteform_'.$product->id, 'method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!} 
-               <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
-              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$product->id}}"><i class="fas fa-trash-alt"></i></button>
-               {{ Form::close() }}
-            </td>
-          </tr>
-          @endforeach
+      <!-- <form id="bulk_delete_action_form" action="{{url('products/destroy_bulk')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <button type="button" id="bulk_delete_action_btn" style="display: none;">Bulk delete</button>
+      </form> -->
+      
+          <table class="table table-hover text-nowrap" id="table_index">
+          <thead>
+            <tr>
+              <!-- <th><input type="checkbox" id="selectAll" /></th> -->
+              <th>ID</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Category</th>
+              <th colspan="2">Action</th>
+            </tr>
+          </thead>
+          <tbody>
 
-        </tbody>
-      </table>
+            @foreach($products as $product)
+            <tr>
+              <!-- <td><input type="checkbox" class="selectAll" id="1" name="entity_id[]" value="{{$product->id}}" /></td> -->
+              <td>{{$product->id}}</td>
+              <td>{{$product->name}}</td>
+              <td>{{$product->price}}</td>
+              <td>
+                @if(is_object($product->category))
+                {{$product->category->name}}
+                @else
+                N/A
+                @endif
+              </td>
+              <td>
+                <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}"><i class="fas fa-edit"></i></a> 
+                {!! Form::open(['class' => 'mydeleteform_'.$product->id, 'method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!} 
+                 <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+                <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$product->id}}"><i class="fas fa-trash-alt"></i></button>
+                 {{ Form::close() }}
+              </td>
+            </tr>
+            @endforeach
+
+          </tbody>
+        </table>
+        
+      
+
     </div>
 
 

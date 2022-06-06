@@ -109,7 +109,7 @@
             <th>Order Id</th>
             <th>Customer</th>
             <th>Paid Amount</th>
-            <th>Ballance Amount</th>
+            <th>Balance Amount</th>
             <th>Payment Mode</th>
             <th>Order Total</th>
             <th>Date</th>

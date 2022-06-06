@@ -60,6 +60,11 @@
           </div>
 
           <div class="form-group">
+            <label for="exampleInputEmail1">Alternate Mobile No.</label>
+            <input type="text" name="mobile_alternate" class="form-control" id="mobile_alternate" placeholder="Enter Alternate Mobile No.">
+          </div>
+
+          <div class="form-group">
             <label for="exampleInputEmail1">Email</label>
             <input type="text" name="email" class="form-control" id="email" placeholder="Enter name">
           </div>

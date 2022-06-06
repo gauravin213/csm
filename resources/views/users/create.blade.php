@@ -57,6 +57,16 @@
             </select>
           </div>
 
+          <div class="form-group">
+            <label for="exampleInputEmail1">Mobile No.</label>
+            <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Enter mobile No.">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Alternate Mobile No.</label>
+            <input type="text" name="mobile_alternate" class="form-control" id="mobile_alternate" placeholder="Enter Alternate mobile No.">
+          </div>
+
         </div>
         <!-- /.card-body -->
 

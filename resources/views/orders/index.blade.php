@@ -116,9 +116,9 @@
             <th>Payment Status</th>
             <th>Placed By</th>
             <th>Customer</th>
+            <th>Wallet</th>
             <th>Total</th>
             <th>Balance</th>
-            <th>Discount</th>
             <th>Date</th>
             <th colspan="4">Action</th>
           </tr>
@@ -139,11 +139,31 @@
                 <span style="background-color:#63a363;color: #ffff; padding: 3px; border-radius: 2px;">Completed</span>
               @endif
             </td>
-            <td>{{App\Http\Controllers\OrderController::get_user_name($order->placed_by)}}</td>
-            <td>{{App\Http\Controllers\OrderController::get_customer_name($order->customer_id)}}</td> 
+          
+            <td>
+              @if(is_object($order->user))
+                {{$order->user->name}}
+              @endif
+            </td> 
+
+            <td>
+              @if(is_object($order->customer))
+              <span>{{$order->customer->name}}</span><br>
+                @if(!empty($order->customer->company_name))
+                <span style="color:green;">({{$order->customer->company_name}})</span>
+                @endif
+              @endif
+            </td> 
+
+            <td>
+              @if(is_object($order->customer))
+                {{$order->customer->total_fund}}
+              @endif
+            </td> 
+
+
             <td>{{$order->total}}</td>
             <td>{{$order->balance_amount}}</td>
-            <td>{{$order->discount}}</td>
             <td>{{$order->created_at}}</td>
             <td>
 

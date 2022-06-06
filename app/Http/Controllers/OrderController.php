@@ -76,20 +76,20 @@ class OrderController extends Controller
                 echo "from_date: ".$from_date; echo "<br>";
                 echo "to_date: ".$to_date; echo "<br>";*/
 
-                $orders = Order::where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
+                $orders = Order::with(['user', 'customer'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
 
                 $args_filter['from_date'] = $_GET['from_date'];
                 $args_filter['to_date'] = $_GET['to_date'];
 
             }else{ 
-                $orders = Order::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+                $orders = Order::with(['user', 'customer'])->where($args_filter)->orderBy('id', 'DESC')->paginate(10);
             }
 
         }else{
             if ($user_type == 'administrator') {
-                $orders = Order::orderBy('id', 'DESC')->paginate(10);
+                $orders = Order::with(['user', 'customer'])->orderBy('id', 'DESC')->paginate(10);
             }else{
-                $orders = Order::where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
+                $orders = Order::with(['user', 'customer'])->where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
             }
         }
 

@@ -6,7 +6,13 @@
 <div class="content">
   <div class="container-fluid">
 
-    @if ($errors->any())
+    @if ($message = Session::get('success'))
+     <div class="alert alert-success">
+      {{ $message }}
+    </div>
+    @endif
+
+   @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
             <ul>
@@ -63,6 +69,11 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Mobile No.</label>
             <input type="text" name="mobile" class="form-control" id="mobile" placeholder="Enter mobile" value="{{$customer->mobile}}">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Alternate Mobile No.</label>
+            <input type="text" name="mobile_alternate" class="form-control" id="mobile_alternate" placeholder="Enter Alternate Mobile No." value="{{$customer->mobile_alternate}}">
           </div>
 
           <div class="form-group">

@@ -33,7 +33,7 @@
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Customer Name</label>
+            <label for="exampleInputEmail1">Party Name</label>
             <select name="customer_id" class="form-control" id="customer_id">
               <option value="">select</option>
               @foreach($customers as $customer)
@@ -45,6 +45,31 @@
           <div class="form-group">
             <label for="exampleInputEmail1">Amount</label>
             <input type="text" name="amount" class="form-control" id="amount" placeholder="Enter amount">
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Mode Of Payment</label>
+            <select name="mode_of_payment" class="form-control" id="mode_of_payment">
+              <option value="">select</option>
+              <option value="Cash">Cash</option>
+              <option value="Cheque">Cheque</option>
+              <option value="RTGS">RTGS</option>
+              <option value="NEFT">NEFT</option>
+              <option value="IMPS">IMPS</option>
+              <option value="DD">DD</option>
+              <option value="UPI">UPI</option>              
+            </select>
+          </div>
+
+           <div class="form-group">
+            <label for="exampleInputEmail1">Upload Receipt</label>
+            <input type="file" name="upload_receipt" class="form-control preview_img" id="upload_receipt" accept="image/*">
+            <img src="" id="pan_no_img" style="width: 20%;" />
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Remark/Note</label>
+            <textarea name="remark" class="form-control" id="remark" placeholder="Specify Cheque Date/Transaction ID Of Payment"></textarea>
           </div>
 
         </div>

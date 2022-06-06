@@ -18,6 +18,9 @@ class CreateAdvancePaymentsTable extends Migration
             $table->string('customer_id');
             //$table->bigInteger('amount');
             $table->decimal('amount', 10, 2);
+            $table->string('mode_of_payment')->nullable();
+            $table->string('remark')->nullable();
+            $table->string('upload_receipt')->nullable();
             $table->timestamps();
         });
     }

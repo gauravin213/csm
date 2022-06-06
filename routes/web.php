@@ -55,7 +55,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 	//Show
 	Route::get('/orders/{id}/show', [App\Http\Controllers\OrderController::class, 'show']);
 	Route::get('/customers/{id}/show', [App\Http\Controllers\CustomerController::class, 'show']);
-
 	
 });
 
@@ -73,7 +72,9 @@ Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class,
 Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
 Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
 Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
-//Route::post('/orders/advance-payments', [App\Http\Controllers\AdvancePaymentController::class, 'advance_payments']);
+
+//Bulk action delete
+//Route::post('/products/destroy_bulk', [App\Http\Controllers\ProductController::class, 'destroy_bulk']);
 
 
 /*

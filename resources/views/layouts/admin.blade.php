@@ -437,6 +437,7 @@ jQuery(document).ready(function(){
 });
 </script>
 
+
 <!--model-->
 <div class="modal fade" id="add-item" style="display: none;" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -548,7 +549,7 @@ jQuery(document).ready(function(){
 
     jQuery('#customer_id').select2({
         width: '100%',
-        placeholder : "Customer" 
+        placeholder : "Party Name" 
     });
 
     jQuery('#product_id').select2({
@@ -829,7 +830,6 @@ jQuery(document).ready(function(){
     });
     //End Calculate
 
-
     // Category discount event
     //Product categories
     jQuery.fn.csm_product_category_html = function(res){
@@ -903,7 +903,9 @@ jQuery(document).ready(function(){
     //Aadhar and Pan validation
     jQuery('#pan_no').mask('SSSSS0000S'); //AAAAA0000A
     jQuery('#aadhar_no').mask('0000 0000 0000'); 
-    jQuery('#gst_no').mask('00SSSSS0000S0S0'); // 000000000000000
+    jQuery('#gst_no').mask('00SSSSS0000S0SA'); // 000000000000000
+    jQuery('#mobile').mask('0000000000'); // 000000000000000
+    jQuery('#mobile_alternate').mask('0000000000'); // 000000000000000
 
     //confirme befor deletion
     jQuery(document).on('click', '.delete_ev', function(e){
@@ -924,41 +926,40 @@ jQuery(document).ready(function(){
     });
 
 
-    /*//Advance paymenr
-    var total_fund_tmp = jQuery('#total_fund').val();
-    jQuery(document).on('keyup', '#paid_amount', function (e) {
-        e.preventDefault();
-        var target = jQuery(this);
-        var paid_amount = target.val();
-        var total_fund = jQuery('#total_fund').val();
-        var total_fund_updated = 0;
-
-        //total_fund_enable
-        if(jQuery('#total_fund_enable').is(':checked')){ 
-          //console.log('checked: ');
-          if (paid_amount != '') {
-            total_fund_updated = parseFloat(total_fund_tmp) - parseFloat(paid_amount);
-             
-             if (total_fund_updated > 0) { //Positive value
-              jQuery('#total_fund_text').text(total_fund_updated);
-              jQuery('#total_fund').val(total_fund_updated);
-             }else{ //Negavive value
-                jQuery('#total_fund_text').text(0);
-                jQuery('#total_fund').val(0);
-                console.log('negavive: ', total_fund_updated);
-             }
-
-          }else{
-             jQuery('#total_fund_text').text(total_fund_tmp);
-             jQuery('#total_fund').val(total_fund_tmp);
-          }
-          console.log('total_fund_updated: ', total_fund_updated);
-          console.log('paid_amount: ', paid_amount);
-          console.log('total_fund_tmp: ', total_fund_tmp);
-        }else{
-          //console.log('not checked: ');
-        }
+    //bulk delete action
+    /*jQuery('#selectAll').click(function (e) {
+        jQuery(this).closest('#table_index').find('td input:checkbox').prop('checked', this.checked);
     });*/
+    jQuery(document).on('click', '#selectAll', function(e){
+      //e.preventDefault();
+      jQuery(this).closest('#table_index').find('td input:checkbox').prop('checked', this.checked);
+      if (jQuery(this).is(':checked')) {
+        jQuery('#bulk_delete_action_btn').show();
+      }else{
+        jQuery('#bulk_delete_action_btn').hide();
+      }
+    });
+    jQuery(document).on('click', '.selectAll', function(e){
+      //e.preventDefault();
+      if (jQuery(this).is(':checked')) {
+        jQuery('#bulk_delete_action_btn').show();
+      }else{
+        jQuery('#bulk_delete_action_btn').hide();
+      }
+    });
+    jQuery(document).on('click', '#bulk_delete_action_btn', function(){
+      var fd = new FormData();
+      var other_data = jQuery('#bulk_delete_action_form').serializeArray();
+      jQuery.each(other_data,function(key,input){ //_method
+          if (input.name != '_method') {
+            fd.append(input.name,input.value);
+          }else{
+            console.log('excluded key _method: ', input.name);
+          }
+      });
+      console.log('other_data->: ', other_data);
+    });
+    //End bulk delete action
 
 
     //Advance paymenr
@@ -1041,7 +1042,14 @@ jQuery(document).ready(function(){
 
       var wallet_amount  = jQuery('#wallet_amount').val();
       var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
-      var order_total    = jQuery('#order_total').val();
+
+      var order_balance_amount = jQuery('#order_balance_amount').val();
+      if (order_balance_amount) {
+        var order_total    = jQuery('#order_balance_amount').val();
+      }else{
+        var order_total    = jQuery('#order_total').val();
+      }
+      
       var act = jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
 
       if(target.is(':checked')){  
@@ -1069,7 +1077,13 @@ jQuery(document).ready(function(){
       var target = jQuery(this);
       var wallet_amount  = jQuery('#wallet_amount').val();
       var enter_amount   = (target.val() != '') ? target.val() : 0;
-      var order_total    = jQuery('#order_total').val();
+      
+      var order_balance_amount = jQuery('#order_balance_amount').val();
+      if (order_balance_amount) {
+        var order_total    = jQuery('#order_balance_amount').val();
+      }else{
+        var order_total    = jQuery('#order_total').val();
+      }
       
       var a = parseFloat(enter_amount);
       var b = parseFloat(jQuery('#paid_amount').attr('data-max'));

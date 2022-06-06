@@ -220,10 +220,10 @@ class CustomerController extends Controller
             'name' => 'required',
             'address' => 'required',
             'mobile' => 'required',
-            'email' => 'required',
+            //'email' => 'required',
             'pan_no' => 'required',
-            'aadhar_no' => 'required',
-            'gst_no' => 'required',
+            //'aadhar_no' => 'required',
+            //'gst_no' => 'required',
         ]);
 
 
@@ -233,6 +233,7 @@ class CustomerController extends Controller
         $customer->credit_limit = $request->credit_limit;
         $customer->address = $request->address;
         $customer->mobile = $request->mobile;
+        $customer->mobile_alternate = $request->mobile_alternate;
         $customer->email = $request->email;
         $customer->pan_no = $request->pan_no;
         $customer->aadhar_no = $request->aadhar_no;
@@ -336,10 +337,10 @@ class CustomerController extends Controller
             'name' => 'required',
             'address' => 'required',
             'mobile' => 'required',
-            'email' => 'required',
+            //'email' => 'required',
             'pan_no' => 'required',
-            'aadhar_no' => 'required',
-            'gst_no' => 'required',
+            //'aadhar_no' => 'required',
+            //'gst_no' => 'required',
         ]);
         
         $customer->name = $request->name;
@@ -347,6 +348,7 @@ class CustomerController extends Controller
         $customer->credit_limit = $request->credit_limit;
         $customer->address = $request->address;
         $customer->mobile = $request->mobile;
+        $customer->mobile_alternate = $request->mobile_alternate;
         $customer->email = $request->email;
         $customer->pan_no = $request->pan_no;
         $customer->aadhar_no = $request->aadhar_no;

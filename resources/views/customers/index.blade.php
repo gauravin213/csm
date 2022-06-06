@@ -62,6 +62,7 @@
           <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Company</th>
             <th>Mobile</th>
             <th>Wallet</th>
             <th>Sales Man</th>
@@ -74,7 +75,15 @@
           <tr>
             <td>{{$customer->id}}</td>
             <td>{{$customer->name}}</td>
-            <td>{{$customer->mobile}}</td>
+            <td>{{$customer->company_name}}</td>
+            <td>
+              @if($customer->mobile!='' && $customer->mobile_alternate!='')
+              {{$customer->mobile}}, {{$customer->mobile_alternate}}
+              @else
+              {{$customer->mobile}}
+              @endIf
+              
+            </td>
             <td>{{$customer->total_fund}}</td>
             <td>
               @if(is_object($customer->user))

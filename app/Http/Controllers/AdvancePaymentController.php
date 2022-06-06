@@ -28,8 +28,15 @@ class AdvancePaymentController extends Controller
      */
     public function create()
     {
-        $user_id = auth()->user()->id;
-        $customers = Customer::all();
+        $user = auth()->user();
+        $user_id = $user->id;
+        $user_type = $user->user_type;
+
+        if (in_array($user_type, ['administrator'])) {
+            $customers = Customer::all();
+        }else{
+            $customers = Customer::where('sales_persone_id', $user_id)->get();
+        }
         return view('advance-payments.create', ['user_id' => $user_id, 'customers' => $customers]);
     }
 
@@ -43,12 +50,23 @@ class AdvancePaymentController extends Controller
     {
         $request->validate([
             'customer_id' => 'required',
-            'amount' => 'required'
+            'amount' => 'required',
+            'mode_of_payment' => 'required'
         ]);
 
         $AdvancePayment = new AdvancePayment();
         $AdvancePayment->customer_id = $request->customer_id;
         $AdvancePayment->amount = $request->amount;
+        $AdvancePayment->mode_of_payment = $request->mode_of_payment;
+
+        if ($request->upload_receipt) {
+            $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+            $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+            $AdvancePayment->upload_receipt = $upload_receipt_image_path;
+        }
+
+
+        $AdvancePayment->remark = $request->remark;
         $AdvancePayment->save();
 
 
@@ -98,11 +116,19 @@ class AdvancePaymentController extends Controller
     {
         $request->validate([
             'customer_id' => 'required',
-            'amount' => 'required'
+            'amount' => 'required',
+            'mode_of_payment' => 'required'
         ]);
 
         $advancePayment->customer_id = $request->customer_id;
         $advancePayment->amount = $request->amount;
+        $AdvancePayment->mode_of_payment = $request->mode_of_payment;
+       if ($request->upload_receipt) {
+            $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
+            $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
+            $AdvancePayment->upload_receipt = $upload_receipt_image_path;
+        }
+        $AdvancePayment->remark = $request->remark;
         $advancePayment->update();
 
         /*$customer = Customer::find($request->customer_id);

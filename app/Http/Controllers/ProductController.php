@@ -120,4 +120,15 @@ class ProductController extends Controller
         $product->delete();
         return redirect()->route('products.index')->with('success','Product deleted successfully');
     }
+
+    public function destroy_bulk(Request $request)
+    {
+
+        die("123");
+        //$ids = explode(",", $id);
+
+        //Product::whereIn('id', $ids)->delete();
+        //$product->delete();
+        //return redirect()->route('products.index')->with('success','Product deleted successfully');
+    }
 }
