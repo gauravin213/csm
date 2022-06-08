@@ -72,6 +72,13 @@
             <textarea name="remark" class="form-control" id="remark" placeholder="Specify Cheque Date/Transaction ID Of Payment"></textarea>
           </div>
 
+          <div class="form-group">
+            <label for="exampleInputEmail1">Payment Date</label>
+            <input type="text" name="payment_date" class="form-control" id="payment_date" autocomplete="off" value="">
+          </div>
+
+          <input type="hidden" name="placed_by" class="form-control" id="placed_by" placeholder="Enter placed_by" value="{{$user_id}}">
+
         </div>
         <!-- /.card-body -->
 

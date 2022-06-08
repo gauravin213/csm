@@ -14,6 +14,7 @@
     <form id="csm_export_form" action="{{url('/pricelists/exportcsv')}}" method="GET">
       <input type="hidden" name="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
       <!-- <input type="hidden" name="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}"> -->
+      <input type="hidden" name="state" class="form-control" autocomplete="off" value="{{(isset($_GET['state'])) ? $_GET['state'] : ''}}">
     </form>
     <!---->
     <form action="" method="GET">
@@ -28,7 +29,14 @@
         <div class="card-body">
           <div class="row">
             <div class="col-3">
-              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}">
+              <input type="text" name="from_date" id="from_date" class="form-control" autocomplete="off" value="{{(isset($_GET['from_date'])) ? $_GET['from_date'] : ''}}" placeholder="date">
+            </div>
+            <div class="col-3">
+             <select name="state" class="form-control" id="state">
+              <option value="">Select state</option>
+              <option value="1" {{(isset($_GET['state']) && $_GET['state'] =='1') ? 'selected' : ''}} >UP/MP/Chhattisgarh</option>  
+              <option value="2" {{(isset($_GET['state']) && $_GET['state'] =='2') ? 'selected' : ''}}>Bihar/Jharkhand</option>        
+            </select>
             </div>
             <!-- <div class="col-3">
                <input type="text" name="to_date" id="to_date" class="form-control" autocomplete="off" value="{{(isset($_GET['to_date'])) ? $_GET['to_date'] : ''}}">

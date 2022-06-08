@@ -15,8 +15,37 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->orderBy('id', 'DESC')->paginate(10);
-        return view('products.index', ['products' => $products]);
+       
+        if ( !empty($_GET['s']) && !empty($_GET['category_id']) ) {
+            $products = Product::query()
+            ->with('category')
+            ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('description', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('price', 'LIKE', '%'.$_GET['s'].'%')
+            ->orderBy('name', 'ASC')
+            ->paginate(10);
+        }else if( empty($_GET['s']) && !empty($_GET['category_id']) ){
+            $products = Product::query()
+            ->with('category')
+            ->where('category_id', $_GET['category_id'])
+            ->orderBy('name', 'ASC')
+            ->paginate(10);
+        }else if( !empty($_GET['s']) && !empty($_GET['category_id'])){
+            $products = Product::query()
+            ->with('category')
+            ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('description', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('price', 'LIKE', '%'.$_GET['s'].'%')
+            ->where('category_id', $_GET['category_id'])
+            ->orderBy('name', 'ASC')
+            ->paginate(10);
+        }else{
+            $products = Product::with('category')->orderBy('name', 'ASC')->paginate(10);
+        }
+
+        $categories = Category::all();
+        
+        return view('products.index', ['products' => $products, 'categories' => $categories]);
     }
 
     /**

@@ -14,6 +14,66 @@
         <h1 class="m-0"><a href="{{ url('admin/users/create') }}" class="btn btn-primary">Add User</a></h1>
       </div><!-- /.col -->
     </div><!-- /.row -->
+
+    <form action="" method="GET">
+      <!---->
+      <div class="card">
+        <div class="card-header">
+         <h3 class="card-title">Search&nbsp; &nbsp; &nbsp;</h3>  
+        </div>
+        <div class="card-body">
+          <div class="row" style="margin-top: 5px;">
+
+             <div class="col-sm-6">
+
+              <div class="row">
+
+                <div class="col-sm-6">
+                  <div class="filter_field">
+                    <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
+                  </div>
+                  <div class="filter_field">
+                     <button class="btn btn-default">Search</button>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="filter_field">
+                    <select name="user_type" id="user_type" class="form-control" >
+                      <option value="">select</option>
+                      <option value="administrator" {{(isset($_GET['user_type']) && 'administrator' ==$_GET['user_type']) ? 'selected' : ''}}>Administrator</option>
+                      <option value="sales_man" {{(isset($_GET['user_type']) && 'sales_man'==$_GET['user_type']) ? 'selected' : ''}}>Sales Man</option>
+                    </select>
+                  </div>
+                  <div class="filter_field">
+                    <button class="btn btn-default">Filter</button>
+                  </div>
+                  
+                </div>
+
+              </div>
+
+             </div>
+
+             <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="filter_field">
+                    @if(isset($_GET['s']) && $_GET['s'] !='' || isset($_GET['user_type']) && $_GET['user_type'] !='')
+                      <a href="{{url('/admin/users')}}" class="btn btn-danger">Remove Filter</a>
+                    @endif
+                  </div>
+                </div>
+              </div>
+             </div>
+
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!---->
+    </form>
+
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->

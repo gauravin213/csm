@@ -78,6 +78,11 @@
             <textarea name="remark" class="form-control" id="remark" placeholder="Specify Cheque Date/Transaction ID Of Payment">{{$advancePayment->remark}}</textarea>
           </div>
 
+           <div class="form-group">
+            <label for="exampleInputEmail1">Payment Date</label>
+            <input type="text" name="payment_date" class="form-control" id="payment_date" autocomplete="off" value="{{date("d-m-Y", strtotime($advancePayment->payment_date))}}">
+          </div>
+
         </div>
         <!-- /.card-body -->
 

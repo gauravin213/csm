@@ -200,7 +200,14 @@ class CustomerController extends Controller
     {
         $user_id = auth()->user()->id;
         $user_type = auth()->user()->user_type;
-        $salesmans = User::where('user_type', 'sales_mane')->get();
+
+        if ($user_type == 'administrator') {
+            $salesmans = User::all();
+        }else{
+           $salesmans = User::where('user_type', $user_type)->get();
+        }
+
+        //dd($salesmans);
         return view('customers.create', ['user_id' => $user_id, 'user_type'=>$user_type, 'salesmans' =>$salesmans]);
     }
 
@@ -314,7 +321,11 @@ class CustomerController extends Controller
     {
         $user_id = auth()->user()->id;
         $user_type = auth()->user()->user_type;
-        $salesmans = User::where('user_type', 'sales_mane')->get();
+        if ($user_type == 'administrator') {
+            $salesmans = User::all();
+        }else{
+           $salesmans = User::where('user_type', $user_type)->get();
+        }
         return view('customers.edit', ['user_id' => $user_id, 'customer' => $customer, 'user_type'=>$user_type, 'salesmans' => $salesmans]);
     }
 

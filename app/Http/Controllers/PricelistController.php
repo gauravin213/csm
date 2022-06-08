@@ -18,21 +18,36 @@ class PricelistController extends Controller
      */
     public function index()
     {   
-        
-        if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
-
-            $from_date = $_GET['from_date'];
-            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->paginate(10);
-
-           /*foreach ($pricelists as $pricelist) {
-                echo "id: ".$pricelist->id; echo "<br>";
+        $args_filter = [];
+        if (count($_GET)!=0) {
+            foreach ($_GET as $key => $value) {
+                if ( !in_array($key, ['page']) ) {
+                    if ($value!='') {
+                        
+                        if ($key == 'from_date') {
+                           $args_filter['price_date'] = $value;
+                        }else{
+                           $args_filter[$key] = $value;
+                        }
+                    }
+                }
             }
-            die;*/
+        }
+
+        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>"; //die;
+
+        if (!empty($args_filter)) {
+            $pricelists = Pricelist::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
         }else{
             $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
         }
 
-        //$pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+       /* if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
+            $from_date = $_GET['from_date'];
+            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->paginate(10);
+        }else{
+            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+        }*/
 
         return view('pricelists.index', ['pricelists' => $pricelists]);
     }
@@ -41,19 +56,40 @@ class PricelistController extends Controller
     public function exportcsv(Request $request)
     {      
 
-        if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
+        $args_filter = [];
+        if (count($_GET)!=0) {
+            foreach ($_GET as $key => $value) {
+                if ( !in_array($key, ['page']) ) {
+                    if ($value!='') {
+                        
+                        if ($key == 'from_date') {
+                           $args_filter['price_date'] = $value;
+                        }else{
+                           $args_filter[$key] = $value;
+                        }
+                    }
+                }
+            }
+        }
+
+        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>"; die;
+
+        if (!empty($args_filter)) {
+            $pricelists = Pricelist::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+        }else{
+            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+        }
+
+        //dd($pricelists);
+
+        /*if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
             $from_date = $_GET['from_date'];
             $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->get();
         }else{
             $pricelists = Pricelist::orderBy('id', 'DESC')->get();
-        }
+        }*/
 
-        /*foreach ($pricelists as $pricelist) {
-            echo "-->".$pricelist->id; echo "<br>";       
-        }
-        die;*/
-
-        //$orders = Order::all();
+       
 
         // these are the headers for the csv file.
         $headers = array(

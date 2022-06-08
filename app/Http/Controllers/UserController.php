@@ -13,8 +13,32 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $users = User::orderBy('id', 'DESC')->paginate(10);
+    {   
+        if ( !empty($_GET['s']) && empty($_GET['user_type'])) { echo "string1";
+            $users = User::query()
+            ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('mobill', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('mobile_alternate', 'LIKE', '%'.$_GET['s'].'%')
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        }else if( empty($_GET['s']) && !empty($_GET['user_type']) ){ echo "string2";
+            $users = User::query()
+            ->where('user_type', $_GET['user_type'])
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        }else if( !empty($_GET['s']) && !empty($_GET['user_type']) ){ echo "string3";
+            $users = User::query()
+            ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('mobill', 'LIKE', '%'.$_GET['s'].'%')
+            ->orWhere('mobile_alternate', 'LIKE', '%'.$_GET['s'].'%')
+            ->where('user_type', $_GET['user_type'])
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+        }else{
+           $users = User::orderBy('id', 'DESC')->paginate(10);
+        }
         return view('users.index', compact('users'));
     }
 

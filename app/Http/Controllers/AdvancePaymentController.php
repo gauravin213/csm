@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AdvancePayment;
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdvancePaymentController extends Controller
@@ -14,11 +15,53 @@ class AdvancePaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $customers = Customer::all();
-        $advance_payments = AdvancePayment::with('customer')->orderBy('id', 'DESC')->paginate(10);
-        //dd($advance_payments);
-        return view('advance-payments.index', ['advance_payments' => $advance_payments, 'customers' => $customers]);
+    {      
+        $user = auth()->user();
+        $user_id = $user->id;
+        $user_type = $user->user_type;
+
+        if ($user_type == 'administrator') {
+            $customers = Customer::all();
+            $users = User::all();
+        }else{
+            $customers = Customer::where('sales_persone_id', $user_id)->get();
+            $users = User::where('id', $user_id)->get();
+        }
+       
+        $args_filter = [];
+        if (count($_GET)!=0) {
+            foreach ($_GET as $key => $value) {
+                if ( !in_array($key, ['page']) ) {
+                    if ($value!='') {
+
+                        if ($key == 'payment_date') {
+                            $args_filter[$key] = date("Y-m-d", strtotime($value));
+                        }else{
+                            $args_filter[$key] = $value;
+                        }
+                        
+                    }
+                }
+            }
+            if ($user_type != 'administrator') {
+                $args_filter['placed_by'] = $user_id;
+            }
+        }
+
+        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+
+        if (!empty($args_filter)) {
+           $advance_payments = AdvancePayment::with('customer')->where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+        }else{
+           $advance_payments = AdvancePayment::with('customer')->orderBy('id', 'DESC')->paginate(10);
+        }
+
+        return view('advance-payments.index', [
+            'advance_payments' => $advance_payments, 
+            'customers' => $customers, 
+            'users' => $users,
+            'args_filter' => $args_filter
+        ]);
     }
 
     /**
@@ -54,20 +97,23 @@ class AdvancePaymentController extends Controller
             'mode_of_payment' => 'required'
         ]);
 
-        $AdvancePayment = new AdvancePayment();
-        $AdvancePayment->customer_id = $request->customer_id;
-        $AdvancePayment->amount = $request->amount;
-        $AdvancePayment->mode_of_payment = $request->mode_of_payment;
-
+        $advancePayment = new AdvancePayment();
+        $advancePayment->customer_id = $request->customer_id;
+        $advancePayment->placed_by = $request->placed_by;
+        $advancePayment->amount = $request->amount;
+        $advancePayment->mode_of_payment = $request->mode_of_payment;
         if ($request->upload_receipt) {
             $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
             $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
-            $AdvancePayment->upload_receipt = $upload_receipt_image_path;
+            $advancePayment->upload_receipt = $upload_receipt_image_path;
         }
-
-
-        $AdvancePayment->remark = $request->remark;
-        $AdvancePayment->save();
+        $advancePayment->remark = $request->remark;
+        if (!empty($request->payment_date)) {
+            $originalDate = $request->payment_date;
+            $payment_date = date("Y-m-d", strtotime($originalDate));
+            $advancePayment->payment_date = $payment_date;
+        }
+        $advancePayment->save();
 
 
         $customer = Customer::find($request->customer_id);
@@ -114,6 +160,9 @@ class AdvancePaymentController extends Controller
      */
     public function update(Request $request, AdvancePayment $advancePayment)
     {
+
+        //echo "<pre>"; print_r($request->all()); echo "</pre>"; die;
+
         $request->validate([
             'customer_id' => 'required',
             'amount' => 'required',
@@ -121,14 +170,22 @@ class AdvancePaymentController extends Controller
         ]);
 
         $advancePayment->customer_id = $request->customer_id;
+        //$advancePayment->placed_by = $request->placed_by;
         $advancePayment->amount = $request->amount;
-        $AdvancePayment->mode_of_payment = $request->mode_of_payment;
+        $advancePayment->mode_of_payment = $request->mode_of_payment;
        if ($request->upload_receipt) {
             $upload_receipt_image = $request->file('upload_receipt')->getClientOriginalName();
             $upload_receipt_image_path = $request->file('upload_receipt')->store('uploads');
-            $AdvancePayment->upload_receipt = $upload_receipt_image_path;
+            $advancePayment->upload_receipt = $upload_receipt_image_path;
         }
-        $AdvancePayment->remark = $request->remark;
+        $advancePayment->remark = $request->remark;
+
+        if (!empty($request->payment_date)) {
+            $originalDate = $request->payment_date;
+            $payment_date = date("Y-m-d", strtotime($originalDate));
+            $advancePayment->payment_date = $payment_date;
+        }
+
         $advancePayment->update();
 
         /*$customer = Customer::find($request->customer_id);

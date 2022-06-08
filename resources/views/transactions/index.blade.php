@@ -50,7 +50,7 @@
              <select name="customer_id" class="form-control" id="customer_id">
                 <option value="">Customer</option>
                 @foreach($customers as $customer)
-                <option value="{{$customer->id}}" {{(isset($_GET['customer_id']) && $customer->id==$_GET['customer_id']) ? 'selected' : ''}}>{{$customer->name}}</option>
+                <option value="{{$customer->id}}" {{(isset($_GET['customer_id']) && $customer->id==$_GET['customer_id']) ? 'selected' : ''}}>{{$customer->name}}({{$customer->company_name}})</option>
                 @endforeach
               </select>
             </div>

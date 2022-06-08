@@ -14,6 +14,61 @@
         <h1 class="m-0"><a href="{{ url('admin/advance-payments/create') }}" class="btn btn-primary">Add Payment</a></h1>
       </div><!-- /.col -->
     </div><!-- /.row -->
+
+
+    <form action="" method="GET">
+      <!---->
+      <div class="card">
+
+        <div class="card-header">
+           <h3 class="card-title">Filter &nbsp; &nbsp; &nbsp;</h3> 
+        </div>
+
+        <div class="card-body">
+
+          <div class="row">
+            
+            <div class="col-sm-4">
+             <select name="customer_id" class="form-control" id="customer_id">
+                <option value="">Customer</option>
+                @foreach($customers as $customer)
+                <option value="{{$customer->id}}" {{(isset($_GET['customer_id']) && $customer->id==$_GET['customer_id']) ? 'selected' : ''}}>{{$customer->name}}({{$customer->company_name}})</option>
+                @endforeach
+              </select>
+            </div>
+
+            <div class="col-sm-4">
+              <select name="placed_by" class="form-control" id="placed_by">
+                <option value="">User</option>
+                @foreach($users as $user)
+                <option value="{{$user->id}}" {{(isset($_GET['placed_by']) && $user->id==$_GET['placed_by']) ? 'selected' : ''}}>{{$user->name}}</option>
+                @endforeach
+              </select>
+            </div>
+
+             <div class="col-sm-4">
+              <input type="text" name="payment_date" id="payment_date" class="form-control" autocomplete="off" value="{{(isset($_GET['payment_date'])) ? $_GET['payment_date'] : ''}}" placeholder="Payment date">
+            </div>
+
+          </div>
+
+          <div class="row">
+           
+            <div class="col-sm-4">
+             <button class="btn btn-default">Filter</button>
+             @if(count($args_filter)!=0)
+              <a href="{{url('/admin/advance-payments')}}" class="btn btn-danger">Remove Filter</a>
+             @endif
+            </div>
+          </div>
+
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!---->
+    </form>
+
+
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
@@ -29,7 +84,8 @@
             <th>#</th>
             <th>Customer Name</th>
             <th>Amount</th>
-            <th>Date</th>
+            <th>Payment Date</th>
+            <th>Created At</th>
             <th colspan="2">Action</th>
           </tr>
         </thead>
@@ -44,6 +100,11 @@
               @endif
             </td>
             <td>{{$advance_payment->amount}}</td>
+            <td>
+              @if($advance_payment->payment_date!='')
+                {{date("d-m-Y", strtotime($advance_payment->payment_date))}}
+              @endif
+            </td>
             <td>{{$advance_payment->created_at}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('advance-payments.edit',$advance_payment->id) }}"><i class="fas fa-edit"></i></a>

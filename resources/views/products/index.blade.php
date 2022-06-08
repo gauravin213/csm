@@ -14,6 +14,68 @@
         <h1 class="m-0"><a href="{{ url('admin/products/create') }}" class="btn btn-primary">Add Product</a></h1>
       </div><!-- /.col -->
     </div><!-- /.row -->
+
+    <form action="" method="GET">
+      <!---->
+      <div class="card">
+        <div class="card-header">
+         <h3 class="card-title">Search&nbsp; &nbsp; &nbsp;</h3>  
+        </div>
+        <div class="card-body">
+          <div class="row" style="margin-top: 5px;">
+
+             <div class="col-sm-6">
+
+              <div class="row">
+
+                <div class="col-sm-6">
+                  <div class="filter_field">
+                    <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
+                  </div>
+                  <div class="filter_field">
+                     <button class="btn btn-default">Search</button>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="filter_field">
+                    <select name="category_id" class="form-control" id="category_id">
+                      <option value="">Category</option>
+                      @foreach($categories as $category)
+                      <option value="{{$category->id}}" {{(isset($_GET['category_id']) && $category->id==$_GET['category_id']) ? 'selected' : ''}}>{{$category->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="filter_field">
+                    <button class="btn btn-default">Filter</button>
+                  </div>
+                  
+                </div>
+
+              </div>
+
+             </div>
+
+             <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="filter_field">
+                    @if(isset($_GET['s']) && $_GET['s'] !='')
+                      <a href="{{url('/admin/products')}}" class="btn btn-danger">Remove Filter</a>
+                    @endif
+                  </div>
+                </div>
+              </div>
+             </div>
+
+          </div>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!---->
+    </form>
+
+
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->

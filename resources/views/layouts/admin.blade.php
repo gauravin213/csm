@@ -47,6 +47,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 .modal-content {
     margin-top: 150px;
 }
+
+.filter_field {
+    display: inline-flex;
+}
 </style>
 
 </head>
@@ -537,6 +541,7 @@ jQuery(document).ready(function(){
     var crr_date = `${dd}-${mm}-${yy}`;
     jQuery('#price_date').datepicker({dateFormat: 'dd-mm-yy'});
     jQuery("#price_date").datepicker("setDate", crr_date);
+    jQuery("#payment_date").datepicker({dateFormat: 'dd-mm-yy'});
 
 
     jQuery("#from_date").datepicker({dateFormat: 'dd-mm-yy'});
@@ -550,6 +555,11 @@ jQuery(document).ready(function(){
     jQuery('#customer_id').select2({
         width: '100%',
         placeholder : "Party Name" 
+    });
+
+    jQuery('#placed_by').select2({
+        width: '100%',
+        placeholder : "User" 
     });
 
     jQuery('#product_id').select2({
