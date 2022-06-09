@@ -136,4 +136,13 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success','user deleted successfully');
     }
+
+    public function destroy_bulk(Request $request)
+    {
+        $entity_ids = $request->entity_ids;
+        $entity_ids = explode(",", $entity_ids);
+        //echo "<pre>-->"; print_r($entity_ids); echo "</pre>"; die;
+        User::whereIn('id', $entity_ids)->delete();
+        return redirect()->route('products.index')->with('success','Bulk Product deleted successfully');
+    }
 }

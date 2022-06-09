@@ -57,14 +57,18 @@
              </div>
 
              <div class="col-sm-6">
+
               <div class="row">
+
                 <div class="col-sm-3">
                   <div class="filter_field">
-                    @if(isset($_GET['s']) && $_GET['s'] !='')
+                    @if(isset($_GET['s']) && $_GET['s'] !='' || isset($_GET['category_id']) && $_GET['category_id'] !='')
                       <a href="{{url('/admin/products')}}" class="btn btn-danger">Remove Filter</a>
                     @endif
                   </div>
                 </div>
+
+               
               </div>
              </div>
 
@@ -74,6 +78,16 @@
       </div>
       <!---->
     </form>
+
+     <div class="row">
+       <div class="col-sm-3">
+       <form id="bulk_delete_action_form" action="{{url('users/destroy_bulk')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <button type="submit" id="bulk_delete_action_btn" class="btn btn-danger btn-sm" style="display: none;">Bulk delete</button>
+        <input type="hidden" name="entity_ids" id="entity_ids">
+      </form>
+    </div>
+    </div>
 
 
   </div><!-- /.container-fluid -->
@@ -86,15 +100,12 @@
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
 
-      <!-- <form id="bulk_delete_action_form" action="{{url('products/destroy_bulk')}}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <button type="button" id="bulk_delete_action_btn" style="display: none;">Bulk delete</button>
-      </form> -->
+     
       
           <table class="table table-hover text-nowrap" id="table_index">
           <thead>
             <tr>
-              <!-- <th><input type="checkbox" id="selectAll" /></th> -->
+              <th><input type="checkbox" id="selectAll" /></th>
               <th>ID</th>
               <th>Name</th>
               <th>Price</th>
@@ -106,7 +117,7 @@
 
             @foreach($products as $product)
             <tr>
-              <!-- <td><input type="checkbox" class="selectAll" id="1" name="entity_id[]" value="{{$product->id}}" /></td> -->
+              <td><input type="checkbox" class="selectAll" id="1" name="entity_id[]" value="{{$product->id}}" /></td>
               <td>{{$product->id}}</td>
               <td>{{$product->name}}</td>
               <td>{{$product->price}}</td>
@@ -129,6 +140,8 @@
 
           </tbody>
         </table>
+
+
         
       
 

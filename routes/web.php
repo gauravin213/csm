@@ -74,7 +74,8 @@ Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::cl
 Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
 
 //Bulk action delete
-//Route::post('/products/destroy_bulk', [App\Http\Controllers\ProductController::class, 'destroy_bulk']);
+Route::post('/products/destroy_bulk', [App\Http\Controllers\ProductController::class, 'destroy_bulk']);
+Route::post('/users/destroy_bulk', [App\Http\Controllers\UserController::class, 'destroy_bulk']);
 
 
 /*

@@ -937,37 +937,43 @@ jQuery(document).ready(function(){
 
 
     //bulk delete action
-    /*jQuery('#selectAll').click(function (e) {
-        jQuery(this).closest('#table_index').find('td input:checkbox').prop('checked', this.checked);
-    });*/
-    jQuery(document).on('click', '#selectAll', function(e){
-      //e.preventDefault();
+    jQuery(document).on('click', '#selectAll', function(){
       jQuery(this).closest('#table_index').find('td input:checkbox').prop('checked', this.checked);
       if (jQuery(this).is(':checked')) {
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }else{
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }
+      if (jQuery('#entity_ids').val() != '') {
         jQuery('#bulk_delete_action_btn').show();
       }else{
         jQuery('#bulk_delete_action_btn').hide();
       }
     });
-    jQuery(document).on('click', '.selectAll', function(e){
-      //e.preventDefault();
+    jQuery(document).on('click', '.selectAll', function(){
       if (jQuery(this).is(':checked')) {
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }else{
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }
+      if (jQuery('#entity_ids').val() != '') {
         jQuery('#bulk_delete_action_btn').show();
       }else{
         jQuery('#bulk_delete_action_btn').hide();
       }
     });
-    jQuery(document).on('click', '#bulk_delete_action_btn', function(){
-      var fd = new FormData();
-      var other_data = jQuery('#bulk_delete_action_form').serializeArray();
-      jQuery.each(other_data,function(key,input){ //_method
-          if (input.name != '_method') {
-            fd.append(input.name,input.value);
-          }else{
-            console.log('excluded key _method: ', input.name);
-          }
-      });
-      console.log('other_data->: ', other_data);
+    //confirme befor bulk deletion
+    jQuery(document).on('click', '#bulk_delete_action_btn', function(e){
+      e.preventDefault();
+      var target = jQuery(this);
+      if (confirm("Do you want to bulk delete") == true) {
+        jQuery('#bulk_delete_action_form').submit();
+      } else {
+      }
     });
     //End bulk delete action
 

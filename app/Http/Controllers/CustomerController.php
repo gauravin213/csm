@@ -21,9 +21,14 @@ class CustomerController extends Controller
     
         $user_id = auth()->user()->id;
         $user_type = auth()->user()->user_type;
+        $users = User::where('user_type', 'sales_man')->get();
+
+        //sales_persone_id
 
         if ($user_type == 'administrator') {
-            if ( isset($_GET['s']) && $_GET['s'] !='') {
+
+            if ( !empty($_GET['s']) && empty($_GET['sales_persone_id']) ) {  //echo "string1";
+
                 $customers = Customer::query()
                 ->with('user')
                 ->where('name', 'LIKE', '%'.$_GET['s'].'%')
@@ -37,11 +42,37 @@ class CustomerController extends Controller
                 ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
+
+            }else if( empty($_GET['s']) && !empty($_GET['sales_persone_id']) ){ //echo "string2";
+
+                $customers = Customer::query()
+                ->with('user')
+                ->where('sales_persone_id', $_GET['sales_persone_id'])
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
+            }else if( !empty($_GET['s']) && !empty($_GET['sales_persone_id'])){ //echo "string3";
+
+                $customers = Customer::query()
+                ->with('user')
+                ->where('sales_persone_id', $_GET['sales_persone_id'])
+                ->orWhere('name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
             }else{
                 $customers = Customer::with('user')->orderBy('id', 'DESC')->paginate(10);
             }
         }else{
-             if ( isset($_GET['s']) && $_GET['s'] !='') {
+             if ( !empty($_GET['s']) && empty($_GET['sales_persone_id']) ) {
                 $customers = Customer::query()
                 ->with('user')
                 ->where('sales_persone_id', $user_id)
@@ -56,13 +87,40 @@ class CustomerController extends Controller
                 ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
                 ->orderBy('id', 'DESC')
                 ->paginate(10);
+            }else if( empty($_GET['s']) && !empty($_GET['sales_persone_id']) ){
+
+                $customers = Customer::query()
+                ->with('user')
+                ->where('sales_persone_id', $_GET['sales_persone_id'])
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
+            }else if( !empty($_GET['s']) && !empty($_GET['sales_persone_id'])){
+
+                $customers = Customer::query()
+                ->with('user')
+                ->where('sales_persone_id', $_GET['sales_persone_id'])
+                ->orWhere('name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+
             }else{
                 $customers = Customer::with('user')->where('sales_persone_id', $user_id)->orderBy('id', 'DESC')->paginate(10);
             }
             
         }
 
-        return view('customers.index', compact('customers'));
+        //users
+
+        return view('customers.index', ['customers' => $customers, 'users' => $users]);
     }
 
     public function exportcsv(Request $request)

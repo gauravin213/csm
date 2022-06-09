@@ -144,7 +144,13 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    /*public function destroy(Product $product)
+    {
+        $product->delete();
+        return redirect()->route('products.index')->with('success','Product deleted successfully');
+    }*/
+
+    public function destroy($id)
     {
         $product->delete();
         return redirect()->route('products.index')->with('success','Product deleted successfully');
@@ -152,12 +158,10 @@ class ProductController extends Controller
 
     public function destroy_bulk(Request $request)
     {
-
-        die("123");
-        //$ids = explode(",", $id);
-
-        //Product::whereIn('id', $ids)->delete();
-        //$product->delete();
-        //return redirect()->route('products.index')->with('success','Product deleted successfully');
+        $entity_ids = $request->entity_ids;
+        $entity_ids = explode(",", $entity_ids);
+        //echo "<pre>-->"; print_r($entity_ids); echo "</pre>"; die;
+        Product::whereIn('id', $entity_ids)->delete();
+        return redirect()->route('products.index')->with('success','Bulk Product deleted successfully');
     }
 }

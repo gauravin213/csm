@@ -32,17 +32,57 @@
          <h3 class="card-title">Search&nbsp; &nbsp; &nbsp;</h3>  
         </div>
         <div class="card-body">
+
           <div class="row" style="margin-top: 5px;">
-            <div class="col-sm-4">
-              <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
+
+            <div class="col-sm-6">
+
+              <div class="row">
+
+                <div class="col-sm-6">
+                  <div class="filter_field">
+                    <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
+                  </div>
+                  <div class="filter_field">
+                     <button class="btn btn-default">Search</button>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="filter_field">
+                      <select name="sales_persone_id" class="form-control" id="sales_persone_id">
+                          <option value="">Sales Persone</option>
+                            @foreach($users as $user)
+                            <option value="{{$user->id}}" {{(isset($_GET['sales_persone_id']) && $user->id==$_GET['sales_persone_id']) ? 'selected' : ''}}>{{$user->name}}</option>
+                            @endforeach
+                        </select>
+                  </div>
+                  <div class="filter_field">
+                    <button class="btn btn-default">Filter</button>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
-            <div class="col-sm-4">
-              <button class="btn btn-default">Search</button>
-              @if(isset($_GET['s']) && $_GET['s'] !='')
-              <a href="{{url('/admin/customers')}}" class="btn btn-danger">Remove Filter</a>
-             @endif
-            </div>
+
+            <div class="col-sm-6">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="filter_field">
+                    @if(isset($_GET['s']) && $_GET['s'] !='' || isset($_GET['sales_persone_id']) && $_GET['sales_persone_id'] !='')
+                      <a href="{{url('/admin/customers')}}" class="btn btn-danger">Remove Filter</a>
+                    @endif
+                  </div>
+                </div>
+              </div>
+             </div>
+
+            
           </div>
+
+
+
         </div>
         <!-- /.card-body -->
       </div>

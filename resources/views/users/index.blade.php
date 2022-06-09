@@ -57,6 +57,7 @@
 
              <div class="col-sm-6">
               <div class="row">
+
                 <div class="col-sm-3">
                   <div class="filter_field">
                     @if(isset($_GET['s']) && $_GET['s'] !='' || isset($_GET['user_type']) && $_GET['user_type'] !='')
@@ -64,8 +65,13 @@
                     @endif
                   </div>
                 </div>
+
+                
+
               </div>
              </div>
+
+
 
           </div>
         </div>
@@ -73,6 +79,18 @@
       </div>
       <!---->
     </form>
+
+    <div class="row">
+       <div class="col-sm-3">
+       <form id="bulk_delete_action_form" action="{{url('users/destroy_bulk')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <button type="submit" id="bulk_delete_action_btn" class="btn btn-danger btn-sm" style="display: none;">Bulk delete</button>
+        <input type="hidden" name="entity_ids" id="entity_ids">
+      </form>
+    </div>
+    </div>
+   
+
 
   </div><!-- /.container-fluid -->
 </div>
@@ -83,10 +101,11 @@
   <div class="card">
     <!-- /.card-header -->
     <div class="card-body table-responsive p-0">
-  <table class="table table-hover text-nowrap">
+  <table class="table table-hover text-nowrap" id="table_index">
         <thead>
           <tr>
-            <th>#</th>
+            <th><input type="checkbox" id="selectAll" /></th>
+            <th>ID</th>
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
@@ -97,6 +116,7 @@
 
           @foreach($users as $user)
           <tr>
+            <td><input type="checkbox" class="selectAll" id="1" name="entity_id[]" value="{{$user->id}}" /></td>
             <td>{{$user->id}}</td>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
