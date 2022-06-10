@@ -37,17 +37,10 @@ class PricelistController extends Controller
         //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>"; //die;
 
         if (!empty($args_filter)) {
-            $pricelists = Pricelist::where($args_filter)->orderBy('id', 'DESC')->paginate(10);
+            $pricelists = Pricelist::with('product')->where($args_filter)->orderBy('id', 'DESC')->paginate(10);
         }else{
-            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
+            $pricelists = Pricelist::with('product')->orderBy('id', 'DESC')->paginate(10);
         }
-
-       /* if ( (isset($_GET['from_date']) && $_GET['from_date'] !='') ) {
-            $from_date = $_GET['from_date'];
-            $pricelists = Pricelist::where('price_date',$from_date)->orderBy('id', 'DESC')->paginate(10);
-        }else{
-            $pricelists = Pricelist::orderBy('id', 'DESC')->paginate(10);
-        }*/
 
         return view('pricelists.index', ['pricelists' => $pricelists]);
     }

@@ -14,7 +14,19 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'DESC')->paginate(10);
+        if ( !empty($_GET['s']) && empty($_GET['sales_persone_id']) ) {  //echo "string1";
+
+            $categories = Category::query()
+            ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+            ->orwhere('description', 'LIKE', '%'.$_GET['s'].'%')
+             ->orwhere('parent', 'LIKE', '%'.$_GET['s'].'%')
+            ->orderBy('id', 'DESC')
+            ->paginate(10);
+
+        }else{
+             $categories = Category::orderBy('id', 'DESC')->paginate(10);
+        }
+       
         return view('categories.index', compact('categories'));
     }
 

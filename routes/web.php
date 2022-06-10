@@ -81,7 +81,7 @@ Route::post('/users/destroy_bulk', [App\Http\Controllers\UserController::class, 
 /*
 Make:
 php artisan make:controller OrdersitemController --model=User
-php artisan make:model AdvancePayment -mcr
+php artisan make:model CustomerTransaction -mcr
 php artisan make:seeder CustomersTableSeeder
 
 Step 1:

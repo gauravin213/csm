@@ -83,7 +83,11 @@
 
           @foreach($pricelists as $pricelist)
           <tr>
-            <td>{{App\Http\Controllers\OrderController::get_product_name($pricelist->product_id)}}</td>
+            <td>
+            	@if(is_object($pricelist->product))
+            	{{$pricelist->product->name}}
+            	@endif
+            </td>
             <td>{{$pricelist->price_date}}</td>
              <td>
                 @if($pricelist->state == 1)

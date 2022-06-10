@@ -240,7 +240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="{{ url('admin') }}" class="nav-link">
+            <a href="{{ url('admin') }}" class="nav-link {{ (request()->segment(2) == '') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dashboard
@@ -251,16 +251,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           @can('isAdministrator')
           <li class="nav-item">
-            <a href="{{ url('admin/products') }}" class="nav-link">
+            <a href="{{ url('admin/products') }}" class="nav-link {{ (request()->segment(2) == 'products') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Products
+                Products  {{ (request()->segment(2) == 'products') ? 'active' : ''  }}
               </p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/pricelists') }}" class="nav-link">
+            <a href="{{ url('admin/pricelists') }}" class="nav-link {{ (request()->segment(2) == 'pricelists') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Price List
@@ -269,7 +269,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/categories') }}" class="nav-link">
+            <a href="{{ url('admin/categories') }}" class="nav-link {{ (request()->segment(2) == 'categories') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Categories
@@ -279,7 +279,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           @endcan
 
           <li class="nav-item">
-            <a href="{{ url('admin/orders') }}" class="nav-link">
+            <a href="{{ url('admin/orders') }}" class="nav-link {{ (request()->segment(2) == 'orders') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Orders
@@ -288,7 +288,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/transactions') }}" class="nav-link">
+            <a href="{{ url('admin/transactions') }}" class="nav-link {{ (request()->segment(2) == 'transactions') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Transactions
@@ -297,7 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/customers') }}" class="nav-link">
+            <a href="{{ url('admin/customers') }}" class="nav-link {{ (request()->segment(2) == 'customers') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Customers
@@ -306,7 +306,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/advance-payments') }}" class="nav-link">
+            <a href="{{ url('admin/advance-payments') }}" class="nav-link {{ (request()->segment(2) == 'advance-payments') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Advance Payment
@@ -316,7 +316,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           @can('isAdministrator')
           <li class="nav-item">
-            <a href="{{ url('admin/users') }}" class="nav-link">
+            <a href="{{ url('admin/users') }}" class="nav-link {{ (request()->segment(2) == 'users') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Users
@@ -328,7 +328,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
            @guest
             @if (Route::has('login'))
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ route('login') }}"><i class="nav-icon fas fa-sign-out-alt"></i>Login</a>
+                  <a class="nav-link " href="{{ route('login') }}"><i class="nav-icon fas fa-sign-out-alt"></i>Login</a>
                 </li>
             @endif
             

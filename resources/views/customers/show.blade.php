@@ -70,7 +70,6 @@ a.pre_item {
           </div>
 
           <div class="form-group">
-            <label for="exampleInputEmail1">Order Details</label>
             <table class="table table-hover text-nowrap">
                 <tbody>
                   <tr>
