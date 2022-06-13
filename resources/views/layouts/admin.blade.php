@@ -410,21 +410,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Ekko Lightbox -->
 <script src="{{ asset('admin-lte-3.1.0-rc/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 <script>
-  /*$(function () {
-    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-      event.preventDefault();
-      $(this).ekkoLightbox({
-        alwaysShowClose: true
-      });
-    });
-
-    $('.filter-container').filterizr({gutterPixels: 3});
-    $('.btn[data-filter]').on('click', function() {
-      $('.btn[data-filter]').removeClass('active');
-      $(this).addClass('active');
-    });
-  });*/
-
 jQuery(document).ready(function(){
   jQuery(document).on('click', '[data-toggle="lightbox"]', function(event) {
     event.preventDefault();
@@ -447,7 +432,7 @@ jQuery(document).ready(function(){
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add Item pp</h4>
+        <h4 class="modal-title">Add Item</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -557,10 +542,10 @@ jQuery(document).ready(function(){
         placeholder : "Party Name" 
     });
 
-    jQuery('#placed_by').select2({
+    /*jQuery('#placed_by').select2({
         width: '100%',
         placeholder : "User" 
-    });
+    });*/
 
     jQuery('#product_id').select2({
         width: '90%',
@@ -601,7 +586,7 @@ jQuery(document).ready(function(){
           },
           processResults: function( data ) {  
             //console.log(data);
-            //jQuery("#csm_item_s_key").select2('val', '0');
+            //jQuery("#++").select2('val', '0');
             var options = [];
             if ( data ) {
               jQuery.each( data, function( index, text ) { 
@@ -701,6 +686,10 @@ jQuery(document).ready(function(){
     jQuery(document).on('click', '#btn_csm_additem_form', function (e) {
         e.preventDefault();
         jQuery("#csm_additem_form").submit();
+        /*setTimeout(function(){
+        	jQuery('#csm_item_append').html("");
+        }, 500);*/
+        
     });
  
     //Remove item
