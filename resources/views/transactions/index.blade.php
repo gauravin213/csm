@@ -123,8 +123,8 @@
             <td>{{$transaction->id}}</td>
             <td>{{$transaction->order_id}}</td>
             <td>
-              @if(is_object($transaction->order))
-               {{App\Http\Controllers\TransactionController::get_customer_name($transaction->order->customer_id)}}
+              @if(is_object($transaction->customer))
+               {{$transaction->customer->name}}
               @else
               N/A
               @endif
