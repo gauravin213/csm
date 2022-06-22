@@ -141,11 +141,16 @@
             </td> 
             <td>{{$transaction->created_at}}</td>
             <td>
-              <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}"><i class="fas fa-edit"></i></a>  
-              {!! Form::open(['class' => 'mydeleteform_'.$transaction->id, 'method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
-              <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
-              <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$transaction->id}}"><i class="fas fa-trash-alt"></i></button>
-               {{ Form::close() }}
+              <a class="btn btn-primary" href="{{ route('transactions.edit',$transaction->id) }}"><i class="fas fa-edit"></i></a> 
+
+              @if($user_type!='sales_man')
+                {!! Form::open(['class' => 'mydeleteform_'.$transaction->id, 'method' => 'DELETE','route' => ['transactions.destroy', $transaction->id],'style'=>'display:inline']) !!}
+                <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
+                <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$transaction->id}}"><i class="fas fa-trash-alt"></i></button>
+                {{ Form::close() }}
+              @endif
+
+              
 
             </td>
           </tr>

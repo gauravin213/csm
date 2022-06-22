@@ -60,7 +60,8 @@ class AdvancePaymentController extends Controller
             'advance_payments' => $advance_payments, 
             'customers' => $customers, 
             'users' => $users,
-            'args_filter' => $args_filter
+            'args_filter' => $args_filter,
+            'user_type' => $user_type
         ]);
     }
 

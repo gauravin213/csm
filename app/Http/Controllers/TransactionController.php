@@ -91,7 +91,7 @@ class TransactionController extends Controller
         }
         $transactions = Transaction::with(['order', 'customer', 'user'])->whereIn('order_id', $order_ids)->orderBy('id', 'DESC')->paginate(10);*/
 
-        return view('transactions.index', ['transactions'=>$transactions, 'customers'=>$customers, 'users'=>$users, 'args_filter' => $args_filter]);
+        return view('transactions.index', ['transactions'=>$transactions, 'customers'=>$customers, 'users'=>$users, 'args_filter' => $args_filter, 'user_type'=>$user_type]);
     }
 
     /**

@@ -176,12 +176,17 @@
                 <a class="btn btn-primary" href="{{ route('orders.edit',$order->id) }}"><i class="fas fa-edit"></i></a> 
                 @endif
               @endcan
-               
 
+
+              @if($user_type!='sales_man')
               {!! Form::open(['class' => 'mydeleteform_'.$order->id, 'method' => 'DELETE','route' => ['orders.destroy', $order->id],'style'=>'display:inline']) !!}
               <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!} -->
               <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$order->id}}"><i class="fas fa-trash-alt"></i></button>
                {{ Form::close() }}
+              @endif
+               
+
+              
 
               <a class="btn btn-success" href="{{ route('orders.show',$order->id) }}"><i class="fas fa-eye"></i></a>
 

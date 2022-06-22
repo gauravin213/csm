@@ -120,7 +120,7 @@ class CustomerController extends Controller
 
         //users
 
-        return view('customers.index', ['customers' => $customers, 'users' => $users]);
+        return view('customers.index', ['customers' => $customers, 'users' => $users, 'user_type' => $user_type]);
     }
 
     public function exportcsv(Request $request)

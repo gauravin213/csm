@@ -108,10 +108,14 @@
             <td>{{$advance_payment->created_at}}</td>
             <td>
               <a class="btn btn-primary" href="{{ route('advance-payments.edit',$advance_payment->id) }}"><i class="fas fa-edit"></i></a>
-              {!! Form::open(['class' => 'mydeleteform_'.$advance_payment->id,'method' => 'DELETE','route' => ['advance-payments.destroy', $advance_payment->id],'style'=>'display:inline']) !!}
-                <!-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> -->
-                <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$advance_payment->id}}"><i class="fas fa-trash-alt"></i></button>
-              {{ Form::close() }}
+
+              @if($user_type!='sales_man')
+                {!! Form::open(['class' => 'mydeleteform_'.$advance_payment->id,'method' => 'DELETE','route' => ['advance-payments.destroy', $advance_payment->id],'style'=>'display:inline']) !!}
+                  <!-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> -->
+                  <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$advance_payment->id}}"><i class="fas fa-trash-alt"></i></button>
+                {{ Form::close() }}
+              @endif
+ 
             </td>
           </tr>
           @endforeach

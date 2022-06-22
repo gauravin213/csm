@@ -96,7 +96,7 @@ class OrderController extends Controller
 
         //echo "<pre>args_filter:"; print_r($args_filter); echo "</pre>";
 
-        return view('orders.index', ['customers' => $customers, 'users' => $users, 'orders' => $orders, 'args_filter' => $args_filter]);
+        return view('orders.index', ['customers' => $customers, 'users' => $users, 'orders' => $orders, 'args_filter' => $args_filter, 'user_type'=> $user_type]);
     }
 
     /**
