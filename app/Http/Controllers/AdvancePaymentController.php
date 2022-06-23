@@ -53,7 +53,7 @@ class AdvancePaymentController extends Controller
         if (!empty($args_filter)) {
            $advance_payments = AdvancePayment::with('customer')->where($args_filter)->orderBy('id', 'DESC')->paginate(10);
         }else{
-           $advance_payments = AdvancePayment::with('customer')->orderBy('id', 'DESC')->paginate(10);
+           $advance_payments = AdvancePayment::with('customer')->where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
         }
 
         return view('advance-payments.index', [
