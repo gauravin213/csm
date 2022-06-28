@@ -120,6 +120,60 @@ class CustomerController extends Controller
 
         //users
 
+
+        //
+        $ppppp = Customer::with(['user', 'orders'])->where('id', 85)->orderBy('id', 'DESC')->first();
+        //dd($ppppp);
+
+        $customer_order_array = [];
+        if (!empty($ppppp)) {
+
+            if (!empty($ppppp->orders)) {
+
+                foreach ($ppppp->orders as $order) {
+
+                    //echo "order: ".$order->id; echo "<br>";
+                    $customer_order_array[$order->id]['customer_id'] = $ppppp->id;
+                    $customer_order_array[$order->id]['customer_name'] = $ppppp->name;
+                    $customer_order_array[$order->id]['order_id'] = $order->id;
+                    $customer_order_array[$order->id]['order_total'] = $order->total;
+
+                    if (!empty($order->items)) {
+                        
+                        foreach ($order->items as $item) {
+                            //echo "item: ".$item->id; echo "<br>";
+                            $customer_order_array[$order->id]['items'][] = $item->name;
+                        }
+
+
+                    }
+
+                    $received_amount = [];
+                    $balance_amount = [];
+                    if (!empty($order->transaction)) {
+                        foreach ($order->transaction as $transaction) {
+                            //echo "transaction: ".$transaction->id; echo "<br>";
+                            $customer_order_array[$order->id]['transaction'][] = $transaction->paid_amount;
+                            $received_amount[] = $transaction->paid_amount;
+                            $balance_amount[] = $transaction->ballance_amount;
+                        }
+                    }
+                    $customer_order_array[$order->id]['received_amount'][] = array_sum($received_amount);
+                    //$customer_order_array[$order->id]['balance_amount'][] = array_sum($balance_amount);; //$order->balance_amount;
+                    $customer_order_array[$order->id]['balance_amount'][] = $order->balance_amount;
+
+
+                }
+               
+            }
+
+            
+        }
+        echo "<pre>"; print_r($customer_order_array); echo "</pre>";
+        //
+
+
+
         return view('customers.index', ['customers' => $customers, 'users' => $users, 'user_type' => $user_type]);
     }
 
