@@ -47,6 +47,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 .modal-content {
     margin-top: 150px;
 }
+
+.filter_field {
+    display: inline-flex;
+}
 </style>
 
 </head>
@@ -55,19 +59,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-
-
       @guest
         @if (Route::has('login'))
             <li class="nav-item d-none d-sm-inline-block">
@@ -88,12 +86,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </form>
             </li>
         @endguest
-
-
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
+   <!--  <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
         <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
@@ -102,10 +98,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </button>
         </div>
       </div>
-    </form>
+    </form> -->
 
     <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav ml-auto" style="display: none;">
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -244,7 +240,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
 
           <li class="nav-item">
-            <a href="{{ url('admin') }}" class="nav-link">
+            <a href="{{ url('admin') }}" class="nav-link {{ (request()->segment(2) == '') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dashboard
@@ -255,16 +251,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
           @can('isAdministrator')
           <li class="nav-item">
-            <a href="{{ url('admin/products') }}" class="nav-link">
+            <a href="{{ url('admin/products') }}" class="nav-link {{ (request()->segment(2) == 'products') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Products
+                Products  {{ (request()->segment(2) == 'products') ? 'active' : ''  }}
               </p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/pricelists') }}" class="nav-link">
+            <a href="{{ url('admin/pricelists') }}" class="nav-link {{ (request()->segment(2) == 'pricelists') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Price List
@@ -273,7 +269,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/categories') }}" class="nav-link">
+            <a href="{{ url('admin/categories') }}" class="nav-link {{ (request()->segment(2) == 'categories') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Categories
@@ -283,7 +279,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           @endcan
 
           <li class="nav-item">
-            <a href="{{ url('admin/orders') }}" class="nav-link">
+            <a href="{{ url('admin/orders') }}" class="nav-link {{ (request()->segment(2) == 'orders') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Orders
@@ -292,7 +288,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/transactions') }}" class="nav-link">
+            <a href="{{ url('admin/transactions') }}" class="nav-link {{ (request()->segment(2) == 'transactions') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Transactions
@@ -301,7 +297,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
 
           <li class="nav-item">
-            <a href="{{ url('admin/customers') }}" class="nav-link">
+            <a href="{{ url('admin/customers') }}" class="nav-link {{ (request()->segment(2) == 'customers') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Customers
@@ -309,9 +305,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="{{ url('admin/advance-payments') }}" class="nav-link {{ (request()->segment(2) == 'advance-payments') ? 'active' : ''  }}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Advance Payment
+              </p>
+            </a>
+          </li>
+
           @can('isAdministrator')
           <li class="nav-item">
-            <a href="{{ url('admin/users') }}" class="nav-link">
+            <a href="{{ url('admin/users') }}" class="nav-link {{ (request()->segment(2) == 'users') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Users
@@ -323,7 +328,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
            @guest
             @if (Route::has('login'))
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ route('login') }}"><i class="nav-icon fas fa-sign-out-alt"></i>Login</a>
+                  <a class="nav-link " href="{{ route('login') }}"><i class="nav-icon fas fa-sign-out-alt"></i>Login</a>
                 </li>
             @endif
             
@@ -405,28 +410,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Ekko Lightbox -->
 <script src="{{ asset('admin-lte-3.1.0-rc/plugins/ekko-lightbox/ekko-lightbox.min.js') }}"></script>
 <script>
-  $(function () {
-    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-      event.preventDefault();
-      $(this).ekkoLightbox({
-        alwaysShowClose: true
-      });
+jQuery(document).ready(function(){
+  jQuery(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    jQuery(this).ekkoLightbox({
+      alwaysShowClose: true
     });
+  });
 
-    $('.filter-container').filterizr({gutterPixels: 3});
-    $('.btn[data-filter]').on('click', function() {
-      $('.btn[data-filter]').removeClass('active');
-      $(this).addClass('active');
-    });
-  })
+  //jQuery('.filter-container').filterizr({gutterPixels: 3});
+  jQuery('.btn[data-filter]').on('click', function() {
+    jQuery('.btn[data-filter]').removeClass('active');
+    jQuery(this).addClass('active');
+  });
+});
 </script>
+
 
 <!--model-->
 <div class="modal fade" id="add-item" style="display: none;" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add Item pp</h4>
+        <h4 class="modal-title">Add Item</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -520,6 +526,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     var crr_date = `${dd}-${mm}-${yy}`;
     jQuery('#price_date').datepicker({dateFormat: 'dd-mm-yy'});
     jQuery("#price_date").datepicker("setDate", crr_date);
+    jQuery("#payment_date").datepicker({dateFormat: 'dd-mm-yy'});
 
 
     jQuery("#from_date").datepicker({dateFormat: 'dd-mm-yy'});
@@ -532,8 +539,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     jQuery('#customer_id').select2({
         width: '100%',
-        placeholder : "Customer" 
+        placeholder : "Party Name" 
     });
+
+    /*jQuery('#placed_by').select2({
+        width: '100%',
+        placeholder : "User" 
+    });*/
 
     jQuery('#product_id').select2({
         width: '90%',
@@ -574,7 +586,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           },
           processResults: function( data ) {  
             //console.log(data);
-            //jQuery("#csm_item_s_key").select2('val', '0');
+            //jQuery("#++").select2('val', '0');
             var options = [];
             if ( data ) {
               jQuery.each( data, function( index, text ) { 
@@ -674,6 +686,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     jQuery(document).on('click', '#btn_csm_additem_form', function (e) {
         e.preventDefault();
         jQuery("#csm_additem_form").submit();
+        /*setTimeout(function(){
+        	jQuery('#csm_item_append').html("");
+        }, 500);*/
+        
     });
  
     //Remove item
@@ -706,8 +722,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var discount = jQuery('#discount').val();
         var htm = `
             <tr>
-              <td></td>
-              <td></td>
               <th>
                 Discount <span id="discount_label">${discount}</span>% 
                 <a href="#" id="remove_discount">Remove</a> 
@@ -729,8 +743,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         e.preventDefault();
         var htm = `
           <tr>
-            <td></td>
-            <td></td>
             <th>Discount 0% <input type="hidden" name="discount" value="0"></th>
             <td>(-)0 <input type="hidden" name="discount_price" value="0"></td>
           </tr>
@@ -746,8 +758,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         var shipping = jQuery('#shipping').val();
         var htm = `
             <tr>
-              <td></td>
-              <td></td>
               <th>Shipping <a href="#" id="remove_shipping">Remove</a></th>
               <td><span id="shipping_label">${shipping}</span> <input type="hidden" name="shipping" id="shipping" value="${shipping}"></td>
             </tr>
@@ -763,8 +773,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         e.preventDefault();
         var htm = `
             <tr>
-              <td></td>
-              <td></td>
               <th>Shipping</th>
               <td>0 <input type="hidden" name="shipping" value="0"></td>
             </tr>
@@ -820,7 +828,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
       });
     });
     //End Calculate
-
 
     // Category discount event
     //Product categories
@@ -895,7 +902,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
     //Aadhar and Pan validation
     jQuery('#pan_no').mask('SSSSS0000S'); //AAAAA0000A
     jQuery('#aadhar_no').mask('0000 0000 0000'); 
-    jQuery('#gst_no').mask('00SSSSS0000S0S0'); // 000000000000000
+    jQuery('#gst_no').mask('00SSSSS0000S0SA'); // 000000000000000
+    jQuery('#mobile').mask('0000000000'); // 000000000000000
+    jQuery('#mobile_alternate').mask('0000000000'); // 000000000000000
 
     //confirme befor deletion
     jQuery(document).on('click', '.delete_ev', function(e){
@@ -908,14 +917,217 @@ scratch. This page gets rid of all links and provides the needed markup only.
       }
     });
 
-
-
     //export btn
     jQuery(document).on('click', '#csm_export_btn', function(e){
       e.preventDefault();
       var target = jQuery(this);
       jQuery('#csm_export_form').submit();
     });
+
+
+    //bulk delete action
+    jQuery(document).on('click', '#selectAll', function(){
+      jQuery(this).closest('#table_index').find('td input:checkbox').prop('checked', this.checked);
+      if (jQuery(this).is(':checked')) {
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }else{
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }
+      if (jQuery('#entity_ids').val() != '') {
+        jQuery('#bulk_delete_action_btn').show();
+      }else{
+        jQuery('#bulk_delete_action_btn').hide();
+      }
+    });
+    jQuery(document).on('click', '.selectAll', function(){
+      if (jQuery(this).is(':checked')) {
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }else{
+        var values = jQuery("input[name='entity_id[]']:checked").map(function(){return jQuery(this).val();}).get();
+        jQuery('#entity_ids').val(values);
+      }
+      if (jQuery('#entity_ids').val() != '') {
+        jQuery('#bulk_delete_action_btn').show();
+      }else{
+        jQuery('#bulk_delete_action_btn').hide();
+      }
+    });
+    //confirme befor bulk deletion
+    jQuery(document).on('click', '#bulk_delete_action_btn', function(e){
+      e.preventDefault();
+      var target = jQuery(this);
+      if (confirm("Do you want to bulk delete") == true) {
+        jQuery('#bulk_delete_action_form').submit();
+      } else {
+      }
+    });
+    //End bulk delete action
+
+
+    //Advance paymenr
+    jQuery.fn.calculatePaymentWithWallet = function(wallet_amountx, enter_amountx, order_totalx){
+
+        var wallet_amount  = parseFloat(wallet_amountx);
+        var enter_amount   = parseFloat(enter_amountx);
+        var order_total    = parseFloat(order_totalx);
+
+        var case_mode = 0;
+        var case_cond = '';
+        var update_wallet = 0;
+        var to_pay = 0;
+        var balance_amount = 0;
+
+        var diff = order_total - wallet_amount;
+        
+        //case 1 wallet_amount < order_total
+        if(diff > 0){
+          update_wallet = 0 * diff;
+          to_pay = wallet_amount + enter_amount;
+          balance_amount = order_total - to_pay;
+          case_mode = 1;
+          case_cond = `${wallet_amount} < ${order_total}`;
+        }
+
+        //case 2 wallet_amount > order_total
+        if(diff < 0){
+          update_wallet = -1 * diff;
+          to_pay = order_total - enter_amount;
+          balance_amount = 0;
+          case_mode = 2;
+          case_cond = `${wallet_amount} > ${order_total}`;
+        }
+
+        //case 3 wallet_amount == order_total
+        if(diff == 0){
+          update_wallet = 0;
+          to_pay = order_total;
+          balance_amount = 0;
+          case_mode = 3;
+          case_cond = `${wallet_amount} == ${order_total}`;
+        }
+
+
+        /*console.log('case: ', case_mode);
+        console.log('case: ', case_cond);
+        console.log('update_wallet: ', update_wallet);
+        console.log('to_pay: ', to_pay);
+        console.log('balance_amount: ', balance_amount);*/
+
+        jQuery('#case_mode').text(case_mode);
+        jQuery('#case_cond').text(case_cond);
+
+        jQuery('#update_wallet').text(update_wallet);
+        jQuery('#to_pay').text(to_pay);
+        jQuery('#balance_amount').text(balance_amount);
+
+        jQuery('#update_wallet_x').val(update_wallet);
+        jQuery('#to_pay_x').val(to_pay);
+        jQuery('#balance_amount_x').val(balance_amount);
+
+        return {
+          case_mode: case_mode,
+          case_cond: case_cond,
+          update_wallet: update_wallet,
+          to_pay: to_pay,
+          balance_amount: balance_amount
+        }
+        
+    }
+
+    jQuery('#trans_summry').slideUp();
+
+ 
+    jQuery(document).on('click', '#total_fund_enable', function () {
+
+      var target = jQuery(this);
+
+      //
+      jQuery.ajax({
+        url: "{{ url('transactions/calculate_customer_balance') }}",
+        type: "POST",
+        headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+        dataType: 'json',
+        delay: 250, // delay in ms while typing when to perform a AJAX search
+        data: {
+              ppppp: "pppppp",
+        },
+        /*beforeSend: function(){
+        },
+        complete: function(){
+        },*/
+        success: function(data){
+          console.log('calculate_customer_balance: ', data);
+        },
+        error: function(xhr, status, error) {
+          var err = eval("(" + xhr.responseText + ")");
+          alert(err.Message);
+        }          
+      });
+      //
+
+      /*jQuery('#paid_amount').val("");
+
+      var wallet_amount  = jQuery('#wallet_amount').val();
+      var enter_amount   = (jQuery('#paid_amount').val() != '') ? jQuery('#paid_amount').val() : 0;
+
+      var order_balance_amount = jQuery('#order_balance_amount').val();
+      if (order_balance_amount) {
+        var order_total    = jQuery('#order_balance_amount').val();
+      }else{
+        var order_total    = jQuery('#order_total').val();
+      }
+      
+      var act = jQuery(this).calculatePaymentWithWallet(wallet_amount, enter_amount, order_total);
+
+      if(target.is(':checked')){  
+        jQuery('#trans_summry').slideDown();
+        if (act.case_mode === 2 || act.case_mode === 3) {
+          jQuery('#section_payment').slideUp();
+        }
+
+        var order_balance_amount = jQuery('#order_balance_amount').val();
+        if (order_balance_amount) {
+          jQuery('#paid_amount').attr('data-max', order_balance_amount);
+        }else{
+          jQuery('#paid_amount').attr('data-max', act.balance_amount);
+        }
+
+      }else{ 
+        jQuery('#trans_summry').slideUp();
+        jQuery('#section_payment').slideDown();
+        jQuery('#paid_amount').attr('data-max', order_total);
+      }*/
+
+    });
+
+    jQuery(document).on('keyup', '#paid_amount', function () {
+      var target = jQuery(this);
+      var wallet_amount  = jQuery('#wallet_amount').val();
+      var enter_amount   = (target.val() != '') ? target.val() : 0;
+      
+      var order_balance_amount = jQuery('#order_balance_amount').val();
+      if (order_balance_amount) {
+        var order_total    = jQuery('#order_balance_amount').val();
+      }else{
+        var order_total    = jQuery('#order_total').val();
+      }
+      
+      var a = parseFloat(enter_amount);
+      var b = parseFloat(jQuery('#paid_amount').attr('data-max'));
+      //console.log(a+' == '+b);
+
+      if (a > b && b) {
+        alert("Paid amount limit exceeded "+b);
+        target.val(b);
+      }
+
+    });
+    //End Advance paymenr
+
+
     
 
   });

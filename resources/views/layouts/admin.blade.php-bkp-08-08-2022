@@ -687,7 +687,7 @@ jQuery(document).ready(function(){
         e.preventDefault();
         jQuery("#csm_additem_form").submit();
         /*setTimeout(function(){
-          jQuery('#csm_item_append').html("");
+        	jQuery('#csm_item_append').html("");
         }, 500);*/
         
     });

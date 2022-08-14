@@ -25,6 +25,23 @@
     </form>
     <!---->
 
+    <div>
+      <div class="net_balance">
+          <span class="net_balance_{{$balance_report['class']}}">Total balance &#x20b9; {{$balance_report['total_balance']}} {{$balance_report['label']}}</span>
+      </div>
+      <style type="text/css">
+        .net_balance_red{
+          color: #f22c2c;
+          font-weight: bold;
+        }
+        .net_balance_green{
+          color: #288328;
+          font-weight: bold;
+        }
+      </style>
+    </div>
+    
+
     <form action="" method="GET">
       <!---->
       <div class="card">
@@ -106,7 +123,7 @@
             <th>Mobile</th>
             <th>Wallet</th>
             <th>Sales Man</th>
-            <th colspan="2">Action</th>
+            <th colspan="3">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -122,7 +139,6 @@
               @else
               {{$customer->mobile}}
               @endIf
-              
             </td>
             <td>{{$customer->total_fund}}</td>
             <td>
@@ -145,6 +161,12 @@
               @endif
 
                <a class="btn btn-success" href="{{ route('customers.show',$customer->id) }}"><i class="fas fa-eye"></i></a>
+               <?php
+               $customer_id_url = 'admin/customer-transactions?customer_id='.$customer->id;
+               ?>
+               <a class="btn btn-success" href="{{ url($customer_id_url) }}">
+               <i class="fa fa-credit-card" aria-hidden="true"></i>
+              </a>
             </td>
           </tr>
           @endforeach

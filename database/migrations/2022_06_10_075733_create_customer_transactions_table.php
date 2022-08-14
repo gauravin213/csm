@@ -15,14 +15,18 @@ class CreateCustomerTransactionsTable extends Migration
     {
         Schema::create('customer_transactions', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_id');
-            $table->string('mode');
-            $table->string('payment_method');
-            $table->text('description');
-            $table->string('remark');
-            $table->decimal('amount', 10, 2);
+            $table->integer('user_id');
+            $table->integer('customer_id');
+            $table->integer('order_id')->nullable();
+            $table->text('description')->nullable();
+            $table->string('attachment')->nullable();
+            $table->decimal('debit', 10, 2)->nullable();
+            $table->decimal('credit', 10, 2)->nullable();
+            $table->decimal('balance', 10, 2)->nullable();
+            $table->string('transaction_type')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
-            $table->index(['customer_id', 'mode', 'payment_method']);
+            $table->index(['user_id', 'customer_id']);
         });
     }
 

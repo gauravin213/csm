@@ -55,8 +55,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 	//Show
 	Route::get('/orders/{id}/show', [App\Http\Controllers\OrderController::class, 'show']);
 	Route::get('/customers/{id}/show', [App\Http\Controllers\CustomerController::class, 'show']);
-	
+
+	//http://127.0.0.1/csm/admin/customer-transactions?customer_id=85
+	//http://127.0.0.1/csm/admin/customer-transactions/create?customer_id=85
+	//http://127.0.0.1/csm/admin/customer-transactions/show?customer_id=85
+	Route::resource('customer-transactions', '\App\Http\Controllers\CustomerTransactionController');
+
 });
+
 
 
 Route::get('/orders/exportcsv', [App\Http\Controllers\OrderController::class, 'exportcsv']);
@@ -72,10 +78,14 @@ Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class,
 Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
 Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
 Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
+Route::post('/transactions/calculate_customer_balance', [App\Http\Controllers\TransactionController::class, 'calculate_customer_balance']);
 
 //Bulk action delete
 Route::post('/products/destroy_bulk', [App\Http\Controllers\ProductController::class, 'destroy_bulk']);
 Route::post('/users/destroy_bulk', [App\Http\Controllers\UserController::class, 'destroy_bulk']);
+
+
+
 
 
 /*
@@ -83,6 +93,10 @@ Make:
 php artisan make:controller OrdersitemController --model=User
 php artisan make:model CustomerTransaction -mcr
 php artisan make:seeder CustomersTableSeeder
+php artisan make:controller CustomerTransactionController --resource
+php artisan make:migration create_{customer_balances}_table
+php artisan make:migration create_customer_balances_table
+php artisan make:model CustomerTransactionLog -m
 
 Step 1:
 php artisan key:generate

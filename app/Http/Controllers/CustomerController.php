@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\CustomerTransaction;
+use App\Models\CustomerBalance;
 
 use File;
 use Response;
@@ -122,7 +124,7 @@ class CustomerController extends Controller
 
 
         //
-        $ppppp = Customer::with(['user', 'orders'])->where('id', 85)->orderBy('id', 'DESC')->first();
+       /* $ppppp = Customer::with(['user', 'orders'])->where('id', 85)->orderBy('id', 'DESC')->first();
         //dd($ppppp);
 
         $customer_order_array = [];
@@ -144,7 +146,6 @@ class CustomerController extends Controller
                             //echo "item: ".$item->id; echo "<br>";
                             $customer_order_array[$order->id]['items'][] = $item->name;
                         }
-
 
                     }
 
@@ -169,12 +170,49 @@ class CustomerController extends Controller
 
             
         }
-        echo "<pre>"; print_r($customer_order_array); echo "</pre>";
+        echo "<pre>"; print_r($customer_order_array); echo "</pre>";*/
         //
 
 
+        //Balance report
+        $total_debit = CustomerBalance::sum('total_debit');
+        $total_credit = CustomerBalance::sum('total_credit');
+        $total_balance = CustomerBalance::sum('total_balance');
+        $balance_report = [];
+        if ($total_debit > $total_credit) {
+            //you will get
+            $balance_report= [
+                'class' => 'red',
+                'label' => 'you will get',
+                'total_debit' => $total_debit,
+                'total_credit' => $total_credit,
+                'total_balance' => $total_balance
+            ];
 
-        return view('customers.index', ['customers' => $customers, 'users' => $users, 'user_type' => $user_type]);
+        }else if($total_debit < $total_credit){
+            //you will give
+            $balance_report= [
+                'class' => 'green',
+                'label' => 'you will give',
+                'total_debit' => $total_debit,
+                'total_credit' => $total_credit,
+                'total_balance' => $total_balance
+            ];
+        }else{
+            //setteled
+            $balance_report= [
+                'class' => '',
+                'label' => 'setteled',
+                'total_debit' => $total_debit,
+                'total_credit' => $total_credit,
+                'total_balance' => $total_balance
+            ];
+        }
+
+        //echo "<pre>"; print_r($balance_report); echo "</pre>"; die;
+        //Balance report end
+
+        return view('customers.index', ['customers' => $customers, 'users' => $users, 'user_type' => $user_type, 'balance_report' => $balance_report]);
     }
 
     public function exportcsv(Request $request)
