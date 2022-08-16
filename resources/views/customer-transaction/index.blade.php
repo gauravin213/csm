@@ -95,7 +95,9 @@
             <th>Credit(Got)</th>
             <th>Balance</th>
             <th>Status</th>
-            <th>Action</th>
+            @can('isAdministrator')
+               <th>Action</th>
+            @endcan
           </tr>
         </thead>
         <tbody>
@@ -159,12 +161,13 @@
             <td>
               @can('isAdministrator')
               <a class="btn btn-primary" href="{{ route('customer-transactions.edit',$customer_transaction->id) }}"><i class="fas fa-edit"></i></a> 
-              @endcan
 
-              {!! Form::open(['class' => 'mydeleteform_'.$customer_transaction->id, 'method' => 'DELETE','route' => ['customer-transactions.destroy', $customer_transaction->id],'style'=>'display:inline']) !!}
+               {!! Form::open(['class' => 'mydeleteform_'.$customer_transaction->id, 'method' => 'DELETE','route' => ['customer-transactions.destroy', $customer_transaction->id],'style'=>'display:inline']) !!}
                 <!-- <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> -->
                 <button class="btn btn-danger delete_ev" type="button" data-element_id="{{$customer_transaction->id}}"><i class="fas fa-trash-alt"></i></button>
               {{ Form::close() }}
+
+              @endcan
 
             </td>
           </tr>
