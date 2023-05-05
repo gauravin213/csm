@@ -38,17 +38,79 @@ class OrderController extends Controller
         $user_id = auth()->user()->id;
         $user_type = auth()->user()->user_type;
 
-        if ($user_type == 'administrator') {
-            $customers = Customer::all();
-            $users = User::all();
-        }else{
-            $customers = Customer::where('sales_persone_id', $user_id)->get();
-            $users = User::where('id', $user_id)->get();
+        $filter_data = [];
+        $filter_1 = [];
+        $filter_2 = [];
+        $filter_3 = [];
+        $filter_4 = [];
+        $filter_5 = [];
+
+        if ( !empty($_GET['payment_status']) ) {
+            $filter_2 = [
+                ['payment_status', '=', $_GET['payment_status']]
+            ];
         }
 
-       
-        $args_filter = [];
-        if (count($_GET)!=0) {
+        if ( !empty($_GET['customer_id']) ) {
+            $filter_3 = [
+                ['customer_id', '=', $_GET['customer_id']]
+            ];
+        }
+
+        if ( !empty($_GET['from_date']) && !empty($_GET['to_date']) ) {
+            $from_date = date("Y-m-d 00:00:00", strtotime($_GET['from_date']));
+            $to_date = date("Y-m-d 23:59:59", strtotime($_GET['to_date']));
+            $filter_4 = [
+                ['created_at', '>=', $from_date],
+                ['created_at', '<=', $to_date]
+            ];
+        }
+
+    
+        if($user_type == 'sales_man'){
+
+            $orders = Order::with(['user', 'customer'])->where($filter_data)->where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
+            $customers = Customer::where('sales_persone_id', $user_id)->get();
+            $users = User::where('id', $user_id)->get();
+
+        }else if($user_type == 'sales_manager'){
+
+            $user_ids = User::where('parent', $user_id)->pluck('id')->all();
+            $user_ids = array_merge($user_ids, [$user_id]);
+
+            if ( !empty($_GET['placed_by']) ) {
+                $filter_1 = [
+                    ['placed_by', '=', $_GET['placed_by']]
+                ];
+                $filter_data = array_merge($filter_data, $filter_1);
+                $orders = Order::with(['user', 'customer'])->where($filter_data)->orderBy('id', 'DESC')->paginate(10);
+            }else{
+                $orders = Order::with(['user', 'customer'])->where($filter_data)->whereIn('placed_by', $user_ids)->orderBy('id', 'DESC')->paginate(10);
+            }
+
+            $customers = Customer::whereIn('sales_persone_id', $user_ids)->get();
+            $users = User::whereIn('id', $user_ids)->get();
+
+        }else{
+
+            if ( !empty($_GET['placed_by']) ) {
+                $filter_1 = [
+                    ['placed_by', '=', $_GET['placed_by']]
+                ];
+                $filter_data = array_merge($filter_data, $filter_1);
+            }
+            $orders = Order::with(['user', 'customer'])->where($filter_data)->orderBy('id', 'DESC')->paginate(10);
+
+            $customers = Customer::all();
+            $users = User::all();
+        }
+
+        $filter_data = array_merge($filter_1, $filter_2, $filter_3, $filter_4);
+
+        $args_filter = (isset($_GET)) ? $_GET : [];
+
+
+        /*if (count($_GET)!=0) {
             foreach ($_GET as $key => $value) {
                 if ( !in_array($key, ['page']) ) {
                     if ($value!='') {
@@ -59,11 +121,11 @@ class OrderController extends Controller
             if ($user_type != 'administrator') {
                 $args_filter['placed_by'] = $user_id;
             }
-        }
+        }*/
 
-       // echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
+        //echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
 
-        if (count($args_filter)!=0) {
+        /*if (count($args_filter)!=0) {
 
             unset($args_filter['from_date']);
             unset($args_filter['to_date']);
@@ -72,10 +134,6 @@ class OrderController extends Controller
 
                 $from_date = ($_GET['from_date']!='') ? date("Y-m-d 00:00:00", strtotime($_GET['from_date'])) : '';
                 $to_date = ($_GET['to_date']!='')? date("Y-m-d 23:59:59", strtotime($_GET['to_date'])): date("Y-m-d 23:59:59", strtotime($_GET['from_date']));
-
-                /*echo "<pre>args_filter: "; print_r($args_filter); echo "</pre>";
-                echo "from_date: ".$from_date; echo "<br>";
-                echo "to_date: ".$to_date; echo "<br>";*/
 
                 $orders = Order::with(['user', 'customer'])->where($args_filter)->whereBetween('created_at',[$from_date, $to_date])->orderBy('id', 'DESC')->paginate(10);
 
@@ -92,12 +150,19 @@ class OrderController extends Controller
             }else{
                 $orders = Order::with(['user', 'customer'])->where('placed_by', $user_id)->orderBy('id', 'DESC')->paginate(10);
             }
-        }
-
+        }*/
 
         //echo "<pre>args_filter:"; print_r($args_filter); echo "</pre>";
 
-        return view('orders.index', ['customers' => $customers, 'users' => $users, 'orders' => $orders, 'args_filter' => $args_filter, 'user_type'=> $user_type]);
+        $view_data = [
+            'customers'     => $customers, 
+            'users'         => $users, 
+            'orders'        => $orders, 
+            'args_filter'   => $args_filter, 
+            'user_type'     => $user_type
+        ];
+
+        return view('orders.index', $view_data);
     }
 
     /**

@@ -24,11 +24,11 @@
         <div class="card-body">
           <div class="row" style="margin-top: 5px;">
 
-             <div class="col-sm-6">
+             <div class="col-sm-12">
 
               <div class="row">
 
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                   <div class="filter_field">
                     <input type="text" name="s" id="search" class="form-control" placeholder="search" value="{{(isset($_GET['s'])) ? $_GET['s'] : ''}}">
                   </div>
@@ -37,14 +37,29 @@
                   </div>
                 </div>
 
-                <div class="col-sm-6">
+                 <div class="col-sm-4">
+
+                  <div class="filter_field">
+                   <select name="parent" id="parent" class="form-control" >
+                      <option value="0">sales managers</option>
+                      @foreach ($sales_managers as $parent_user)
+                        <option value="{{$parent_user->id}}" {{(isset($_GET['parent']) && $parent_user->id == $_GET['parent']) ? 'selected' : ''}} >{{$parent_user->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+
+                 </div>
+
+                <div class="col-sm-4">
                   <div class="filter_field">
                     <select name="user_type" id="user_type" class="form-control" >
                       <option value="">select</option>
                       <option value="administrator" {{(isset($_GET['user_type']) && 'administrator' ==$_GET['user_type']) ? 'selected' : ''}}>Administrator</option>
+                      <option value="sales_manager" {{(isset($_GET['user_type']) && 'sales_manager'==$_GET['user_type']) ? 'selected' : ''}}>Sales Manager</option>
                       <option value="sales_man" {{(isset($_GET['user_type']) && 'sales_man'==$_GET['user_type']) ? 'selected' : ''}}>Sales Man</option>
                     </select>
                   </div>
+
                   <div class="filter_field">
                     <button class="btn btn-default">Filter</button>
                   </div>

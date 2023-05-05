@@ -14,7 +14,38 @@ class UserController extends Controller
      */
     public function index()
     {   
-        if ( !empty($_GET['s']) && empty($_GET['user_type'])) { //echo "string1";
+        $filter_data = [];
+        $search_q = [];
+        $user_type_q = [];
+        $sales_manager_q = [];
+        if ( !empty($_GET['s']) ){
+            $search_q = [
+                ['name', 'LIKE', '%'.$_GET['s'].'%'],
+            ];
+        }
+
+        if ( !empty($_GET['user_type']) ){
+            $user_type_q = [
+                ['user_type', '=', $_GET['user_type']],
+            ];
+        }
+
+        if ( !empty($_GET['parent']) ){
+            $sales_manager_q = [
+                ['parent', '=', $_GET['parent']],
+            ];
+        }
+
+        $filter_data = array_merge($search_q, $user_type_q, $sales_manager_q);
+
+        $users = User::query()->where($filter_data)->orderBy('id', 'DESC')->paginate(10);
+
+        $sales_managers = User::where('user_type', 'sales_manager')->get();
+
+        ///echo "<pre>"; print_r($sales_managers); echo "</pre>";
+
+
+        /*if ( !empty($_GET['s']) && empty($_GET['user_type'])) { //echo "string1";
             $users = User::query()
             ->where('name', 'LIKE', '%'.$_GET['s'].'%')
             ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
@@ -38,8 +69,11 @@ class UserController extends Controller
             ->paginate(10);
         }else{
            $users = User::orderBy('id', 'DESC')->paginate(10);
-        }
-        return view('users.index', compact('users'));
+        }*/
+
+        
+
+        return view('users.index', ['users' => $users, 'sales_managers' => $sales_managers]);
     }
 
     /**
@@ -97,7 +131,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $user_id = auth()->user()->id;
-        return view('users.edit', ['user_id' => $user_id, 'user' => $user]);
+        $users = User::all();
+        return view('users.edit', ['user_id' => $user_id, 'user' => $user, 'users' => $users]);
     }
 
     /**
@@ -118,6 +153,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         //$user->password = $request->password;
+        $user->parent = $request->parent;
         $user->user_type = $request->user_type;
         $user->mobile = $request->mobile;
         $user->mobile_alternate = $request->mobile_alternate;

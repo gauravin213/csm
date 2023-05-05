@@ -53,7 +53,18 @@
             <select name="user_type" id="user_type" class="form-control" >
               <option value="">select</option>
               <option value="administrator" {{$user->user_type == 'administrator'  ? 'selected' : ''}}>Administrator</option>
-              <option value="sales_man" {{$user->user_type == 'sales_mane'  ? 'selected' : ''}}>Sales Man</option>
+              <option value="sales_man" {{$user->user_type == 'sales_man'  ? 'selected' : ''}}>Sales Man</option>
+              <option value="sales_manager" {{$user->user_type == 'sales_manager'  ? 'selected' : ''}}>Sales Manager</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Parent User</label>
+            <select name="parent" id="parent" class="form-control" >
+              <option value="0">select</option>
+              @foreach ($users as $parent_user)
+                <option value="{{$parent_user->id}}" {{$user->parent == $parent_user->id  ? 'selected' : ''}} >{{$parent_user->name}}({{$parent_user->user_type}}) </option>
+              @endforeach
             </select>
           </div>
 
