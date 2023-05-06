@@ -25,9 +25,152 @@ class CustomerController extends Controller
         $user_type = auth()->user()->user_type;
         $users = User::where('user_type', 'sales_man')->get();
 
-        //sales_persone_id
+       
+        $filter_data = [];
+        $filter_1 = [];
+        if ( !empty($_GET['sales_persone_id']) ) {
+            $filter_1 = [
+                ['sales_persone_id', '=', $_GET['sales_persone_id']]
+            ];
+        }
 
-        if ($user_type == 'administrator') {
+        $filter_data = $filter_1;
+
+
+        if($user_type == 'sales_man'){
+
+            $sales_persone_id = [$user_id];
+            if ( !empty($_GET['s']) ) {
+
+                if ( !empty($filter_data) ) {
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->where($filter_data)
+                        ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                }else{
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                }
+            
+            }else{
+
+                if ( !empty($filter_data) ) {
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->where($filter_data)
+                        ->paginate(10);
+                    
+                }else{
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                }
+
+            }
+        }else if($user_type == 'sales_manager'){ 
+            $user_ids = User::where('parent', $user_id)->pluck('id')->all();
+            $sales_persone_id = array_merge($user_ids, [$user_id]);
+            if ( !empty($_GET['s']) ) {
+                if ( !empty($filter_data) ) {
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->where($filter_data)
+                        ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                }else{
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('company_name', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('credit_limit', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('address', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('pan_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('aadhar_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orWhere('gst_no', 'LIKE', '%'.$_GET['s'].'%')
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                }
+            
+            }else{ 
+
+                if ( !empty($filter_data) ) {
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->where($filter_data)
+                        ->paginate(10);
+                    
+                }else{
+                    $customers = Customer::query()
+                        ->with('user')
+                        ->whereIn('sales_persone_id', $sales_persone_id)
+                        ->orderBy('id', 'DESC')
+                        ->paginate(10);
+                }
+
+            }
+        }else{
+            if ( !empty($filter_data) ) {
+                $customers = Customer::query()
+                    ->with('user')
+                    ->where($filter_data)
+                    ->paginate(10);
+                
+            }else{
+                $customers = Customer::query()
+                    ->with('user')
+                    ->orderBy('id', 'DESC')
+                    ->paginate(10);
+            }
+        }
+
+
+        
+
+            
+
+
+
+       /* if ($user_type == 'administrator') {
 
             if ( !empty($_GET['s']) && empty($_GET['sales_persone_id']) ) {  //echo "string1";
 
@@ -118,61 +261,12 @@ class CustomerController extends Controller
                 $customers = Customer::with('user')->where('sales_persone_id', $user_id)->orderBy('id', 'DESC')->paginate(10);
             }
             
-        }
+        }*/
 
         //users
 
 
-        //
-       /* $ppppp = Customer::with(['user', 'orders'])->where('id', 85)->orderBy('id', 'DESC')->first();
-        //dd($ppppp);
-
-        $customer_order_array = [];
-        if (!empty($ppppp)) {
-
-            if (!empty($ppppp->orders)) {
-
-                foreach ($ppppp->orders as $order) {
-
-                    //echo "order: ".$order->id; echo "<br>";
-                    $customer_order_array[$order->id]['customer_id'] = $ppppp->id;
-                    $customer_order_array[$order->id]['customer_name'] = $ppppp->name;
-                    $customer_order_array[$order->id]['order_id'] = $order->id;
-                    $customer_order_array[$order->id]['order_total'] = $order->total;
-
-                    if (!empty($order->items)) {
-                        
-                        foreach ($order->items as $item) {
-                            //echo "item: ".$item->id; echo "<br>";
-                            $customer_order_array[$order->id]['items'][] = $item->name;
-                        }
-
-                    }
-
-                    $received_amount = [];
-                    $balance_amount = [];
-                    if (!empty($order->transaction)) {
-                        foreach ($order->transaction as $transaction) {
-                            //echo "transaction: ".$transaction->id; echo "<br>";
-                            $customer_order_array[$order->id]['transaction'][] = $transaction->paid_amount;
-                            $received_amount[] = $transaction->paid_amount;
-                            $balance_amount[] = $transaction->ballance_amount;
-                        }
-                    }
-                    $customer_order_array[$order->id]['received_amount'][] = array_sum($received_amount);
-                    //$customer_order_array[$order->id]['balance_amount'][] = array_sum($balance_amount);; //$order->balance_amount;
-                    $customer_order_array[$order->id]['balance_amount'][] = $order->balance_amount;
-
-
-                }
-               
-            }
-
-            
-        }
-        echo "<pre>"; print_r($customer_order_array); echo "</pre>";*/
-        //
-
+        
 
         //Balance report
         $total_debit = CustomerBalance::sum('total_debit');
@@ -200,7 +294,7 @@ class CustomerController extends Controller
             ];
         }else{
             //setteled
-            $balance_report= [
+            $balance_report = [
                 'class' => '',
                 'label' => 'setteled',
                 'total_debit' => $total_debit,
@@ -209,10 +303,14 @@ class CustomerController extends Controller
             ];
         }
 
-        //echo "<pre>"; print_r($balance_report); echo "</pre>"; die;
-        //Balance report end
+        $view_data = [
+            'customers' => $customers, 
+            'users' => $users, 
+            'user_type' => $user_type, 
+            'balance_report' => $balance_report
+        ];
 
-        return view('customers.index', ['customers' => $customers, 'users' => $users, 'user_type' => $user_type, 'balance_report' => $balance_report]);
+        return view('customers.index', $view_data );
     }
 
     public function exportcsv(Request $request)

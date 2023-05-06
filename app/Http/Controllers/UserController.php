@@ -15,35 +15,57 @@ class UserController extends Controller
     public function index()
     {   
         $filter_data = [];
-        $search_q = [];
-        $user_type_q = [];
-        $sales_manager_q = [];
-        if ( !empty($_GET['s']) ){
-            $search_q = [
-                ['name', 'LIKE', '%'.$_GET['s'].'%'],
-            ];
-        }
+        $filter_1 = [];
+        $filter_2 = [];
 
         if ( !empty($_GET['user_type']) ){
-            $user_type_q = [
+            $filter_1 = [
                 ['user_type', '=', $_GET['user_type']],
             ];
         }
 
         if ( !empty($_GET['parent']) ){
-            $sales_manager_q = [
+            $filter_2 = [
                 ['parent', '=', $_GET['parent']],
             ];
         }
 
-        $filter_data = array_merge($search_q, $user_type_q, $sales_manager_q);
+        $filter_data = array_merge($filter_1, $filter_2);
 
-        $users = User::query()->where($filter_data)->orderBy('id', 'DESC')->paginate(10);
+        if ( !empty($_GET['s']) ){ 
+
+            if ( !empty($filter_data) ) {
+                $users = User::query()
+                ->where($filter_data)
+                ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile_alternate', 'LIKE', '%'.$_GET['s'].'%')
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+            }else{
+                $users = User::query()
+                ->where('name', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('email', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile', 'LIKE', '%'.$_GET['s'].'%')
+                ->orWhere('mobile_alternate', 'LIKE', '%'.$_GET['s'].'%')
+                ->orderBy('id', 'DESC')
+                ->paginate(10);
+            }
+            
+        }else{ 
+
+            if ( !empty($filter_data) ) {
+               $users = User::query()->where($filter_data)->orderBy('id', 'DESC')->paginate(10);
+            }else{
+                $users = User::query()->orderBy('id', 'DESC')->paginate(10);
+            }
+
+        }
 
         $sales_managers = User::where('user_type', 'sales_manager')->get();
 
         ///echo "<pre>"; print_r($sales_managers); echo "</pre>";
-
 
         /*if ( !empty($_GET['s']) && empty($_GET['user_type'])) { //echo "string1";
             $users = User::query()
@@ -70,8 +92,6 @@ class UserController extends Controller
         }else{
            $users = User::orderBy('id', 'DESC')->paginate(10);
         }*/
-
-        
 
         return view('users.index', ['users' => $users, 'sales_managers' => $sales_managers]);
     }

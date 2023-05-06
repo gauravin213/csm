@@ -132,7 +132,28 @@ class CustomerTransactionController extends Controller
 
         $customer = Customer::where('id', $customer_id)->first();
 
-        $args_filter = [];
+        if ( !empty($_GET['from_date']) && !empty($_GET['to_date']) ) {
+            $from_date = date("Y-m-d 00:00:00", strtotime($_GET['from_date']));
+            $to_date = date("Y-m-d 23:59:59", strtotime($_GET['to_date']));
+            $filter_1 = [
+                ['created_at', '>=', $from_date],
+                ['created_at', '<=', $to_date]
+            ];
+            $customer_transactions = CustomerTransaction::with(['user', 'customer'])
+            ->where(['customer_id' => $customer_id])
+            ->where($filter_1)
+            ->orderBy('id', 'ASC')->paginate(10);
+        }else{
+            $customer_transactions = CustomerTransaction::with(['user', 'customer'])
+            ->where(['customer_id' => $customer_id])
+            ->orderBy('id', 'ASC')->paginate(10);
+        }
+
+        $args_filter = (isset($_GET)) ? $_GET : [];
+
+
+
+        /*$args_filter = [];
         if (count($_GET)!=0) {
             foreach ($_GET as $key => $value) {
                 if ( !in_array($key, ['page']) ) {
@@ -157,7 +178,7 @@ class CustomerTransactionController extends Controller
              ->whereYear('created_at', date("Y"))
              ->orderBy('id', 'ASC')
              ->paginate(10);
-        }
+        }*/
 
         return view('customer-transaction.show', [
                 'customer_transactions' => $customer_transactions, 
