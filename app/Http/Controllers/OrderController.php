@@ -432,16 +432,20 @@ class OrderController extends Controller
             $order_item->save();
         }
 
-        //customer transaction create
-        $user_id = $res['placed_by'];
-        $customer_id = $res['customer_id'];
-        $description = "Order ID: #".$order_id;
-        $attachment_path = '';
-        $amount = $res['total'];
-        $transaction_type = 'debit';
-        $trans_status = 'successful';
-        CustomerTransaction::create_customer_transaction($user_id, $customer_id, $order_id, $description, $attachment_path, $amount, $transaction_type, $trans_status);
-        //customer transaction create end
+        if ($res['payment_status'] == 'completed') {
+            //customer transaction create
+            $user_id = $res['placed_by'];
+            $customer_id = $res['customer_id'];
+            $description = "Order ID: #".$order_id;
+            $attachment_path = '';
+            $amount = $res['total'];
+            $transaction_type = 'debit';
+            $trans_status = 'successful';
+            CustomerTransaction::create_customer_transaction($user_id, $customer_id, $order_id, $description, $attachment_path, $amount, $transaction_type, $trans_status);
+            //customer transaction create end
+        }
+
+       
 
         //return redirect()->route('orders.index')->with('success','Order added successfully');
         return redirect('admin/orders/'.$inserted_order_id.'/edit')->with('success','Order added successfully');
@@ -537,7 +541,7 @@ class OrderController extends Controller
         $order->total           = $res['total'];
         $order->update();
 
-        //customer transaction
+        /*//customer transaction
         $customer_transaction = CustomerTransaction::where('order_id', $order->id)->first();
         if (!empty($customer_transaction)) {
             //Update
@@ -568,7 +572,20 @@ class OrderController extends Controller
             $trans_status = 'successful';
             CustomerTransaction::create_customer_transaction($user_id, $customer_id, $order->id, $description, $attachment_path, $amount, $transaction_type, $trans_status);
         }
-        //customer transaction end
+        //customer transaction end*/
+
+
+        if ($res['payment_status'] == 'completed') {
+            //create
+            $user_id = $res['placed_by'];
+            $customer_id = $res['customer_id'];
+            $description = "#".$order->id;
+            $attachment_path = '';
+            $amount = $res['total'];
+            $transaction_type = 'debit';
+            $trans_status = 'successful';
+            CustomerTransaction::create_customer_transaction($user_id, $customer_id, $order->id, $description, $attachment_path, $amount, $transaction_type, $trans_status);
+        }
 
         //return redirect()->route('orders.index')->with('success','Order updated successfully');
         return redirect('admin/orders/'.$order->id.'/edit')->with('success','Order updated successfully');

@@ -119,7 +119,7 @@
             <label for="exampleInputEmail1">Payment Status</label>
             <select name="payment_status" class="form-control" id="payment_status">
               <option value="">select</option>
-              <option value="pending">Pending</option>
+              <option value="pending" selected>Pending</option>
               <option value="processing">Processing</option>
               <option value="on-hold">On Hold</option>
               <option value="completed">Completed</option>

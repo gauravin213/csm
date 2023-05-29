@@ -136,3 +136,24 @@ APP_URL=http://localhost:8000
 
 php artisan make:middleware HttpRedirect
 */
+
+/*
+
+php artisan make:model Transaction -m
+$table->bigInteger('customer_id ');
+$table->decimal('debit', 20, 2)->nullable();
+$table->decimal('credit', 20, 2)->nullable();
+$table->decimal('balance', 20, 2)->nullable();
+$table->string('mode')->nullable();
+$table->string('status')->nullable();
+
+php artisan make:model TransactionMeta -m
+$table->bigInteger('transaction_id ')->nullable();
+$table->bigInteger('meta_key ')->nullable();
+$table->longText('meta_value')->nullable();
+
+php artisan make:model TransactionTotal -m
+$table->bigInteger('customer_id ');
+$table->decimal('balance', 20, 2);
+
+*/

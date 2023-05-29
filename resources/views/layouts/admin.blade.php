@@ -278,6 +278,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </li>
           @endcan
 
+
           <li class="nav-item">
             <a href="{{ url('admin/orders') }}" class="nav-link {{ (request()->segment(2) == 'orders') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
@@ -324,6 +325,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           @endcan
+
+          
 
            @guest
             @if (Route::has('login'))
