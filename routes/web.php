@@ -46,11 +46,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 	Route::resource('products', '\App\Http\Controllers\ProductController');
 	Route::resource('categories', '\App\Http\Controllers\CategoryController');
 	Route::resource('orders', '\App\Http\Controllers\OrderController');
-	Route::resource('transactions', '\App\Http\Controllers\TransactionController');
+	//Route::resource('transactions', '\App\Http\Controllers\TransactionController');
 	Route::resource('users', '\App\Http\Controllers\UserController');
 	Route::resource('customers', '\App\Http\Controllers\CustomerController');
 	Route::resource('pricelists', '\App\Http\Controllers\PricelistController');
-	Route::resource('advance-payments', '\App\Http\Controllers\AdvancePaymentController');
+	//Route::resource('advance-payments', '\App\Http\Controllers\AdvancePaymentController');
 
 	//Show
 	Route::get('/orders/{id}/show', [App\Http\Controllers\OrderController::class, 'show']);
@@ -66,7 +66,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
 
 
 Route::get('/orders/exportcsv', [App\Http\Controllers\OrderController::class, 'exportcsv']);
-Route::get('/transactions/exportcsv', [App\Http\Controllers\TransactionController::class, 'exportcsv']);
+//Route::get('/transactions/exportcsv', [App\Http\Controllers\TransactionController::class, 'exportcsv']);
 Route::get('/pricelists/exportcsv', [App\Http\Controllers\PricelistController::class, 'exportcsv']);
 Route::get('/customers/exportcsv', [App\Http\Controllers\CustomerController::class, 'exportcsv']);
 
@@ -78,7 +78,7 @@ Route::post('/orders/remove_item', [App\Http\Controllers\OrderController::class,
 Route::post('/orders/update_item_qty', [App\Http\Controllers\OrderController::class, 'update_item_qty']);
 Route::post('/orders/calculate_order', [App\Http\Controllers\OrderController::class, 'calculate_order']);
 Route::post('/orders/get_product_category', [App\Http\Controllers\OrderController::class, 'get_product_category']);
-Route::post('/transactions/calculate_customer_balance', [App\Http\Controllers\TransactionController::class, 'calculate_customer_balance']);
+//Route::post('/transactions/calculate_customer_balance', [App\Http\Controllers\TransactionController::class, 'calculate_customer_balance']);
 
 //Bulk action delete
 Route::post('/products/destroy_bulk', [App\Http\Controllers\ProductController::class, 'destroy_bulk']);

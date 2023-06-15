@@ -250,6 +250,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
           @can('isAdministrator')
+
+          <li class="nav-item">
+            <a href="{{ url('admin/categories') }}" class="nav-link {{ (request()->segment(2) == 'categories') ? 'active' : ''  }}">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Categories
+              </p>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a href="{{ url('admin/products') }}" class="nav-link {{ (request()->segment(2) == 'products') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
@@ -268,14 +278,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href="{{ url('admin/categories') }}" class="nav-link {{ (request()->segment(2) == 'categories') ? 'active' : ''  }}">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Categories
-              </p>
-            </a>
-          </li>
           @endcan
 
 
@@ -288,14 +290,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="{{ url('admin/transactions') }}" class="nav-link {{ (request()->segment(2) == 'transactions') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Transactions
               </p>
             </a>
-          </li>
+          </li> -->
 
           <li class="nav-item">
             <a href="{{ url('admin/customers') }}" class="nav-link {{ (request()->segment(2) == 'customers') ? 'active' : ''  }}">
@@ -306,14 +308,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="{{ url('admin/advance-payments') }}" class="nav-link {{ (request()->segment(2) == 'advance-payments') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Advance Payment
               </p>
             </a>
-          </li>
+          </li> -->
 
           @can('isAdministrator')
           <li class="nav-item">

@@ -116,9 +116,7 @@
             <th>Payment Status</th>
             <th>Placed By</th>
             <th>Customer</th>
-            <th>Wallet</th>
             <th>Total</th>
-            <th>Balance</th>
             <th>Date</th>
             <th colspan="4">Action</th>
           </tr>
@@ -155,15 +153,7 @@
               @endif
             </td> 
 
-            <td>
-              @if(is_object($order->customer))
-                {{$order->customer->total_fund}}
-              @endif
-            </td> 
-
-
             <td>{{$order->total}}</td>
-            <td>{{$order->balance_amount}}</td>
             <td>{{$order->created_at}}</td>
             <td>
 
@@ -185,15 +175,8 @@
                {{ Form::close() }}
               @endif
                
-
-              
-
               <a class="btn btn-success" href="{{ route('orders.show',$order->id) }}"><i class="fas fa-eye"></i></a>
 
-              @if($order->payment_status !='processing')
-               <a class="btn btn-info" href="{{ url('admin/transactions/create?order_id='.$order->id.'&customer_id='.$order->customer_id.'&placed_by='.$order->placed_by)}}">Pay <i class="fas fa-rupee-sign"></i></a>
-              @endif
-                
               {!! Form::close() !!}
             </td>
           </tr>
