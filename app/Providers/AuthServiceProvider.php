@@ -36,5 +36,9 @@ class AuthServiceProvider extends ServiceProvider
             return $user->user_type == 'sales_man';
         });
 
+        $gate->define('isSalesManager', function($user){
+            return $user->user_type == 'sales_manager';
+        });
+
     }
 }

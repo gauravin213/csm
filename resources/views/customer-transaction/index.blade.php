@@ -30,17 +30,36 @@
       <div class="total_credit">
         Total credit {{$total_credit}}
       </div> -->
-      <div class="net_balance">
-        @if( $total_debit != $total_credit)
-           @if($total_debit > $total_credit)
-          <span class="net_balance_red">Net balance &#x20b9; {{$net_balance}} you will get</span>
-          @else
-           <span class="net_balance_green">Net balance &#x20b9; {{$net_balance}} you will give</span>
-          @endif
-        @else
-          <span class="net_balance_zero">Net balance {{$net_balance}}</span>
-        @endif
-      </div>
+
+      @can('isAdministrator')
+          <div class="net_balance">
+            @if( $total_debit != $total_credit)
+               @if($total_debit > $total_credit)
+              <span class="net_balance_red">Net balance &#x20b9; {{$net_balance}} you will get</span>
+              @else
+               <span class="net_balance_green">Net balance &#x20b9; {{$net_balance}} you will give</span>
+              @endif
+            @else
+              <span class="net_balance_zero">Net balance {{$net_balance}}</span>
+            @endif
+          </div>
+      @endcan
+
+       @can('isSalesManager')
+          <div class="net_balance">
+            @if( $total_debit != $total_credit)
+               @if($total_debit > $total_credit)
+              <span class="net_balance_red">Net balance &#x20b9; {{$net_balance}} you will get</span>
+              @else
+               <span class="net_balance_green">Net balance &#x20b9; {{$net_balance}} you will give</span>
+              @endif
+            @else
+              <span class="net_balance_zero">Net balance {{$net_balance}}</span>
+            @endif
+          </div>
+      @endcan
+
+
     </div>
     <style type="text/css">
       .total_debit {

@@ -50,7 +50,7 @@
           <div class="row">
             <div class="col-sm-4">
               <select name="payment_status" class="form-control" id="payment_status">
-                <option value="">Payment status</option>
+                <option value="">Order status</option>
                 <option value="pending"  {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='pending') ? 'selected' : ''}}>Pending</option>
                 <option value="processing"  {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='processing') ? 'selected' : ''}}>Processing</option>
                 <option value="on-hold" {{(isset($_GET['payment_status']) && $_GET['payment_status'] =='on-hold') ? 'selected' : ''}}>On Hold</option>
@@ -113,7 +113,7 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Payment Status</th>
+            <th>Order Status</th>
             <th>Placed By</th>
             <th>Customer</th>
             <th>Total</th>

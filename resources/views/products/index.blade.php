@@ -81,7 +81,7 @@
 
      <div class="row">
        <div class="col-sm-3">
-       <form id="bulk_delete_action_form" action="{{url('users/destroy_bulk')}}" method="POST" enctype="multipart/form-data">
+       <form id="bulk_delete_action_form" action="{{url('products/destroy_bulk')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <button type="submit" id="bulk_delete_action_btn" class="btn btn-danger btn-sm" style="display: none;">Bulk delete</button>
         <input type="hidden" name="entity_ids" id="entity_ids">

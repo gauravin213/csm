@@ -127,7 +127,7 @@
            </div>
           
           <div class="form-group">
-            <label for="exampleInputEmail1">Payment Status</label>
+            <label for="exampleInputEmail1">Order Status</label>
              <select name="payment_status" class="form-control" id="payment_status">
               <option value="">select</option>
               <option value="pending" {{$order->payment_status == 'pending'  ? 'selected' : ''}}>Pending</option>

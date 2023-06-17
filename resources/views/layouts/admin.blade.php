@@ -264,7 +264,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="{{ url('admin/products') }}" class="nav-link {{ (request()->segment(2) == 'products') ? 'active' : ''  }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Products  {{ (request()->segment(2) == 'products') ? 'active' : ''  }}
+                Products
               </p>
             </a>
           </li>
